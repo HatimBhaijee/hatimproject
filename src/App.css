@@ -1,0 +1,245 @@
+/* #name{
+  background : rgba(0, 128, 0, 0.221);
+  display : flex;
+  flex-direction : column;
+  justify-content : center;
+  align-items : center;
+  gap: 15px;
+  padding-top : 20px;
+}
+
+.submit{
+height : 40px;
+width : 90px;
+color : rgb(0, 0, 0);
+background-color : rgba(40, 224, 7, 0.508);
+border-radius : 50px;
+border : 5px solid rgb(221, 229, 252);
+margin-top : 200px;
+
+
+}
+
+.cancel{
+  height : 40px;
+  width : 90px;
+  color : rgba(36, 143, 3, 0.848);
+  background-color : rgba(9, 255, 0, 0.337);
+  border-radius : 50px;
+  border : 5px solid rgb(221, 229, 252);
+  margin-top : 200px;
+}
+
+.created{
+  margin-top : 50px;
+  background-color : rgba(255, 166, 0, 0.319);
+  width : 230px; 
+}
+
+.mybtn{
+  display : flex;
+  align-items : center;
+  justify-content : center;
+  gap : 10px;
+}
+
+.mybtn2{
+  display : flex;
+  align-items : center;
+  justify-content : center;
+  gap : 10px;
+}
+
+.modify{
+  height : 40px;
+  width : 90px;
+  color : rgba(2, 7, 0, 0.848);
+  background-color : rgba(224, 140, 13, 0.337);
+  border-radius : 50px;
+  border : 5px solid rgb(221, 229, 252);
+  margin-top : 200px;
+}
+
+.delete{
+  height : 40px;
+  width : 90px;
+  color : rgba(255, 0, 0, 0.848);
+  background-color : rgba(255, 0, 0, 0.337);
+  border-radius : 50px;
+  border : 5px solid rgb(221, 229, 252);
+  margin-top : 200px;
+}
+
+.list{
+  height : 40px;
+  width : 90px;
+  color : rgba(0, 0, 255, 0.848);
+  background-color : rgba(0, 0, 255, 0.337);
+  border-radius : 50px;
+  border : 5px solid rgb(221, 229, 252);
+  margin-top : 200px;
+}
+
+.payment{
+  height : 50px;
+  width : 90px;
+  color : rgba(0, 0, 0, 0.848);
+  background-color : rgba(105, 9, 9, 0.562);
+  border-radius : 50px;
+  border : 5px solid rgb(221, 229, 252);
+}
+
+.showpayment{
+  height : 50px;
+  width : 90px;
+  color : rgba(0, 0, 0, 0.848);
+  background-color : rgba(7, 30, 175, 0.337);
+  border-radius : 50px;
+  border : 5px solid rgb(221, 229, 252);
+} */
+
+
+/* Container */
+#name {
+  background: #f8fafc;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 16px;
+  padding: 24px;
+}
+
+/* Button Group Containers */
+.mybtn,
+.mybtn2 {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+}
+
+/* Shared Button Styles */
+.submit,
+.cancel,
+.modify,
+.delete,
+.list{
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 90px;
+  height: 40px;
+  padding: 0 16px;
+  border-radius: 8px; /* Modern subtle curvature */
+  border: 1px solid transparent;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.2s ease, transform 0.1s ease;
+  margin-top: 200px;
+}
+
+.payment,
+.showpayment{
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 90px;
+  height: 46px; /* Slightly emphasized */
+  padding: 0 16px;
+  border-radius: 8px; /* Modern subtle curvature */
+  border: 1px solid transparent;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.2s ease, transform 0.1s ease;
+  margin-top: 20px;
+}
+
+
+.submit:active,
+.cancel:active,
+.modify:active,
+.delete:active,
+.list:active,
+.payment:active,
+.showpayment:active {
+  transform: scale(0.98);
+}
+
+/* Button Variants */
+.submit {
+  background-color: #16a34a;
+  color: #ffffff;
+}
+.submit:hover {
+  background-color: #15803d;
+}
+
+.cancel {
+  background-color: #f1f5f9;
+  color: #475569;
+  border-color: #cbd5e1;
+}
+.cancel:hover {
+  background-color: #e2e8f0;
+}
+
+.modify {
+  background-color: #f59e0b;
+  color: #ffffff;
+}
+.modify:hover {
+  background-color: #d97706;
+}
+
+.delete {
+  background-color: #dc2626;
+  color: #ffffff;
+}
+.delete:hover {
+  background-color: #b91c1c;
+}
+
+.list {
+  background-color: #2563eb;
+  color: #ffffff;
+}
+.list:hover {
+  background-color: #1d4ed8;
+}
+
+.payment {
+  height: 46px; /* Slightly emphasized */
+  background-color: #0f172a;
+  color: #ffffff;
+}
+.payment:hover {
+  background-color: #1e293b;
+}
+
+.showpayment {
+  height: 46px;
+  background-color: #ffffff;
+  color: #2563eb;
+  border-color: #bfdbfe;
+}
+.showpayment:hover {
+  background-color: #eff6ff;
+}
+
+.created:empty {
+  display: none;
+}
+
+/* Secondary Panels / Status Elements */
+.created {
+  margin-top: 16px;
+  background-color: #fef3c7;
+  color: #92400e;
+  border: 1px solid #fde68a;
+  border-radius: 6px;
+  padding: 8px 12px;
+  width: 230px;
+}
