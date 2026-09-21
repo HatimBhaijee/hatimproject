@@ -17,7 +17,7 @@ export default function App() {
   }, []);
 
   async function postData() {
-    const response = await axios.post("http://localhost:3000/api/users", {
+    const response = await axios.post("http://173.249.17.168:81/api/users", {
       names: "HATIM",
       email: "hatimbshhjglfkgjdsa@gmail.com",
       phoneNumber: "0112233",
@@ -29,7 +29,7 @@ export default function App() {
   function getData() {
     console.log("Fetching data from the server...");
     axios
-      .get("http://localhost:3000/test")
+      .get("http://173.249.17.168:81/api/test")
       .then((res) => {
         setName(res.data);
       })
@@ -39,7 +39,7 @@ export default function App() {
   }
 
   async function modifyData() {
-    const response = await axios.put("http://localhost:3000/api/users/5", {
+    const response = await axios.put("http://173.249.17.168:81/api/users/5", {
       email: "hashim@gmail.com",
     });
     console.log(response.data);
@@ -47,19 +47,19 @@ export default function App() {
   }
 
   async function deleteData() {
-    const response = await axios.delete("http://localhost:3000/api/users/5");
+    const response = await axios.delete("http://173.249.17.168:81/api/users/5");
     console.log(response.data);
     setStatus(response.data);
   }
 
   async function getUserList() {
-    const response = await axios.get("http://localhost:3000/api/showusers");
+    const response = await axios.get("http://173.249.17.168:81/api/showusers");
     console.log(response.data);
     setUserList(response.data);
   }
 
   async function postData() {
-    const response = await axios.post("http://localhost:3000/api/payment", {
+    const response = await axios.post("http://173.249.17.168:81/api/payment", {
       paymentMethod: "Credit Card",
       amount: 200,
     });
@@ -68,7 +68,7 @@ export default function App() {
   }
 
   async function getPaymentList() {
-    const response = await axios.get("http://localhost:3000/api/showpayment");
+    const response = await axios.get("http://173.249.17.168:81/api/showpayment");
     console.log(response.data);
     setPaymentList(response.data);
   }
