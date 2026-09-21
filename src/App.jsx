@@ -82,7 +82,7 @@ export default function App() {
           submit{" "}
         </button>
         {/* <button className="cancel">cancel</button> */}
-        <button lassName="modify" onClick={modifyData}>
+        <button className="modify" onClick={modifyData}>
           {" "}
           modify
         </button>
