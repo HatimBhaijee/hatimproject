@@ -10,16 +10,18 @@ export default function App() {
   const [paymentList, setPaymentList] = useState([]);
   const [paymentStatus, setPaymentStatus] = useState("");
 
-  //http://localhost:3000/test
+
+ const serverurl = "http://localhost:3000/api"
+//  const serverurl = "http://173.249.17.168:81/api"
 
   useEffect(() => {
     getData();
   }, []);
 
   async function postData() {
-    const response = await axios.post("http://173.249.17.168:81/api/users", {
+    const response = await axios.post(`${serverurl}/users`, {
       names: "HATIM",
-      email: "hatimbshhjglfkgjdsa@gmail.com",
+      email: "hatimbshhjglfkgjdsah@gmail.com",
       phoneNumber: "0112233",
     });
     console.log(response.data);
@@ -29,7 +31,7 @@ export default function App() {
   function getData() {
     console.log("Fetching data from the server...");
     axios
-      .get("http://173.249.17.168:81/api/test")
+      .get(`${serverurl}/test`)
       .then((res) => {
         setName(res.data);
       })
@@ -39,7 +41,7 @@ export default function App() {
   }
 
   async function modifyData() {
-    const response = await axios.put("http://173.249.17.168:81/api/users/5", {
+    const response = await axios.put(`${serverurl}/users/5`, {
       email: "hashim@gmail.com",
     });
     console.log(response.data);
@@ -47,19 +49,19 @@ export default function App() {
   }
 
   async function deleteData() {
-    const response = await axios.delete("http://173.249.17.168:81/api/users/5");
+    const response = await axios.delete(`${serverurl}/users/5`);
     console.log(response.data);
     setStatus(response.data);
   }
 
   async function getUserList() {
-    const response = await axios.get("http://173.249.17.168:81/api/showusers");
+    const response = await axios.get(`${serverurl}/showusers`);
     console.log(response.data);
     setUserList(response.data);
   }
 
-  async function postData() {
-    const response = await axios.post("http://173.249.17.168:81/api/payment", {
+  async function postPayment() {
+    const response = await axios.post(`${serverurl}/payment`, {
       paymentMethod: "Credit Card",
       amount: 200,
     });
@@ -68,7 +70,7 @@ export default function App() {
   }
 
   async function getPaymentList() {
-    const response = await axios.get("http://173.249.17.168:81/api/showpayment");
+    const response = await axios.get(`${serverurl}/showpayment`);
     console.log(response.data);
     setPaymentList(response.data);
   }
@@ -98,7 +100,7 @@ export default function App() {
 
 
       <div className="mybtn2">
-        <button className="payment" onClick={postData}>
+        <button className="payment" onClick={postPayment}>
           {" "}
           Payment{" "}
         </button>
