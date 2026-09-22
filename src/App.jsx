@@ -290,7 +290,7 @@ export default function App() {
                     <tr key={payment.id}>
                       <td>{payment.id}</td>
                       <td>{payment.paymentMethod}</td>
-                      <td>${payment.amount}</td>
+                      <td>{payment.amount}</td>
                       <td>
                         <button
                           className="action-btn action-modify"
