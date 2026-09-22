@@ -12,6 +12,7 @@ export default function App() {
 
   const [inputName, setInputName] = useState("");
   const [inputEmail, setInputEmail] = useState("");
+  const [inputPhone, setInputPhone] = useState("");
 
   const [paymentMethod, setPaymentMethod] = useState("");
   const [paymentAmount, setPaymentAmount] = useState("");
@@ -28,7 +29,7 @@ export default function App() {
       const response = await axios.post(`${serverurl}/users`, {
         names: inputName,
         email: inputEmail,
-        phoneNumber: "0112233",
+        phoneNumber: inputPhone,
       });
       console.log(response.data);
       setStatus(response.data);
@@ -164,6 +165,13 @@ export default function App() {
               placeholder="Email"
               value={inputEmail}
               onChange={(e) => setInputEmail(e.target.value)}
+            />
+            <input
+              type="text"
+              className="user-input"
+              placeholder="Phone"
+              value={inputPhone}
+              onChange={(e) => setInputPhone(e.target.value)}
             />
           </div>
 
