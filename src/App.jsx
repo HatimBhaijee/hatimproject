@@ -10,9 +10,12 @@ export default function App() {
   const [paymentList, setPaymentList] = useState([]);
   const [paymentStatus, setPaymentStatus] = useState("");
 
+  //input states
+  const [inputName, setInputName] = useState("");
+  const [inputEmail, setInputEmail] = useState("");
 
-//  const serverurl = "http://localhost:3000/api"
- const serverurl = "http://173.249.17.168:81/api"
+  // const serverurl = "http://localhost:3000/api";
+   const serverurl = "http://173.249.17.168:81/api"
 
   useEffect(() => {
     getData();
@@ -20,8 +23,8 @@ export default function App() {
 
   async function postData() {
     const response = await axios.post(`${serverurl}/users`, {
-      names: "HATIM",
-      email: "hatimbshhjglfkgjdsah@gmail.com",
+      names: inputName,
+      email: inputEmail,
       phoneNumber: "0112233",
     });
     console.log(response.data);
@@ -75,9 +78,26 @@ export default function App() {
     setPaymentList(response.data);
   }
 
-
   return (
     <div id="name">
+      {/* User input fields */}
+      <div className="input-container">
+        <input
+          type="text"
+          className="user-input"
+          placeholder="Name"
+          value={inputName}
+          onChange={(e) => setInputName(e.target.value)}
+        />
+        <input
+          type="text"
+          className="user-input"
+          placeholder="Email"
+          value={inputEmail}
+          onChange={(e) => setInputEmail(e.target.value)}
+        />
+      </div>
+
       <div className="mybtn">
         <button className="submit" onClick={postData}>
           {" "}
@@ -97,8 +117,6 @@ export default function App() {
           List Users
         </button>
       </div>
-
-
       <div className="mybtn2">
         <button className="payment" onClick={postPayment}>
           {" "}
@@ -108,9 +126,7 @@ export default function App() {
           {" "}
           Payment data
         </button>
-        
       </div>
-
 
       <div className="created">{status}</div>
       <div>
