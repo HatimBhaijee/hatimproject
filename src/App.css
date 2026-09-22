@@ -98,7 +98,6 @@ margin-top : 200px;
   border : 5px solid rgb(221, 229, 252);
 } */
 
-
 /* Container */
 #name {
   background: #f8fafc;
@@ -124,24 +123,26 @@ margin-top : 200px;
 .cancel,
 .modify,
 .delete,
-.list{
+.list {
   display: inline-flex;
   align-items: center;
   justify-content: center;
   min-width: 90px;
-  height: 40px;
+  height: 46px;
   padding: 0 16px;
   border-radius: 8px; /* Modern subtle curvature */
   border: 1px solid transparent;
   font-size: 14px;
   font-weight: 500;
   cursor: pointer;
-  transition: background-color 0.2s ease, transform 0.1s ease;
+  transition:
+    background-color 0.2s ease,
+    transform 0.1s ease;
   margin-top: 50px;
 }
 
 .payment,
-.showpayment{
+.showpayment {
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -153,10 +154,11 @@ margin-top : 200px;
   font-size: 14px;
   font-weight: 500;
   cursor: pointer;
-  transition: background-color 0.2s ease, transform 0.1s ease;
-  margin-top: 20px;
+  transition:
+    background-color 0.2s ease,
+    transform 0.1s ease;
+  margin-top: 50px;
 }
-
 
 .submit:active,
 .cancel:active,
@@ -170,11 +172,11 @@ margin-top : 200px;
 
 /* Button Variants */
 .submit {
-  background-color: #16a34a;
+  background-color: #07bf4b;
   color: #ffffff;
 }
 .submit:hover {
-  background-color: #15803d;
+  background-color: #23b759b0;
 }
 
 .cancel {
@@ -186,47 +188,31 @@ margin-top : 200px;
   background-color: #e2e8f0;
 }
 
-.modify {
-  background-color: #f59e0b;
-  color: #ffffff;
-}
-.modify:hover {
-  background-color: #d97706;
-}
-
-.delete {
-  background-color: #dc2626;
-  color: #ffffff;
-}
-.delete:hover {
-  background-color: #b91c1c;
-}
-
 .list {
-  background-color: #2563eb;
+  background-color: #454545;
   color: #ffffff;
 }
 .list:hover {
-  background-color: #1d4ed8;
+  background-color: #474a52a7;
 }
 
 .payment {
   height: 46px; /* Slightly emphasized */
-  background-color: #0f172a;
+  background-color: #01216a;
   color: #ffffff;
 }
 .payment:hover {
-  background-color: #1e293b;
+  background-color: #15366cab;
 }
 
 .showpayment {
   height: 46px;
-  background-color: #ffffff;
-  color: #2563eb;
+  background-color: #055392a0;
+  color: #000000;
   border-color: #bfdbfe;
 }
 .showpayment:hover {
-  background-color: #eff6ff;
+  background-color: #0e2c536a;
 }
 
 .created:empty {
@@ -248,7 +234,7 @@ margin-top : 200px;
 }
 
 .user-input:focus {
-  border-color: blue
+  border-color: blue;
 }
 
 /* Secondary Panels / Status Elements */
@@ -260,4 +246,54 @@ margin-top : 200px;
   border-radius: 6px;
   padding: 8px 12px;
   width: 230px;
+}
+
+.custom-table {
+  width: 100%;
+  max-width: 600px;
+  margin: 10px auto;
+  border-collapse: collapse;
+  text-align: left;
+  font-size: 14px;
+}
+
+.custom-table th,
+.custom-table td {
+  padding: 8px 12px;
+  border: 1px solid #ccc;
+}
+
+.custom-table th {
+  background-color: #f2f2f2;
+  font-weight: bold;
+}
+
+.custom-table tr:nth-child(even) {
+  background-color: #fafafa;
+}
+
+/* Table Action Buttons */
+.action-btn {
+  padding: 5px 10px;
+  font-size: 12px;
+  border-radius: 4px;
+  border: none;
+  cursor: pointer;
+  margin-right: 6px;
+  font-weight: 500;
+  transition: opacity 0.2s ease;
+}
+
+.action-btn:hover {
+  opacity: 0.85;
+}
+
+.action-modify {
+  background-color: #f59e0b;
+  color: #ffffff;
+}
+
+.action-delete {
+  background-color: #dc2626;
+  color: #ffffff;
 }

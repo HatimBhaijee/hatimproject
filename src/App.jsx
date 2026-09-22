@@ -14,8 +14,8 @@ export default function App() {
   const [inputName, setInputName] = useState("");
   const [inputEmail, setInputEmail] = useState("");
 
-  // const serverurl = "http://localhost:3000/api";
-   const serverurl = "http://173.249.17.168:81/api"
+  const serverurl = "http://localhost:3000/api";
+  //  const serverurl = "http://173.249.17.168:81/api"
 
   useEffect(() => {
     getData();
@@ -44,35 +44,33 @@ export default function App() {
       });
   }
 
-  async function modifyData() {
-    const idToModify = prompt("Enter the User ID to modify:");
-    if (!idToModify) return;
-
-    const newEmail = prompt("Enter the new email address:")
+  async function modifyData(id) {
+    const newEmail = prompt("Enter the new email address:");
     if (!newEmail) return;
 
-    try{
-    const response = await axios.put(`${serverurl}/users/${idToModify}`, {
-      email: newEmail,
-    });
-    console.log(response.data);
-    setStatus(response.data);
-    getUserList();
-  } catch (error) {
-    console.error("Error modifying user:", error);
-    setStatus("Failed to modify user");
+    try {
+      const response = await axios.put(`${serverurl}/users/${id}`, {
+        email: newEmail,
+      });
+      console.log(response.data);
+      setStatus(response.data);
+      getUserList();
+    } catch (error) {
+      console.error("Error modifying user:", error);
+      setStatus("Failed to modify user");
+    }
   }
-  }
 
-  async function deleteData() {
-    const idToDelete = prompt("Enter the User ID you want to delete:")
-
-    if (!idToDelete) return;
-
-    const response = await axios.delete(`${serverurl}/users/${idToDelete}`);
-    console.log(response.data);
-    setStatus(response.data);
-    getUserList();
+  async function deleteData(id) {
+    try {
+      const response = await axios.delete(`${serverurl}/users/${id}`);
+      console.log(response.data);
+      setStatus(response.data);
+      getUserList();
+    } catch (error) {
+      console.error("Error deleting user:", error);
+      setStatus("Failed to delete user");
+    }
   }
 
   async function getUserList() {
@@ -122,20 +120,10 @@ export default function App() {
           submit{" "}
         </button>
         {/* <button className="cancel">cancel</button> */}
-        <button className="modify" onClick={modifyData}>
-          {" "}
-          modify
-        </button>
-        <button className="delete" onClick={deleteData}>
-          {" "}
-          delete
-        </button>
         <button className="list" onClick={getUserList}>
           {" "}
           List Users
         </button>
-      </div>
-      <div className="mybtn2">
         <button className="payment" onClick={postPayment}>
           {" "}
           Payment{" "}
@@ -147,25 +135,72 @@ export default function App() {
       </div>
 
       <div className="created">{status}</div>
-      <div>
-        {userList.map((user) => (
-          <div key={user.id} style={{ marginBottom: "20px"}}>
-            <p>User ID: {user.id}</p>
-            <p>Name: {user.name}</p>
-            <p>Email: {user.email}</p>
-            <p>Phone Number: {user.phoneNumber}</p>
-          </div>
-        ))}
-      </div>
-      <div>
-        {paymentList.map((payment) => (
-          <div key={payment.id} style={{ marginBottom: "20px"}}>
-            <p>Payment ID: {payment.id}</p>
-            <p>Payment Method: {payment.paymentMethod}</p>
-            <p>Amount: {payment.amount}</p>
-          </div>
-        ))}
-      </div>
+      {/* Users Table */}
+      {userList.length > 0 && (
+        <div style={{ marginTop: "20px" }}>
+          <h3>User List</h3>
+          <table className="custom-table">
+            <thead>
+              <tr>
+                <th>User ID</th>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Phone Number</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              {userList.map((user) => (
+                <tr key={user.id}>
+                  <td>{user.id}</td>
+                  <td>{user.name}</td>
+                  <td>{user.email}</td>
+                  <td>{user.phoneNumber}</td>
+                  <td>
+                    <button
+                      className="action-btn action-modify"
+                      onClick={() => modifyData(user.id)}
+                    >
+                      Modify
+                    </button>
+                    <button
+                      className="action-btn action-delete"
+                      onClick={() => deleteData(user.id)}
+                    >
+                      Delete
+                    </button>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      )}
+
+      {/* Payment Table */}
+      {paymentList.length > 0 && (
+        <div style={{ marginTop: "20px" }}>
+          <h3>Payment Data</h3>
+          <table className="custom-table">
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>Payment Method</th>
+                <th>Amount</th>
+              </tr>
+            </thead>
+            <tbody>
+              {paymentList.map((payment) => (
+                <tr key={payment.id}>
+                  <td>{payment.id}</td>
+                  <td>{payment.paymentMethod}</td>
+                  <td>${payment.amount}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      )}
     </div>
   );
 }
