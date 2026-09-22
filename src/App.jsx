@@ -14,8 +14,8 @@ export default function App() {
   const [inputName, setInputName] = useState("");
   const [inputEmail, setInputEmail] = useState("");
 
-  // const serverurl = "http://localhost:3000/api";
-   const serverurl = "http://173.249.17.168:81/api"
+  const serverurl = "http://localhost:3000/api";
+  //  const serverurl = "http://173.249.17.168:81/api"
 
   useEffect(() => {
     getData();
@@ -29,6 +29,7 @@ export default function App() {
     });
     console.log(response.data);
     setStatus(response.data);
+    getUserList();
   }
 
   function getData() {
@@ -44,17 +45,34 @@ export default function App() {
   }
 
   async function modifyData() {
-    const response = await axios.put(`${serverurl}/users/5`, {
-      email: "hashim@gmail.com",
+    const idToModify = prompt("Enter the User ID to modify:");
+    if (!idToModify) return;
+
+    const newEmail = prompt("Enter the new email address:")
+    if (!newEmail) return;
+
+    try{
+    const response = await axios.put(`${serverurl}/users/${idToModify}`, {
+      email: newEmail,
     });
     console.log(response.data);
     setStatus(response.data);
+    getUserList();
+  } catch (error) {
+    console.error("Error modifying user:", error);
+    setStatus("Failed to modify user");
+  }
   }
 
   async function deleteData() {
-    const response = await axios.delete(`${serverurl}/users/5`);
+    const idToDelete = prompt("Enter the User ID you want to delete:")
+
+    if (!idToDelete) return;
+
+    const response = await axios.delete(`${serverurl}/users/${idToDelete}`);
     console.log(response.data);
     setStatus(response.data);
+    getUserList();
   }
 
   async function getUserList() {
@@ -131,7 +149,8 @@ export default function App() {
       <div className="created">{status}</div>
       <div>
         {userList.map((user) => (
-          <div key={user.id}>
+          <div key={user.id} style={{ marginBottom: "20px"}}>
+            <p>User ID: {user.id}</p>
             <p>Name: {user.name}</p>
             <p>Email: {user.email}</p>
             <p>Phone Number: {user.phoneNumber}</p>
@@ -140,7 +159,8 @@ export default function App() {
       </div>
       <div>
         {paymentList.map((payment) => (
-          <div key={payment.id}>
+          <div key={payment.id} style={{ marginBottom: "20px"}}>
+            <p>Payment ID: {payment.id}</p>
             <p>Payment Method: {payment.paymentMethod}</p>
             <p>Amount: {payment.amount}</p>
           </div>
