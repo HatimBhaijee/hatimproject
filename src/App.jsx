@@ -10,13 +10,22 @@ export default function App() {
   const [paymentList, setPaymentList] = useState([]);
   const [paymentStatus, setPaymentStatus] = useState("");
 
+  // user table
   const [inputName, setInputName] = useState("");
   const [inputEmail, setInputEmail] = useState("");
   const [inputPhone, setInputPhone] = useState("");
 
+  // payment table
   const [paymentMethod, setPaymentMethod] = useState("");
   const [paymentAmount, setPaymentAmount] = useState("");
 
+  //history table
+  const [chatPrompt, setChatPrompt] = useState("");
+  const [chatHistory, setChatHistory] = useState([]);
+  const [latestBotReply, setLatestBotReply] = useState("");
+  
+  
+  
   // const serverurl = "http://localhost:3000/api";
   const serverurl = "http://173.249.17.168:81/api";
 
@@ -145,6 +154,30 @@ export default function App() {
     }
   }
 
+  async function sendChatMessage() {
+  if (!chatPrompt.trim()) return;
+
+  try {
+    const response = await axios.post(`${serverurl}/chat`, {
+      prompt: chatPrompt,
+    });
+    setLatestBotReply(response.data.reply);
+    setChatPrompt("");
+  } catch (error) {
+    console.error("Error sending message:", error);
+    setStatus("Failed to communicate with bot");
+  }
+}
+
+  async function getChatHistory() {
+  try {
+    const response = await axios.get(`${serverurl}/history`);
+    setChatHistory(response.data);
+  } catch (error) {
+    console.error("Error loading chat history:", error);
+  }
+}
+
   return (
     <div id="name">
       <div className="layout-columns">
@@ -226,6 +259,62 @@ export default function App() {
       <div className="status-container">
         {status && <div className="created">{status}</div>}
       </div>
+
+      {/* Chat & History Section */}
+<div className="layout-columns" style={{ marginTop: "30px" }}>
+  <div className="column">
+    <h3>Simple Chat Assistant</h3>
+    <div className="input-container">
+      <input
+        type="text"
+        className="user-input"
+        placeholder="Type 'hello', 'payment', 'help'..."
+        value={chatPrompt}
+        onChange={(e) => setChatPrompt(e.target.value)}
+        onKeyDown={(e) => e.key === "Enter" && sendChatMessage()}
+      />
+    </div>
+
+    <div className="mybtn">
+      <button className="submit" onClick={sendChatMessage}>
+        Send
+      </button>
+      <button className="list" onClick={getChatHistory}>
+        Load History
+      </button>
+    </div>
+
+    {latestBotReply && (
+      <div style={{ marginTop: "12px", fontStyle: "italic", color: "#1e293b" }}>
+        <strong>Bot:</strong> {latestBotReply}
+      </div>
+    )}
+
+    {/* Chat History Table */}
+    {chatHistory.length > 0 && (
+      <table className="custom-table" style={{ marginTop: "20px" }}>
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>User Input</th>
+            <th>Bot Response</th>
+            <th>Time</th>
+          </tr>
+        </thead>
+        <tbody>
+          {chatHistory.map((item) => (
+            <tr key={item.id}>
+              <td>{item.id}</td>
+              <td>{item.userPrompt}</td>
+              <td>{item.botReply}</td>
+              <td>{new Date(item.createdAt).toLocaleTimeString()}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    )}
+  </div>
+</div>
 
       {/* Tables Section */}
       <div className="layout-columns">
