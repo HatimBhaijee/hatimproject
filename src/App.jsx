@@ -42,6 +42,11 @@ export default function App() {
       });
       console.log(response.data);
       setStatus(response.data);
+
+      setInputName("");
+      setInputEmail("");
+      setInputPhone("");
+
     } catch (error) {
       console.error("Error creating user:", error);
       setStatus("Failed to create user");
@@ -107,6 +112,10 @@ export default function App() {
       });
       console.log(response.data);
       setStatus(response.data);
+
+      setPaymentMethod("");
+      setPaymentAmount("");
+
     } catch (error) {
       console.error("Error creating payment:", error);
       setStatus("Failed to add payment");
