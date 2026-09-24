@@ -36,8 +36,8 @@ export default function App() {
   
   
   
-  const serverurl = "http://localhost:3000/api";
-  // const serverurl = "http://173.249.17.168:81/api";
+  // const serverurl = "http://localhost:3000/api";
+  const serverurl = "http://173.249.17.168:81/api";
 
   useEffect(() => {
     getData();
