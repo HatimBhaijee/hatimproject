@@ -8,6 +8,7 @@ export default function App() {
   const [status, setStatus] = useState("");
   const [userList, setUserList] = useState([]);
   const [paymentList, setPaymentList] = useState([]);
+  const [billingList, setBillingList] = useState([]);
   const [paymentStatus, setPaymentStatus] = useState("");
 
   // user table
@@ -19,6 +20,15 @@ export default function App() {
   const [paymentMethod, setPaymentMethod] = useState("");
   const [paymentAmount, setPaymentAmount] = useState("");
 
+  // billing table
+  
+  const [billingName, setBillingName] = useState("");
+  const [billingPhone, setBillingPhone] = useState("");
+  const [billingEmail, setBillingEmail] = useState("");
+  const [billingAccountNumber, setBillingAccountNumber] = useState("");
+  const [billingAmount, setBillingAmount] = useState("");
+  const [billingChannel, setBillingChannel] = useState("");
+
   //history table
   const [chatPrompt, setChatPrompt] = useState("");
   const [chatHistory, setChatHistory] = useState([]);
@@ -26,8 +36,8 @@ export default function App() {
   
   
   
-  // const serverurl = "http://localhost:3000/api";
-  const serverurl = "http://173.249.17.168:81/api";
+  const serverurl = "http://localhost:3000/api";
+  // const serverurl = "http://173.249.17.168:81/api";
 
   useEffect(() => {
     getData();
@@ -163,6 +173,52 @@ export default function App() {
     }
   }
 
+
+
+  // --- Billing Functions ---
+  async function postBilling() {
+    try {
+      const response = await axios.post(`${serverurl}/billing`, {
+        name: billingName,
+        phone: billingPhone,
+        email: billingEmail,
+        account_number: billingAccountNumber,
+        amount: parseFloat(billingAmount) || 0,
+        channel: billingChannel,
+      });
+
+      console.log(response.data);
+      setStatus(response.data.message);
+
+      setBillingName("");
+      setBillingPhone("");
+      setBillingEmail("");
+      setBillingAccountNumber("");
+      setBillingAmount("");
+      setBillingChannel("");
+
+    } catch (error) {
+      console.error("Error creating billing:", error);
+      setStatus("Failed to add billing data");
+    }
+  }
+
+  async function getBillingList() {
+  try {
+    const response = await axios.get(`${serverurl}/showbilling`);
+
+    console.log(response.data);
+    setBillingList(response.data);
+
+  } catch (error) {
+    console.error("Error fetching billing data:", error);
+    setStatus("Failed to fetch billing data");
+  }
+}
+
+
+
+  //Chatbot functions
   async function sendChatMessage() {
   if (!chatPrompt.trim()) return;
 
@@ -265,65 +321,147 @@ export default function App() {
         </div>
       </div>
 
+      {/* BILLING SECTION */}
+      <div className="layout-columns">
+        <div className="column">
+          <h3>Billing Management</h3>
+
+          <div className="input-container">
+            <input
+              type="text"
+              className="user-input"
+              placeholder="Full Name"
+              value={billingName}
+              onChange={(e) => setBillingName(e.target.value)}
+            />
+
+            <input
+              type="text"
+              className="user-input"
+              placeholder="Phone Number"
+              value={billingPhone}
+              onChange={(e) => setBillingPhone(e.target.value)}
+            />
+          </div>
+
+          <div className="input-container">
+            <input
+              type="email"
+              className="user-input"
+              placeholder="Email"
+              value={billingEmail}
+              onChange={(e) => setBillingEmail(e.target.value)}
+            />
+
+            <input
+              type="text"
+              className="user-input"
+              placeholder="Account Number"
+              value={billingAccountNumber}
+              onChange={(e) => setBillingAccountNumber(e.target.value)}
+            />
+          </div>
+
+          <div className="input-container">
+            <input
+              type="number"
+              className="user-input no-spinner"
+              placeholder="Amount"
+              value={billingAmount}
+              onChange={(e) => setBillingAmount(e.target.value)}
+            />
+
+            <select
+              className="user-input select-input"
+              value={billingChannel}
+              onChange={(e) => setBillingChannel(e.target.value)}
+            >
+              <option value="" disabled>
+                Select Channel
+              </option>
+              <option value="AIRTEL">AIRTEL</option>
+              <option value="MPESA">MPESA</option>
+              <option value="TIGO">TIGO</option>
+            </select>
+          </div>
+
+          <div className="mybtn">
+            <button className="submit" onClick={postBilling}>
+              Submit Billing
+            </button>
+
+            <button className="showpayment" onClick={getBillingList}>
+              Show Billing Data
+            </button>
+          </div>
+        </div>
+      </div>
+
       <div className="status-container">
         {status && <div className="created">{status}</div>}
       </div>
 
       {/* Chat & History Section */}
-<div className="layout-columns" style={{ marginTop: "30px" }}>
-  <div className="column">
-    <h3>Simple Chat Assistant</h3>
-    <div className="input-container">
-      <input
-        type="text"
-        className="user-input"
-        placeholder="Type 'hello', 'payment', 'help'..."
-        value={chatPrompt}
-        onChange={(e) => setChatPrompt(e.target.value)}
-        onKeyDown={(e) => e.key === "Enter" && sendChatMessage()}
-      />
-    </div>
+      <div className="layout-columns" style={{ marginTop: "30px" }}>
+        <div className="column">
+          <h3>Chat Assistant</h3>
+          <div className="input-container">
+            <input
+              type="text"
+              className="user-input"
+              placeholder="Type 'hello', 'payment', 'help'..."
+              value={chatPrompt}
+              onChange={(e) => setChatPrompt(e.target.value)}
+              onKeyDown={(e) => e.key === "Enter" && sendChatMessage()}
+            />
+          </div>
 
-    <div className="mybtn">
-      <button className="submit" onClick={sendChatMessage}>
-        Send
-      </button>
-      <button className="list" onClick={getChatHistory}>
-        Load History
-      </button>
-    </div>
+          <div className="mybtn">
+            <button className="submit" onClick={sendChatMessage}>
+              Send
+            </button>
+            <button className="list" onClick={getChatHistory}>
+              Load History
+            </button>
+          </div>
 
-    {latestBotReply && (
-      <div style={{ marginTop: "12px", fontStyle: "italic", color: "#1e293b" }}>
-        <strong>Bot:</strong> {latestBotReply}
+          {latestBotReply && (
+            <div
+              style={{
+                marginTop: "12px",
+                fontStyle: "italic",
+                color: "#1e293b",
+              }}
+            >
+              <strong>Bot:</strong> {latestBotReply}
+            </div>
+          )}
+
+          {/* Chat History Table */}
+          {chatHistory.length > 0 && (
+            <table className="custom-table" style={{ marginTop: "20px" }}>
+              <thead>
+                <tr>
+                  <th>ID</th>
+                  <th>User Input</th>
+                  <th>Bot Response</th>
+                  <th>Time</th>
+                </tr>
+              </thead>
+              <tbody>
+                {chatHistory.map((item) => (
+                  <tr key={item.id}>
+                    <td>{item.id}</td>
+                    <td>{item.userPrompt}</td>
+                    <td>{item.botReply}</td>
+                    <td>{new Date(item.createdAt).toLocaleTimeString()}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          )}
+        </div>
       </div>
-    )}
-
-    {/* Chat History Table */}
-    {chatHistory.length > 0 && (
-      <table className="custom-table" style={{ marginTop: "20px" }}>
-        <thead>
-          <tr>
-            <th>ID</th>
-            <th>User Input</th>
-            <th>Bot Response</th>
-            <th>Time</th>
-          </tr>
-        </thead>
-        <tbody>
-          {chatHistory.map((item) => (
-            <tr key={item.id}>
-              <td>{item.id}</td>
-              <td>{item.userPrompt}</td>
-              <td>{item.botReply}</td>
-              <td>{new Date(item.createdAt).toLocaleTimeString()}</td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
-    )}
-  </div>
-</div>
 
       {/* Tables Section */}
       <div className="layout-columns">
@@ -362,6 +500,43 @@ export default function App() {
                           Delete
                         </button>
                       </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          )}
+        </div>
+
+        {/* Billing Table */}
+        <div className="column">
+          {billingList.length > 0 && (
+            <div style={{ width: "100%" }}>
+              <table className="custom-table">
+                <thead>
+                  <tr>
+                    <th>ID</th>
+                    <th>Name</th>
+                    <th>Phone</th>
+                    <th>Email</th>
+                    <th>Account Number</th>
+                    <th>Amount</th>
+                    <th>Status</th>
+                    <th>Channel</th>
+                  </tr>
+                </thead>
+
+                <tbody>
+                  {billingList.map((billing) => (
+                    <tr key={billing.id}>
+                      <td>{billing.id}</td>
+                      <td>{billing.name}</td>
+                      <td>{billing.phone}</td>
+                      <td>{billing.email}</td>
+                      <td>{billing.account_number}</td>
+                      <td>{billing.amount}</td>
+                      <td>{billing.payment_status}</td>
+                      <td>{billing.channel}</td>
                     </tr>
                   ))}
                 </tbody>
