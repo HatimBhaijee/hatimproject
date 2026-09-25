@@ -632,42 +632,78 @@ export default function App() {
                     <td>{product.stock}</td>
                     <td>{product.rating}</td>
                     <td>
-                      <button className="action-btn action-view" onClick={() => 
-                      setSelectedProduct(product)}>
-                        View </button>
+                      <button
+                        className="action-btn action-view"
+                        onClick={() => setSelectedProduct(product)}
+                      >
+                        View{" "}
+                      </button>
                     </td>
                   </tr>
                 ))}
               </tbody>
             </table>
           )}
-{selectedProduct && (
-  <div className="column product-details">
-    <h3>Product Details</h3>
+          {selectedProduct && (
+            <div className="column product-details">
+              <h3>Product Details</h3>
+              <img
+                src={selectedProduct.thumbnail}
+                alt={selectedProduct.title}
+                className="product-image"
+              />
+              <p>
+                <strong>ID:</strong> {selectedProduct.id}
+              </p>
+              <p>
+                <strong>Title:</strong> {selectedProduct.title}
+              </p>
+              <p>
+                <strong>Description:</strong> {selectedProduct.description}
+              </p>
+              <p>
+                <strong>Category:</strong> {selectedProduct.category}
+              </p>
+              <p>
+                <strong>Price:</strong> ${selectedProduct.price}
+              </p>
+              <p>
+                <strong>Discount:</strong> {selectedProduct.discountPercentage}%
+              </p>
+              <p>
+                <strong>Rating:</strong> {selectedProduct.rating}
+              </p>
+              <p>
+                <strong>Stock:</strong> {selectedProduct.stock}
+              </p>
+              <p>
+                <strong>Brand:</strong> {selectedProduct.brand}
+              </p>
+              <p>
+                <strong>Weight:</strong> {selectedProduct.weight}
+              </p>
+              <p>
+                <strong>Warranty:</strong> {selectedProduct.warrantyInformation}
+              </p>
+              <p>
+                <strong>Shipping:</strong> {selectedProduct.shippingInformation}
+              </p>
+              <p>
+                <strong>Availability:</strong>{" "}
+                {selectedProduct.availabilityStatus}
+              </p>
+              <p>
+                <strong>Return Policy:</strong> {selectedProduct.returnPolicy}
+              </p>
 
-    <p><strong>ID:</strong> {selectedProduct.id}</p>
-    <p><strong>Title:</strong> {selectedProduct.title}</p>
-    <p><strong>Description:</strong> {selectedProduct.description}</p>
-    <p><strong>Category:</strong> {selectedProduct.category}</p>
-    <p><strong>Price:</strong> ${selectedProduct.price}</p>
-    <p><strong>Discount:</strong> {selectedProduct.discountPercentage}%</p>
-    <p><strong>Rating:</strong> {selectedProduct.rating}</p>
-    <p><strong>Stock:</strong> {selectedProduct.stock}</p>
-    <p><strong>Brand:</strong> {selectedProduct.brand}</p>
-    <p><strong>Weight:</strong> {selectedProduct.weight}</p>
-    <p><strong>Warranty:</strong> {selectedProduct.warrantyInformation}</p>
-    <p><strong>Shipping:</strong> {selectedProduct.shippingInformation}</p>
-    <p><strong>Availability:</strong> {selectedProduct.availabilityStatus}</p>
-    <p><strong>Return Policy:</strong> {selectedProduct.returnPolicy}</p>
-
-    <button
-      className="action-btn"
-      onClick={() => setSelectedProduct(null)}
-    >
-      Close
-    </button>
-  </div>
-)}
+              <button
+                className="action-btn"
+                onClick={() => setSelectedProduct(null)}
+              >
+                Close
+              </button>
+            </div>
+          )}
         </div>
 
         {/* Chat & History Section */}
