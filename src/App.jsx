@@ -22,7 +22,7 @@ export default function App() {
   const [paymentAmount, setPaymentAmount] = useState("");
 
   // billing table
-  
+
   const [billingName, setBillingName] = useState("");
   const [billingPhone, setBillingPhone] = useState("");
   const [billingEmail, setBillingEmail] = useState("");
@@ -34,9 +34,7 @@ export default function App() {
   const [chatPrompt, setChatPrompt] = useState("");
   const [chatHistory, setChatHistory] = useState([]);
   const [latestBotReply, setLatestBotReply] = useState("");
-  
-  
-  
+
   // const serverurl = "http://localhost:3000/api";
   const serverurl = "http://173.249.17.168:81/api";
 
@@ -57,7 +55,6 @@ export default function App() {
       setInputName("");
       setInputEmail("");
       setInputPhone("");
-
     } catch (error) {
       console.error("Error creating user:", error);
       setStatus("Failed to create user");
@@ -86,7 +83,7 @@ export default function App() {
       });
       console.log(response.data);
       setStatus(response.data);
-      getUserList(); 
+      getUserList();
     } catch (error) {
       console.error("Error modifying user:", error);
       setStatus("Failed to modify user");
@@ -94,14 +91,16 @@ export default function App() {
   }
 
   async function deleteData(id) {
-    const confirmDelete = window.confirm("Are you sure you want to delete this user?");
+    const confirmDelete = window.confirm(
+      "Are you sure you want to delete this user?",
+    );
     if (!confirmDelete) return;
 
     try {
       const response = await axios.delete(`${serverurl}/users/${id}`);
       console.log(response.data);
       setStatus(response.data);
-      getUserList(); 
+      getUserList();
     } catch (error) {
       console.error("Error deleting user:", error);
       setStatus("Failed to delete user");
@@ -126,7 +125,6 @@ export default function App() {
 
       setPaymentMethod("");
       setPaymentAmount("");
-
     } catch (error) {
       console.error("Error creating payment:", error);
       setStatus("Failed to add payment");
@@ -140,7 +138,9 @@ export default function App() {
   }
 
   async function modifyPayment(id) {
-    const newMethod = prompt("Enter the new payment method (Cash, Credit Card, Debit Card, M-pesa):");
+    const newMethod = prompt(
+      "Enter the new payment method (Cash, Credit Card, Debit Card, M-pesa):",
+    );
     if (!newMethod) return;
     const newAmount = prompt("Enter the new amount:");
     if (!newAmount) return;
@@ -160,7 +160,9 @@ export default function App() {
   }
 
   async function deletePayment(id) {
-    const confirmDelete = window.confirm("Are you sure you want to delete this payment record?");
+    const confirmDelete = window.confirm(
+      "Are you sure you want to delete this payment record?",
+    );
     if (!confirmDelete) return;
 
     try {
@@ -173,8 +175,6 @@ export default function App() {
       setStatus("Failed to delete payment");
     }
   }
-
-
 
   // --- Billing Functions ---
   async function postBilling() {
@@ -197,7 +197,6 @@ export default function App() {
       setBillingAccountNumber("");
       setBillingAmount("");
       setBillingChannel("");
-
     } catch (error) {
       console.error("Error creating billing:", error);
       setStatus(response.data.message);
@@ -205,64 +204,143 @@ export default function App() {
   }
 
   async function getBillingList() {
-  try {
-    const response = await axios.get(`${serverurl}/showbilling`);
+    try {
+      const response = await axios.get(`${serverurl}/showbilling`);
 
-    console.log(response.data);
-    setBillingList(response.data);
-
-  } catch (error) {
-    console.error("Error fetching billing data:", error);
-    setStatus("Failed to fetch billing data");
+      console.log(response.data);
+      setBillingList(response.data);
+    } catch (error) {
+      console.error("Error fetching billing data:", error);
+      setStatus("Failed to fetch billing data");
+    }
   }
-}
 
+  async function editBilling(
+    id,
+    currentAccountNumber,
+    currentAmount,
+    paymentStatus,
+  ) {
+    const normalizedStatus = paymentStatus?.toLowerCase();
 
-async function retryBillingPayment(id) {
-  try {
-    const response = await axios.post(
-      `${serverurl}/billing/${id}/retry`
+    if (normalizedStatus === "completed") {
+      window.alert("This payment cannot be edited after completion.");
+      return;
+    }
+
+    if (normalizedStatus !== "pending" && normalizedStatus !== "failed") {
+      window.alert("Only pending or failed payments can be edited.");
+      return;
+    }
+
+    const newAccountNumber = window.prompt(
+      "Enter the new account number:",
+      currentAccountNumber,
     );
 
-    setStatusKey((prev) => prev + 1);
-    setStatus(response.data.message);
+    if (newAccountNumber === null || !newAccountNumber.trim()) {
+      return;
+    }
 
-    await getBillingList();
-  } catch (error) {
-    console.error("Error retrying billing payment:", error);
+    const newAmount = window.prompt("Enter the new amount:", currentAmount);
 
-    setStatusKey((prev) => prev + 1);
-    setStatus(
-      error.response?.data?.message || "Failed to retry payment"
-    );
+    if (newAmount === null || !newAmount.trim()) {
+      return;
+    }
+
+    const parsedAmount = Number(newAmount);
+
+    if (!Number.isFinite(parsedAmount) || parsedAmount <= 0) {
+      window.alert("Please enter a valid amount greater than zero.");
+      return;
+    }
+
+    try {
+      const response = await axios.put(`${serverurl}/billing/${id}`, {
+        account_number: newAccountNumber.trim(),
+        amount: parsedAmount,
+      });
+
+      setStatusKey((prev) => prev + 1);
+      setStatus(response.data.message);
+
+      await getBillingList();
+    } catch (error) {
+      console.error("Error editing billing record:", error);
+
+      setStatusKey((prev) => prev + 1);
+      setStatus(
+        error.response?.data?.message || "Failed to edit billing record",
+      );
+    }
   }
-}
 
+  async function deleteBilling(id) {
+    const confirmDelete = window.confirm(
+      "Are you sure you want to permanently delete this billing record?",
+    );
+
+    if (!confirmDelete) {
+      return;
+    }
+
+    try {
+      const response = await axios.delete(`${serverurl}/billing/${id}`);
+
+      setStatusKey((prev) => prev + 1);
+      setStatus(response.data.message);
+
+      await getBillingList();
+    } catch (error) {
+      console.error("Error deleting billing record:", error);
+
+      setStatusKey((prev) => prev + 1);
+      setStatus(
+        error.response?.data?.message || "Failed to delete billing record",
+      );
+    }
+  }
+
+  async function retryBillingPayment(id) {
+    try {
+      const response = await axios.post(`${serverurl}/billing/${id}/retry`);
+
+      setStatusKey((prev) => prev + 1);
+      setStatus(response.data.message);
+
+      await getBillingList();
+    } catch (error) {
+      console.error("Error retrying billing payment:", error);
+
+      setStatusKey((prev) => prev + 1);
+      setStatus(error.response?.data?.message || "Failed to retry payment");
+    }
+  }
 
   //Chatbot functions
   async function sendChatMessage() {
-  if (!chatPrompt.trim()) return;
+    if (!chatPrompt.trim()) return;
 
-  try {
-    const response = await axios.post(`${serverurl}/chat`, {
-      prompt: chatPrompt,
-    });
-    setLatestBotReply(response.data.reply);
-    setChatPrompt("");
-  } catch (error) {
-    console.error("Error sending message:", error);
-    setStatus("Failed to communicate with bot");
+    try {
+      const response = await axios.post(`${serverurl}/chat`, {
+        prompt: chatPrompt,
+      });
+      setLatestBotReply(response.data.reply);
+      setChatPrompt("");
+    } catch (error) {
+      console.error("Error sending message:", error);
+      setStatus("Failed to communicate with bot");
+    }
   }
-}
 
   async function getChatHistory() {
-  try {
-    const response = await axios.get(`${serverurl}/history`);
-    setChatHistory(response.data);
-  } catch (error) {
-    console.error("Error loading chat history:", error);
+    try {
+      const response = await axios.get(`${serverurl}/history`);
+      setChatHistory(response.data);
+    } catch (error) {
+      console.error("Error loading chat history:", error);
+    }
   }
-}
 
   return (
     <div id="name">
@@ -457,6 +535,27 @@ async function retryBillingPayment(id) {
                     <td>{billing.payment_status}</td>
                     <td>{billing.channel}</td>
                     <td>
+                      <button
+                        className="action-btn action-modify"
+                        onClick={() =>
+                          editBilling(
+                            billing.id,
+                            billing.account_number,
+                            billing.amount,
+                            billing.payment_status,
+                          )
+                        }
+                      >
+                        Modify
+                      </button>
+
+                      <button
+                        className="action-btn action-delete"
+                        onClick={() => deleteBilling(billing.id)}
+                      >
+                        Delete
+                      </button>
+
                       {billing.payment_status?.toLowerCase() === "pending" && (
                         <button
                           className="action-btn action-modify"
