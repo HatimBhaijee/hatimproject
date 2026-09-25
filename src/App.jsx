@@ -6,6 +6,7 @@ export default function App() {
   const [name, setName] = useState("HATIM");
   const [greeting, setGreeting] = useState("");
   const [status, setStatus] = useState("");
+  const [statusKey, setStatusKey] = useState(0);
   const [userList, setUserList] = useState([]);
   const [paymentList, setPaymentList] = useState([]);
   const [billingList, setBillingList] = useState([]);
@@ -199,7 +200,7 @@ export default function App() {
 
     } catch (error) {
       console.error("Error creating billing:", error);
-      setStatus("Failed to add billing data");
+      setStatus(response.data.message);
     }
   }
 
@@ -216,6 +217,26 @@ export default function App() {
   }
 }
 
+
+async function retryBillingPayment(id) {
+  try {
+    const response = await axios.post(
+      `${serverurl}/billing/${id}/retry`
+    );
+
+    setStatusKey((prev) => prev + 1);
+    setStatus(response.data.message);
+
+    await getBillingList();
+  } catch (error) {
+    console.error("Error retrying billing payment:", error);
+
+    setStatusKey((prev) => prev + 1);
+    setStatus(
+      error.response?.data?.message || "Failed to retry payment"
+    );
+  }
+}
 
 
   //Chatbot functions
@@ -398,151 +419,166 @@ export default function App() {
       </div>
 
       <div className="status-container">
-        {status && <div className="created">{status}</div>}
+        {status && (
+          <div key={statusKey} className="created">
+            {status}
+          </div>
+        )}
       </div>
 
-      {/* Chat & History Section */}
-      <div className="layout-columns" style={{ marginTop: "30px" }}>
-        <div className="column">
-          <h3>Chat Assistant</h3>
-          <div className="input-container">
-            <input
-              type="text"
-              className="user-input"
-              placeholder="Type 'hello', 'payment', 'help'..."
-              value={chatPrompt}
-              onChange={(e) => setChatPrompt(e.target.value)}
-              onKeyDown={(e) => e.key === "Enter" && sendChatMessage()}
-            />
-          </div>
-
-          <div className="mybtn">
-            <button className="submit" onClick={sendChatMessage}>
-              Send
-            </button>
-            <button className="list" onClick={getChatHistory}>
-              Load History
-            </button>
-          </div>
-
-          {latestBotReply && (
-            <div
-              style={{
-                marginTop: "12px",
-                fontStyle: "italic",
-                color: "#1e293b",
-              }}
-            >
-              <strong>Bot:</strong> {latestBotReply}
-            </div>
-          )}
-
-          {/* Chat History Table */}
-          {chatHistory.length > 0 && (
-            <table className="custom-table" style={{ marginTop: "20px" }}>
+      {/* Billing Table */}
+      <div className="column">
+        {billingList.length > 0 && (
+          <div style={{ width: "100%" }}>
+            <table className="custom-table">
               <thead>
                 <tr>
                   <th>ID</th>
-                  <th>User Input</th>
-                  <th>Bot Response</th>
-                  <th>Time</th>
+                  <th>Name</th>
+                  <th>Phone</th>
+                  <th>Email</th>
+                  <th>Account Number</th>
+                  <th>Amount</th>
+                  <th>Status</th>
+                  <th>Channel</th>
+                  <th>Actions</th>
                 </tr>
               </thead>
+
               <tbody>
-                {chatHistory.map((item) => (
-                  <tr key={item.id}>
-                    <td>{item.id}</td>
-                    <td>{item.userPrompt}</td>
-                    <td>{item.botReply}</td>
-                    <td>{new Date(item.createdAt).toLocaleTimeString()}</td>
+                {billingList.map((billing) => (
+                  <tr key={billing.id}>
+                    <td>{billing.id}</td>
+                    <td>{billing.name}</td>
+                    <td>{billing.phone}</td>
+                    <td>{billing.email}</td>
+                    <td>{billing.account_number}</td>
+                    <td>{billing.amount}</td>
+                    <td>{billing.payment_status}</td>
+                    <td>{billing.channel}</td>
+                    <td>
+                      {billing.payment_status?.toLowerCase() === "pending" && (
+                        <button
+                          className="action-btn action-modify"
+                          onClick={() => retryBillingPayment(billing.id)}
+                        >
+                          Retry Payment
+                        </button>
+                      )}
+                    </td>
                   </tr>
                 ))}
               </tbody>
             </table>
-          )}
-        </div>
-      </div>
+          </div>
+        )}
 
-      {/* Tables Section */}
-      <div className="layout-columns">
-        {/* Users Table */}
-        <div className="column">
-          {userList.length > 0 && (
-            <div style={{ width: "100%" }}>
-              <table className="custom-table">
-                <thead>
-                  <tr>
-                    <th>User ID</th>
-                    <th>Name</th>
-                    <th>Email</th>
-                    <th>Phone Number</th>
-                    <th>Actions</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {userList.map((user) => (
-                    <tr key={user.id}>
-                      <td>{user.id}</td>
-                      <td>{user.name}</td>
-                      <td>{user.email}</td>
-                      <td>{user.phoneNumber}</td>
-                      <td>
-                        <button
-                          className="action-btn action-modify"
-                          onClick={() => modifyData(user.id)}
-                        >
-                          Modify
-                        </button>
-                        <button
-                          className="action-btn action-delete"
-                          onClick={() => deleteData(user.id)}
-                        >
-                          Delete
-                        </button>
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
+        {/* Chat & History Section */}
+        <div className="layout-columns" style={{ marginTop: "30px" }}>
+          <div className="column">
+            <h3>Chat Assistant</h3>
+            <div className="input-container">
+              <input
+                type="text"
+                className="user-input"
+                placeholder="Type 'hello', 'payment', 'help'..."
+                value={chatPrompt}
+                onChange={(e) => setChatPrompt(e.target.value)}
+                onKeyDown={(e) => e.key === "Enter" && sendChatMessage()}
+              />
             </div>
-          )}
-        </div>
 
-        {/* Billing Table */}
-        <div className="column">
-          {billingList.length > 0 && (
-            <div style={{ width: "100%" }}>
-              <table className="custom-table">
+            <div className="mybtn">
+              <button className="submit" onClick={sendChatMessage}>
+                Send
+              </button>
+              <button className="list" onClick={getChatHistory}>
+                Load History
+              </button>
+            </div>
+
+            {latestBotReply && (
+              <div
+                style={{
+                  marginTop: "12px",
+                  fontStyle: "italic",
+                  color: "#1e293b",
+                }}
+              >
+                <strong>Bot:</strong> {latestBotReply}
+              </div>
+            )}
+
+            {/* Chat History Table */}
+            {chatHistory.length > 0 && (
+              <table className="custom-table" style={{ marginTop: "20px" }}>
                 <thead>
                   <tr>
                     <th>ID</th>
-                    <th>Name</th>
-                    <th>Phone</th>
-                    <th>Email</th>
-                    <th>Account Number</th>
-                    <th>Amount</th>
-                    <th>Status</th>
-                    <th>Channel</th>
+                    <th>User Input</th>
+                    <th>Bot Response</th>
+                    <th>Time</th>
                   </tr>
                 </thead>
-
                 <tbody>
-                  {billingList.map((billing) => (
-                    <tr key={billing.id}>
-                      <td>{billing.id}</td>
-                      <td>{billing.name}</td>
-                      <td>{billing.phone}</td>
-                      <td>{billing.email}</td>
-                      <td>{billing.account_number}</td>
-                      <td>{billing.amount}</td>
-                      <td>{billing.payment_status}</td>
-                      <td>{billing.channel}</td>
+                  {chatHistory.map((item) => (
+                    <tr key={item.id}>
+                      <td>{item.id}</td>
+                      <td>{item.userPrompt}</td>
+                      <td>{item.botReply}</td>
+                      <td>{new Date(item.createdAt).toLocaleTimeString()}</td>
                     </tr>
                   ))}
                 </tbody>
               </table>
-            </div>
-          )}
+            )}
+          </div>
+        </div>
+
+        {/* Tables Section */}
+        <div className="layout-columns">
+          {/* Users Table */}
+          <div className="column">
+            {userList.length > 0 && (
+              <div style={{ width: "100%" }}>
+                <table className="custom-table">
+                  <thead>
+                    <tr>
+                      <th>User ID</th>
+                      <th>Name</th>
+                      <th>Email</th>
+                      <th>Phone Number</th>
+                      <th>Actions</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {userList.map((user) => (
+                      <tr key={user.id}>
+                        <td>{user.id}</td>
+                        <td>{user.name}</td>
+                        <td>{user.email}</td>
+                        <td>{user.phoneNumber}</td>
+                        <td>
+                          <button
+                            className="action-btn action-modify"
+                            onClick={() => modifyData(user.id)}
+                          >
+                            Modify
+                          </button>
+                          <button
+                            className="action-btn action-delete"
+                            onClick={() => deleteData(user.id)}
+                          >
+                            Delete
+                          </button>
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            )}
+          </div>
         </div>
 
         {/* Payments Table */}
