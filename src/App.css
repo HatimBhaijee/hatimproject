@@ -264,6 +264,15 @@
   color: #ffffff;
 }
 
+.action-view {
+  background-color: #2563eb;
+  color: #ffffff;
+}
+
+.action-view:hover {
+  background-color: #1d4ed8;
+}
+
 /* Chat & History Module */
 .chat-container {
   max-width: 650px;
@@ -349,4 +358,55 @@
 
 .chat-bot-msg {
   color: #334155;
+}
+
+/* Product Details */
+.product-details {
+  align-items: flex-start;
+  text-align: left;
+  width: 100%;
+  max-width: 600px;
+  margin: 20px 0;
+  padding: 20px;
+  box-sizing: border-box;
+  background-color: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+}
+
+.product-details h3 {
+  margin-top: 0;
+  margin-bottom: 16px;
+  color: #1e293b;
+  text-align: left;
+}
+
+.product-details p {
+  width: 100%;
+  margin: 6px 0;
+  color: #334155;
+  font-size: 14px;
+  line-height: 1.5;
+  text-align: left;
+}
+
+.product-details strong {
+  color: #0f172a;
+}
+
+/* Product Details Close Button */
+.product-details .action-btn {
+  margin-top: 16px;
+  padding: 8px 18px;
+  background-color: #64748b;
+  color: #ffffff;
+  border: none;
+  border-radius: 5px;
+  font-size: 13px;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.product-details .action-btn:hover {
+  background-color: #475569;
 }

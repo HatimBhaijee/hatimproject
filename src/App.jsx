@@ -35,6 +35,12 @@ export default function App() {
   const [chatHistory, setChatHistory] = useState([]);
   const [latestBotReply, setLatestBotReply] = useState("");
 
+  // Products API
+  const [products, setProducts] = useState([]);
+  const [productsLoading, setProductsLoading] = useState(false);
+  const [productsError, setProductsError] = useState("");
+  const [selectedProduct, setSelectedProduct] = useState(null);
+
   // const serverurl = "http://localhost:3000/api";
   const serverurl = "http://173.249.17.168:81/api";
 
@@ -317,6 +323,24 @@ export default function App() {
     }
   }
 
+  // --- Products API ---
+  async function getProducts() {
+    setProductsLoading(true);
+    setProductsError("");
+
+    try {
+      const response = await axios.get("https://dummyjson.com/products");
+
+      console.log(response.data);
+      setProducts(response.data.products);
+    } catch (error) {
+      console.error("Error fetching products:", error);
+      setProductsError("Failed to fetch products");
+    } finally {
+      setProductsLoading(false);
+    }
+  }
+
   //Chatbot functions
   async function sendChatMessage() {
     if (!chatPrompt.trim()) return;
@@ -571,6 +595,80 @@ export default function App() {
             </table>
           </div>
         )}
+
+        {/* Products Section */}
+        <div className="column">
+          <h3>Products API</h3>
+
+          <button className="list" onClick={getProducts}>
+            Load Products
+          </button>
+
+          {productsLoading && <p>Loading products...</p>}
+
+          {productsError && <p>{productsError}</p>}
+
+          {products.length > 0 && (
+            <table className="custom-table">
+              <thead>
+                <tr>
+                  <th>ID</th>
+                  <th>Title</th>
+                  <th>Category</th>
+                  <th>Price</th>
+                  <th>Stock</th>
+                  <th>Rating</th>
+                  <th>Action</th>
+                </tr>
+              </thead>
+
+              <tbody>
+                {products.slice(0, 5).map((product) => (
+                  <tr key={product.id}>
+                    <td>{product.id}</td>
+                    <td>{product.title}</td>
+                    <td>{product.category}</td>
+                    <td>${product.price}</td>
+                    <td>{product.stock}</td>
+                    <td>{product.rating}</td>
+                    <td>
+                      <button className="action-btn action-view" onClick={() => 
+                      setSelectedProduct(product)}>
+                        View </button>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          )}
+{selectedProduct && (
+  <div className="column product-details">
+    <h3>Product Details</h3>
+
+    <p><strong>ID:</strong> {selectedProduct.id}</p>
+    <p><strong>Title:</strong> {selectedProduct.title}</p>
+    <p><strong>Description:</strong> {selectedProduct.description}</p>
+    <p><strong>Category:</strong> {selectedProduct.category}</p>
+    <p><strong>Price:</strong> ${selectedProduct.price}</p>
+    <p><strong>Discount:</strong> {selectedProduct.discountPercentage}%</p>
+    <p><strong>Rating:</strong> {selectedProduct.rating}</p>
+    <p><strong>Stock:</strong> {selectedProduct.stock}</p>
+    <p><strong>Brand:</strong> {selectedProduct.brand}</p>
+    <p><strong>Weight:</strong> {selectedProduct.weight}</p>
+    <p><strong>Warranty:</strong> {selectedProduct.warrantyInformation}</p>
+    <p><strong>Shipping:</strong> {selectedProduct.shippingInformation}</p>
+    <p><strong>Availability:</strong> {selectedProduct.availabilityStatus}</p>
+    <p><strong>Return Policy:</strong> {selectedProduct.returnPolicy}</p>
+
+    <button
+      className="action-btn"
+      onClick={() => setSelectedProduct(null)}
+    >
+      Close
+    </button>
+  </div>
+)}
+        </div>
 
         {/* Chat & History Section */}
         <div className="layout-columns" style={{ marginTop: "30px" }}>
