@@ -410,3 +410,132 @@
 .product-details .action-btn:hover {
   background-color: #475569;
 }
+
+
+/* Insurance Cost Prediction */
+.prediction-section {
+  width: 100%;
+  max-width: 850px;
+  margin: 24px auto;
+  padding: 24px;
+  box-sizing: border-box;
+  background-color: #FFFFFF;
+  border: 1px solid #e2e8f0;
+  border-radius: 10px;
+  text-align: left;
+}
+
+.prediction-section h3 {
+  margin-top: 0;
+  margin-bottom: 8px;
+  color: #1e293bb9;
+  text-align: center;
+}
+
+.prediction-description {
+  margin-bottom: 20px;
+  color: #64748b;
+  font-size: 14px;
+}
+
+.prediction-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 18px;
+}
+
+.prediction-field {
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+  color: #334155;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.prediction-field input,
+.prediction-field select {
+  width: 100%;
+  min-width: 0;
+  height: 42px;
+  padding: 8px 10px;
+  box-sizing: border-box;
+  border: 1px solid #cbd5e1;
+  border-radius: 6px;
+  background-color: #ffffff;
+  color: #1e293b;
+  font-size: 14px;
+}
+
+.prediction-field input:focus,
+.prediction-field select:focus {
+  outline: 2px solid #bfdbfe;
+  border-color: #2563eb;
+}
+
+.prediction-submit {
+  width: 100%;
+  min-height: 44px;
+  margin-top: 22px;
+  padding: 10px 16px;
+  border: none;
+  border-radius: 7px;
+  background-color: #aa5307cc;
+  color: #ffffff;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.prediction-submit:hover {
+  background-color: #d77722e7;
+}
+
+.prediction-submit:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.prediction-error {
+  margin-top: 16px;
+  padding: 12px;
+  border: 1px solid #fecaca;
+  border-radius: 6px;
+  background-color: #fef2f2;
+  color: #b91c1c;
+  font-size: 14px;
+}
+
+.prediction-result {
+  margin-top: 20px;
+  padding: 18px;
+  border: 1px solid #bbf7d0;
+  border-radius: 8px;
+  background-color: #f0fdf4;
+  color: #166534;
+}
+
+.prediction-result h4 {
+  margin: 0 0 10px;
+}
+
+.prediction-cost {
+  margin: 8px 0;
+  font-size: 28px;
+  font-weight: 700;
+  overflow-wrap: anywhere;
+}
+
+.prediction-result p:last-child {
+  font-size: 14px;
+}
+
+@media (max-width: 600px) {
+  .prediction-section {
+    padding: 16px;
+  }
+
+  .prediction-grid {
+    grid-template-columns: 1fr;
+  }
+}

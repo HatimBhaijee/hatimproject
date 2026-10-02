@@ -30,6 +30,20 @@ export default function App() {
   const [billingAmount, setBillingAmount] = useState("");
   const [billingChannel, setBillingChannel] = useState("");
 
+  //AI model
+  const [predictionInput, setPredictionInput] = useState({
+    age: "",
+    sex: "",
+    bmi: "",
+    children: "0",
+    smoker: "",
+    region: "",
+  });
+
+  const [predictionResult, setPredictionResult] = useState(null);
+  const [predictionLoading, setPredictionLoading] = useState(false);
+  const [predictionError, setPredictionError] = useState("");
+
   //history table
   const [chatPrompt, setChatPrompt] = useState("");
   const [chatHistory, setChatHistory] = useState([]);
@@ -363,6 +377,57 @@ export default function App() {
       setChatHistory(response.data);
     } catch (error) {
       console.error("Error loading chat history:", error);
+    }
+  }
+
+
+  // Send insurance details to the AI model
+  async function predictInsuranceCost(e) {
+    e.preventDefault();
+
+    setPredictionResult(null);
+    setPredictionError("");
+
+    const payload = {
+      age: Number(predictionInput.age),
+      sex: predictionInput.sex.trim().toLowerCase(),
+      bmi: Number(predictionInput.bmi),
+      children: Number(predictionInput.children),
+      smoker: predictionInput.smoker.trim().toLowerCase(),
+      region: predictionInput.region.trim().toLowerCase(),
+    };
+
+    if (
+      !predictionInput.age ||
+      !predictionInput.sex ||
+      !predictionInput.bmi ||
+      predictionInput.children === "" ||
+      !predictionInput.smoker ||
+      !predictionInput.region
+    ) {
+      setPredictionError("Please complete all fields.");
+      return;
+    }
+
+    setPredictionLoading(true);
+
+    try {
+      const response = await axios.post(
+        `${serverurl}/predict`,
+        payload
+      );
+
+      setPredictionResult(response.data);
+    } catch (error) {
+      console.error("Insurance prediction error:", error);
+
+      setPredictionError(
+        error.response?.data?.detail ||
+        error.response?.data?.error ||
+        "Unable to get a prediction. Please try again."
+      );
+    } finally {
+      setPredictionLoading(false);
     }
   }
 
@@ -705,6 +770,165 @@ export default function App() {
             </div>
           )}
         </div>
+
+        
+      {/* Insurance Cost Prediction AI Section*/}
+      <section className="prediction-section">
+        <h3>Insurance Cost Prediction</h3>
+
+        <form
+          className="prediction-form"
+          onSubmit={predictInsuranceCost}
+        >
+          <div className="prediction-grid">
+            <label className="prediction-field">
+              Age
+              <input
+                type="number"
+                min="18"
+                max="70"
+                step="1"
+                required
+                value={predictionInput.age}
+                onChange={(e) =>
+                  setPredictionInput({
+                    ...predictionInput,
+                    age: e.target.value,
+                  })
+                }
+                placeholder="Enter your age"
+              />
+            </label>
+
+            <label className="prediction-field">
+              Sex
+              <select
+                required
+                value={predictionInput.sex}
+                onChange={(e) =>
+                  setPredictionInput({
+                    ...predictionInput,
+                    sex: e.target.value,
+                  })
+                }
+              >
+                <option value="">Select sex</option>
+                <option value="male">Male</option>
+                <option value="female">Female</option>
+              </select>
+            </label>
+
+            <label className="prediction-field">
+              BMI
+              <input
+                type="number"
+                min="10"
+                max="60"
+                step="any"
+                required
+                value={predictionInput.bmi}
+                onChange={(e) =>
+                  setPredictionInput({
+                    ...predictionInput,
+                    bmi: e.target.value,
+                  })
+                }
+                placeholder="Enter your BMI"
+              />
+            </label>
+
+            <label className="prediction-field">
+              Number of Children
+              <input
+                type="number"
+                min="0"
+                max="10"
+                step="1"
+                required
+                value={predictionInput.children}
+                onChange={(e) =>
+                  setPredictionInput({
+                    ...predictionInput,
+                    children: e.target.value,
+                  })
+                }
+              />
+            </label>
+
+            <label className="prediction-field">
+              Smoker
+              <select
+                required
+                value={predictionInput.smoker}
+                onChange={(e) =>
+                  setPredictionInput({
+                    ...predictionInput,
+                    smoker: e.target.value,
+                  })
+                }
+              >
+                <option value="">Select option</option>
+                <option value="no">No</option>
+                <option value="yes">Yes</option>
+              </select>
+            </label>
+
+            <label className="prediction-field">
+              Region
+              <select
+                required
+                value={predictionInput.region}
+                onChange={(e) =>
+                  setPredictionInput({
+                    ...predictionInput,
+                    region: e.target.value,
+                  })
+                }
+              >
+                <option value="">Select region</option>
+                <option value="northwest">Northwest</option>
+                <option value="southeast">Southeast</option>
+                <option value="southwest">Southwest</option>
+              </select>
+            </label>
+          </div>
+
+          <button
+            className="prediction-submit"
+            type="submit"
+            disabled={predictionLoading}
+          >
+            {predictionLoading
+              ? "Calculating..."
+              : "Predict Insurance Cost"}
+          </button>
+        </form>
+
+        {predictionError && (
+          <div className="prediction-error" role="alert">
+            {predictionError}
+          </div>
+        )}
+
+        {predictionResult && (
+          <div className="prediction-result" aria-live="polite">
+            <h4>Prediction Result</h4>
+
+            <p className="prediction-cost">
+              {Number(
+                predictionResult.predicted_cost
+              ).toLocaleString(undefined, {
+                minimumFractionDigits: 2,
+                maximumFractionDigits: 2,
+              })}
+            </p>
+
+            <p>
+              Estimated insurance cost based on your submitted details.
+            </p>
+          </div>
+        )}
+      </section>
 
         {/* Chat & History Section */}
         <div className="layout-columns" style={{ marginTop: "30px" }}>
