@@ -428,7 +428,7 @@
 .prediction-section h3 {
   margin-top: 0;
   margin-bottom: 8px;
-  color: #1e293bb9;
+  color: #1e293b;
   text-align: center;
 }
 
@@ -478,22 +478,54 @@
   min-height: 44px;
   margin-top: 22px;
   padding: 10px 16px;
-  border: none;
-  border-radius: 7px;
-  background-color: #aa5307cc;
+  border: 1px solid transparent;
+  border-radius: 8px;
+  background-color: #07bf4b;
   color: #ffffff;
   font-size: 14px;
-  font-weight: 600;
+  font-weight: 500;
   cursor: pointer;
+  transition:
+    background-color 0.2s ease,
+    transform 0.1s ease;
 }
 
 .prediction-submit:hover {
-  background-color: #d77722e7;
+  background-color: #23b759b0;
+}
+
+/* Insurance button */
+.prediction-section:nth-of-type(1) .prediction-submit {
+  background-color: #2563eb;
+}
+.prediction-section:nth-of-type(1) .prediction-submit:hover {
+  background-color: #1d4ed8;
+}
+
+/* Crop button */
+.prediction-section:nth-of-type(2) .prediction-submit {
+  background-color: #16a34a;
+}
+.prediction-section:nth-of-type(2) .prediction-submit:hover {
+  background-color: #15803d;
+}
+
+/* Country button */
+.prediction-section:nth-of-type(3) .prediction-submit {
+  background-color: #334155;
+}
+.prediction-section:nth-of-type(3) .prediction-submit:hover {
+  background-color: #1e293b;
+}
+
+.prediction-submit:active {
+  transform: scale(0.98);
 }
 
 .prediction-submit:disabled {
   opacity: 0.6;
   cursor: not-allowed;
+  transform: none;
 }
 
 .prediction-error {
@@ -528,6 +560,24 @@
 
 .prediction-result p:last-child {
   font-size: 14px;
+}
+
+.prediction-options {
+  list-style: none;
+  margin: 12px 0;
+  padding: 0;
+  font-size: 14px;
+}
+
+.prediction-options li {
+  display: flex;
+  justify-content: space-between;
+  padding: 8px 0;
+  border-bottom: 1px solid #bbf7d0;
+}
+
+.prediction-options li:first-child {
+  font-weight: 600;
 }
 
 @media (max-width: 600px) {

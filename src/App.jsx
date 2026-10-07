@@ -2,6 +2,38 @@ import React, { useState, useEffect } from "react";
 import "./App.css";
 import axios from "axios";
 
+// Options for the crop and country models
+const WEATHER_OPTIONS = [
+  "cloudy",
+  "dusty",
+  "foggy",
+  "hazy",
+  "overcast",
+  "partly cloudy",
+  "rainy",
+  "stormy",
+  "sunny",
+];
+
+const CROP_OPTIONS = [
+  "banana",
+  "beans",
+  "cassava",
+  "cocoa",
+  "coffee",
+  "cotton",
+  "dates",
+  "groundnut",
+  "maize",
+  "millet",
+  "olive",
+  "rice",
+  "sorghum",
+  "sugarcane",
+  "tea",
+  "wheat",
+];
+
 export default function App() {
   const [name, setName] = useState("HATIM");
   const [greeting, setGreeting] = useState("");
@@ -44,6 +76,31 @@ export default function App() {
   const [predictionLoading, setPredictionLoading] = useState(false);
   const [predictionError, setPredictionError] = useState("");
 
+  //Crop, Country AI model
+  const [cropInput, setCropInput] = useState({
+    rainfall: "",
+    temperature: "",
+    soil_ph: "",
+    weather: "",
+    suitability: "",
+  });
+
+  const [countryInput, setCountryInput] = useState({
+    crop: "",
+    rainfall: "",
+    temperature: "",
+    soil_ph: "",
+    weather: "",
+  });
+
+  const [countryResult, setCountryResult] = useState(null);
+  const [countryLoading, setCountryLoading] = useState(false);
+  const [countryError, setCountryError] = useState("");
+
+  const [cropResult, setCropResult] = useState(null);
+  const [cropLoading, setCropLoading] = useState(false);
+  const [cropError, setCropError] = useState("");
+
   //history table
   const [chatPrompt, setChatPrompt] = useState("");
   const [chatHistory, setChatHistory] = useState([]);
@@ -55,8 +112,8 @@ export default function App() {
   const [productsError, setProductsError] = useState("");
   const [selectedProduct, setSelectedProduct] = useState(null);
 
-  // const serverurl = "http://localhost:3000/api";
-  const serverurl = "http://173.249.17.168:81/api";
+  const serverurl = "http://localhost:3000/api";
+  // const serverurl = "http://173.249.17.168:81/api";
 
   useEffect(() => {
     getData();
@@ -380,7 +437,6 @@ export default function App() {
     }
   }
 
-
   // Send insurance details to the AI model
   async function predictInsuranceCost(e) {
     e.preventDefault();
@@ -412,10 +468,7 @@ export default function App() {
     setPredictionLoading(true);
 
     try {
-      const response = await axios.post(
-        `${serverurl}/predict`,
-        payload
-      );
+      const response = await axios.post(`${serverurl}/predict`, payload);
 
       setPredictionResult(response.data);
     } catch (error) {
@@ -423,11 +476,104 @@ export default function App() {
 
       setPredictionError(
         error.response?.data?.detail ||
-        error.response?.data?.error ||
-        "Unable to get a prediction. Please try again."
+          error.response?.data?.error ||
+          "Unable to get a prediction. Please try again.",
       );
     } finally {
       setPredictionLoading(false);
+    }
+  }
+
+  // Send field conditions to the crop recommender model
+  async function predictCrop(e) {
+    e.preventDefault();
+
+    setCropResult(null);
+    setCropError("");
+
+    if (
+      cropInput.rainfall === "" ||
+      cropInput.temperature === "" ||
+      cropInput.soil_ph === "" ||
+      !cropInput.weather ||
+      cropInput.suitability === ""
+    ) {
+      setCropError("Please complete all fields.");
+      return;
+    }
+
+    const payload = {
+      rainfall: Number(cropInput.rainfall),
+      temperature: Number(cropInput.temperature),
+      soil_ph: Number(cropInput.soil_ph),
+      weather: cropInput.weather,
+      suitability: Number(cropInput.suitability),
+    };
+
+    setCropLoading(true);
+
+    try {
+      const response = await axios.post(`${serverurl}/predict-crop`, payload);
+
+      setCropResult(response.data);
+    } catch (error) {
+      console.error("Crop prediction error:", error);
+
+      setCropError(
+        error.response?.data?.detail ||
+          error.response?.data?.error ||
+          "Unable to get a prediction. Please try again.",
+      );
+    } finally {
+      setCropLoading(false);
+    }
+  }
+
+  // Send a crop and its conditions to the country predictor model
+  async function predictCountry(e) {
+    e.preventDefault();
+
+    setCountryResult(null);
+    setCountryError("");
+
+    if (
+      !countryInput.crop ||
+      countryInput.rainfall === "" ||
+      countryInput.temperature === "" ||
+      countryInput.soil_ph === "" ||
+      !countryInput.weather
+    ) {
+      setCountryError("Please complete all fields.");
+      return;
+    }
+
+    const payload = {
+      crop: countryInput.crop,
+      rainfall: Number(countryInput.rainfall),
+      temperature: Number(countryInput.temperature),
+      soil_ph: Number(countryInput.soil_ph),
+      weather: countryInput.weather,
+    };
+
+    setCountryLoading(true);
+
+    try {
+      const response = await axios.post(
+        `${serverurl}/predict-country`,
+        payload,
+      );
+
+      setCountryResult(response.data);
+    } catch (error) {
+      console.error("Country prediction error:", error);
+
+      setCountryError(
+        error.response?.data?.detail ||
+          error.response?.data?.error ||
+          "Unable to get a prediction. Please try again.",
+      );
+    } finally {
+      setCountryLoading(false);
     }
   }
 
@@ -771,164 +917,429 @@ export default function App() {
           )}
         </div>
 
-        
-      {/* Insurance Cost Prediction AI Section*/}
-      <section className="prediction-section">
-        <h3>Insurance Cost Prediction</h3>
+        {/* Insurance Cost Prediction AI Section*/}
+        <section className="prediction-section">
+          <h3>Insurance Cost Prediction</h3>
 
-        <form
-          className="prediction-form"
-          onSubmit={predictInsuranceCost}
-        >
-          <div className="prediction-grid">
-            <label className="prediction-field">
-              Age
-              <input
-                type="number"
-                min="18"
-                max="70"
-                step="1"
-                required
-                value={predictionInput.age}
-                onChange={(e) =>
-                  setPredictionInput({
-                    ...predictionInput,
-                    age: e.target.value,
-                  })
-                }
-                placeholder="Enter your age"
-              />
-            </label>
+          <form className="prediction-form" onSubmit={predictInsuranceCost}>
+            <div className="prediction-grid">
+              <label className="prediction-field">
+                Age
+                <input
+                  type="number"
+                  min="18"
+                  max="70"
+                  step="1"
+                  required
+                  value={predictionInput.age}
+                  onChange={(e) =>
+                    setPredictionInput({
+                      ...predictionInput,
+                      age: e.target.value,
+                    })
+                  }
+                  placeholder="Enter your age"
+                />
+              </label>
 
-            <label className="prediction-field">
-              Sex
-              <select
-                required
-                value={predictionInput.sex}
-                onChange={(e) =>
-                  setPredictionInput({
-                    ...predictionInput,
-                    sex: e.target.value,
-                  })
-                }
-              >
-                <option value="">Select sex</option>
-                <option value="male">Male</option>
-                <option value="female">Female</option>
-              </select>
-            </label>
+              <label className="prediction-field">
+                Sex
+                <select
+                  required
+                  value={predictionInput.sex}
+                  onChange={(e) =>
+                    setPredictionInput({
+                      ...predictionInput,
+                      sex: e.target.value,
+                    })
+                  }
+                >
+                  <option value="">Select sex</option>
+                  <option value="male">Male</option>
+                  <option value="female">Female</option>
+                </select>
+              </label>
 
-            <label className="prediction-field">
-              BMI
-              <input
-                type="number"
-                min="10"
-                max="60"
-                step="any"
-                required
-                value={predictionInput.bmi}
-                onChange={(e) =>
-                  setPredictionInput({
-                    ...predictionInput,
-                    bmi: e.target.value,
-                  })
-                }
-                placeholder="Enter your BMI"
-              />
-            </label>
+              <label className="prediction-field">
+                BMI
+                <input
+                  type="number"
+                  min="10"
+                  max="60"
+                  step="any"
+                  required
+                  value={predictionInput.bmi}
+                  onChange={(e) =>
+                    setPredictionInput({
+                      ...predictionInput,
+                      bmi: e.target.value,
+                    })
+                  }
+                  placeholder="Enter your BMI"
+                />
+              </label>
 
-            <label className="prediction-field">
-              Number of Children
-              <input
-                type="number"
-                min="0"
-                max="10"
-                step="1"
-                required
-                value={predictionInput.children}
-                onChange={(e) =>
-                  setPredictionInput({
-                    ...predictionInput,
-                    children: e.target.value,
-                  })
-                }
-              />
-            </label>
+              <label className="prediction-field">
+                Number of Children
+                <input
+                  type="number"
+                  min="0"
+                  max="10"
+                  step="1"
+                  required
+                  value={predictionInput.children}
+                  onChange={(e) =>
+                    setPredictionInput({
+                      ...predictionInput,
+                      children: e.target.value,
+                    })
+                  }
+                />
+              </label>
 
-            <label className="prediction-field">
-              Smoker
-              <select
-                required
-                value={predictionInput.smoker}
-                onChange={(e) =>
-                  setPredictionInput({
-                    ...predictionInput,
-                    smoker: e.target.value,
-                  })
-                }
-              >
-                <option value="">Select option</option>
-                <option value="no">No</option>
-                <option value="yes">Yes</option>
-              </select>
-            </label>
+              <label className="prediction-field">
+                Smoker
+                <select
+                  required
+                  value={predictionInput.smoker}
+                  onChange={(e) =>
+                    setPredictionInput({
+                      ...predictionInput,
+                      smoker: e.target.value,
+                    })
+                  }
+                >
+                  <option value="">Select option</option>
+                  <option value="no">No</option>
+                  <option value="yes">Yes</option>
+                </select>
+              </label>
 
-            <label className="prediction-field">
-              Region
-              <select
-                required
-                value={predictionInput.region}
-                onChange={(e) =>
-                  setPredictionInput({
-                    ...predictionInput,
-                    region: e.target.value,
-                  })
-                }
-              >
-                <option value="">Select region</option>
-                <option value="northwest">Northwest</option>
-                <option value="southeast">Southeast</option>
-                <option value="southwest">Southwest</option>
-              </select>
-            </label>
-          </div>
+              <label className="prediction-field">
+                Region
+                <select
+                  required
+                  value={predictionInput.region}
+                  onChange={(e) =>
+                    setPredictionInput({
+                      ...predictionInput,
+                      region: e.target.value,
+                    })
+                  }
+                >
+                  <option value="">Select region</option>
+                  <option value="northwest">Northwest</option>
+                  <option value="southeast">Southeast</option>
+                  <option value="southwest">Southwest</option>
+                </select>
+              </label>
+            </div>
 
-          <button
-            className="prediction-submit"
-            type="submit"
-            disabled={predictionLoading}
-          >
-            {predictionLoading
-              ? "Calculating..."
-              : "Predict Insurance Cost"}
-          </button>
-        </form>
+            <button
+              className="prediction-submit"
+              type="submit"
+              disabled={predictionLoading}
+            >
+              {predictionLoading ? "Calculating..." : "Predict Insurance Cost"}
+            </button>
+          </form>
 
-        {predictionError && (
-          <div className="prediction-error" role="alert">
-            {predictionError}
-          </div>
-        )}
+          {predictionError && (
+            <div className="prediction-error" role="alert">
+              {predictionError}
+            </div>
+          )}
 
-        {predictionResult && (
-          <div className="prediction-result" aria-live="polite">
-            <h4>Prediction Result</h4>
+          {predictionResult && (
+            <div className="prediction-result" aria-live="polite">
+              <h4>Prediction Result</h4>
 
-            <p className="prediction-cost">
-              {Number(
-                predictionResult.predicted_cost
-              ).toLocaleString(undefined, {
-                minimumFractionDigits: 2,
-                maximumFractionDigits: 2,
-              })}
-            </p>
+              <p className="prediction-cost">
+                {Number(predictionResult.predicted_cost).toLocaleString(
+                  undefined,
+                  {
+                    minimumFractionDigits: 2,
+                    maximumFractionDigits: 2,
+                  },
+                )}
+              </p>
 
-            <p>
-              Estimated insurance cost based on your submitted details.
-            </p>
-          </div>
-        )}
-      </section>
+              <p>Estimated insurance cost based on your submitted details.</p>
+            </div>
+          )}
+        </section>
+
+        {/* Crop Recommendation AI Section */}
+        <section className="prediction-section">
+          <h3>Crop Recommendation</h3>
+          <p className="prediction-description">
+            Enter your field conditions to see the three crops that suit them
+            best.
+          </p>
+
+          <form className="prediction-form" onSubmit={predictCrop}>
+            <div className="prediction-grid">
+              <label className="prediction-field">
+                Rainfall (mm)
+                <input
+                  type="number"
+                  min="20"
+                  max="3500"
+                  step="any"
+                  required
+                  value={cropInput.rainfall}
+                  onChange={(e) =>
+                    setCropInput({ ...cropInput, rainfall: e.target.value })
+                  }
+                  placeholder="20 - 3500"
+                />
+              </label>
+
+              <label className="prediction-field">
+                Temperature (°C)
+                <input
+                  type="number"
+                  min="10"
+                  max="38"
+                  step="any"
+                  required
+                  value={cropInput.temperature}
+                  onChange={(e) =>
+                    setCropInput({ ...cropInput, temperature: e.target.value })
+                  }
+                  placeholder="10 - 38"
+                />
+              </label>
+
+              <label className="prediction-field">
+                Soil pH
+                <input
+                  type="number"
+                  min="4"
+                  max="9"
+                  step="any"
+                  required
+                  value={cropInput.soil_ph}
+                  onChange={(e) =>
+                    setCropInput({ ...cropInput, soil_ph: e.target.value })
+                  }
+                  placeholder="4 - 9"
+                />
+              </label>
+
+              <label className="prediction-field">
+                Weather
+                <select
+                  required
+                  value={cropInput.weather}
+                  onChange={(e) =>
+                    setCropInput({ ...cropInput, weather: e.target.value })
+                  }
+                >
+                  <option value="">Select weather</option>
+                  {WEATHER_OPTIONS.map((weather) => (
+                    <option key={weather} value={weather}>
+                      {weather.charAt(0).toUpperCase() + weather.slice(1)}
+                    </option>
+                  ))}
+                </select>
+              </label>
+
+              <label className="prediction-field">
+                Suitability Score
+                <input
+                  type="number"
+                  min="0"
+                  max="100"
+                  step="any"
+                  required
+                  value={cropInput.suitability}
+                  onChange={(e) =>
+                    setCropInput({ ...cropInput, suitability: e.target.value })
+                  }
+                  placeholder="0 - 100"
+                />
+              </label>
+            </div>
+
+            <button
+              className="prediction-submit"
+              type="submit"
+              disabled={cropLoading}
+            >
+              {cropLoading ? "Calculating..." : "Recommend Crop"}
+            </button>
+          </form>
+
+          {cropError && (
+            <div className="prediction-error" role="alert">
+              {cropError}
+            </div>
+          )}
+
+          {cropResult && (
+            <div className="prediction-result" aria-live="polite">
+              <h4>Recommended Crop</h4>
+
+              <p className="prediction-cost">{cropResult.recommended_crop}</p>
+
+              <ul className="prediction-options">
+                {cropResult.top_3.map((item) => (
+                  <li key={item.crop}>
+                    <span>{item.crop}</span>
+                    <span>{item.probability}%</span>
+                  </li>
+                ))}
+              </ul>
+
+              <p>Top 3 crops for the conditions you entered.</p>
+            </div>
+          )}
+        </section>
+
+        {/* Country Prediction AI Section */}
+        <section className="prediction-section">
+          <h3>Country Prediction</h3>
+          <p className="prediction-description">
+            Enter a crop and its growing conditions to see the five countries
+            most likely to match.
+          </p>
+
+          <form className="prediction-form" onSubmit={predictCountry}>
+            <div className="prediction-grid">
+              <label className="prediction-field">
+                Crop
+                <select
+                  required
+                  value={countryInput.crop}
+                  onChange={(e) =>
+                    setCountryInput({ ...countryInput, crop: e.target.value })
+                  }
+                >
+                  <option value="">Select crop</option>
+                  {CROP_OPTIONS.map((crop) => (
+                    <option key={crop} value={crop}>
+                      {crop.charAt(0).toUpperCase() + crop.slice(1)}
+                    </option>
+                  ))}
+                </select>
+              </label>
+
+              <label className="prediction-field">
+                Weather
+                <select
+                  required
+                  value={countryInput.weather}
+                  onChange={(e) =>
+                    setCountryInput({
+                      ...countryInput,
+                      weather: e.target.value,
+                    })
+                  }
+                >
+                  <option value="">Select weather</option>
+                  {WEATHER_OPTIONS.map((weather) => (
+                    <option key={weather} value={weather}>
+                      {weather.charAt(0).toUpperCase() + weather.slice(1)}
+                    </option>
+                  ))}
+                </select>
+              </label>
+
+              <label className="prediction-field">
+                Rainfall (mm)
+                <input
+                  type="number"
+                  min="20"
+                  max="3500"
+                  step="any"
+                  required
+                  value={countryInput.rainfall}
+                  onChange={(e) =>
+                    setCountryInput({
+                      ...countryInput,
+                      rainfall: e.target.value,
+                    })
+                  }
+                  placeholder="20 - 3500"
+                />
+              </label>
+
+              <label className="prediction-field">
+                Temperature (°C)
+                <input
+                  type="number"
+                  min="10"
+                  max="38"
+                  step="any"
+                  required
+                  value={countryInput.temperature}
+                  onChange={(e) =>
+                    setCountryInput({
+                      ...countryInput,
+                      temperature: e.target.value,
+                    })
+                  }
+                  placeholder="10 - 38"
+                />
+              </label>
+
+              <label className="prediction-field">
+                Soil pH
+                <input
+                  type="number"
+                  min="4"
+                  max="9"
+                  step="any"
+                  required
+                  value={countryInput.soil_ph}
+                  onChange={(e) =>
+                    setCountryInput({
+                      ...countryInput,
+                      soil_ph: e.target.value,
+                    })
+                  }
+                  placeholder="4 - 9"
+                />
+              </label>
+            </div>
+
+            <button
+              className="prediction-submit"
+              type="submit"
+              disabled={countryLoading}
+            >
+              {countryLoading ? "Calculating..." : "Predict Country"}
+            </button>
+          </form>
+
+          {countryError && (
+            <div className="prediction-error" role="alert">
+              {countryError}
+            </div>
+          )}
+
+          {countryResult && (
+            <div className="prediction-result" aria-live="polite">
+              <h4>Most Likely Country</h4>
+
+              <p className="prediction-cost">
+                {countryResult.most_likely_country}
+              </p>
+
+              <ul className="prediction-options">
+                {countryResult.top_5.map((item) => (
+                  <li key={item.country}>
+                    <span>{item.country}</span>
+                    <span>{item.probability}%</span>
+                  </li>
+                ))}
+              </ul>
+
+              <p>Top 5 countries for the crop and conditions you entered.</p>
+            </div>
+          )}
+        </section>
 
         {/* Chat & History Section */}
         <div className="layout-columns" style={{ marginTop: "30px" }}>
