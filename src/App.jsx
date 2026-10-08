@@ -34,6 +34,41 @@ const CROP_OPTIONS = [
   "wheat",
 ];
 
+// Options for the car, house and delivery models (exact spelling used in training)
+const CAR_MODELS_BY_MAKE = {
+  Ford: ["Ranger"],
+  Honda: ["CR-V", "Fit"],
+  Isuzu: ["D-Max"],
+  Mazda: ["CX-5", "Demio"],
+  "Mercedes-Benz": ["C-Class"],
+  Mitsubishi: ["Outlander", "Pajero"],
+  Nissan: ["Juke", "Note", "X-Trail"],
+  Subaru: ["Forester"],
+  Suzuki: ["Escudo", "Swift"],
+  Toyota: [
+    "Allion", "Alphard", "Corolla", "Crown", "Harrier", "Hilux", "IST",
+    "Land Cruiser Prado", "Land Cruiser V8", "Noah", "Passo", "Premio", "RAV4", "Vitz",
+  ],
+};
+
+const CAR_CONDITIONS = ["Poor", "Fair", "Good", "Excellent"];
+
+const HOUSE_LOCATIONS_BY_CITY = {
+  Arusha: ["Njiro", "Sakina"],
+  "Dar es Salaam": [
+    "Ilala", "Kariakoo", "Kigamboni", "Kimara", "Kinondoni", "Masaki", "Mbagala",
+    "Mbezi Beach", "Mikocheni", "Oysterbay", "Sinza", "Tegeta", "Temeke", "Ubungo",
+  ],
+  Dodoma: ["Area D", "Njedengwa"],
+  Mbeya: ["Iyunga"],
+  Mwanza: ["Capri Point", "Nyamagana"],
+  Zanzibar: ["Nungwi"],
+};
+
+const DELIVERY_TRAFFIC = ["Low", "Medium", "High", "Jam"];
+const DELIVERY_WEATHER = ["Clear", "Cloudy", "Fog", "Rain", "Heavy Rain"];
+const DELIVERY_VEHICLES = ["Motorcycle", "Scooter", "Car", "Bicycle"];
+
 export default function App() {
   const [name, setName] = useState("HATIM");
   const [greeting, setGreeting] = useState("");
@@ -100,6 +135,48 @@ export default function App() {
   const [cropResult, setCropResult] = useState(null);
   const [cropLoading, setCropLoading] = useState(false);
   const [cropError, setCropError] = useState("");
+
+  //Car, house and delivery models
+    //Used car price model
+  const [carInput, setCarInput] = useState({
+    make: "",
+    model: "",
+    years_since_manufacture: "",
+    mileage: "",
+    condition: "",
+  });
+
+  const [carResult, setCarResult] = useState(null);
+  const [carLoading, setCarLoading] = useState(false);
+  const [carError, setCarError] = useState("");
+
+  //House price model
+  const [houseInput, setHouseInput] = useState({
+    city: "",
+    location: "",
+    size: "",
+    bedrooms: "",
+    years_since_built: "",
+  });
+
+  const [houseResult, setHouseResult] = useState(null);
+  const [houseLoading, setHouseLoading] = useState(false);
+  const [houseError, setHouseError] = useState("");
+
+  //Delivery time model
+  const [deliveryInput, setDeliveryInput] = useState({
+    distance: "",
+    traffic: "",
+    weather: "",
+    vehicle: "",
+    courier_age: "",
+    courier_rating: "",
+    courier_experience: "",
+  });
+
+  const [deliveryResult, setDeliveryResult] = useState(null);
+  const [deliveryLoading, setDeliveryLoading] = useState(false);
+  const [deliveryError, setDeliveryError] = useState("");
 
   //history table
   const [chatPrompt, setChatPrompt] = useState("");
@@ -574,6 +651,125 @@ export default function App() {
       );
     } finally {
       setCountryLoading(false);
+    }
+  }
+
+    // Send car details to the used car price model
+  async function predictCarPrice(e) {
+    e.preventDefault();
+
+    setCarResult(null);
+    setCarError("");
+
+    if (Object.values(carInput).some((value) => value === "")) {
+      setCarError("Please complete all fields.");
+      return;
+    }
+
+    const payload = {
+      make: carInput.make,
+      model: carInput.model,
+      years_since_manufacture: Number(carInput.years_since_manufacture),
+      mileage: Number(carInput.mileage),
+      condition: carInput.condition,
+    };
+
+    setCarLoading(true);
+
+    try {
+      const response = await axios.post(`${serverurl}/predict-car`, payload);
+
+      setCarResult(response.data);
+    } catch (error) {
+      console.error("Car prediction error:", error);
+
+      setCarError(
+        error.response?.data?.detail ||
+        error.response?.data?.error ||
+        "Unable to get a prediction. Please try again."
+      );
+    } finally {
+      setCarLoading(false);
+    }
+  }
+
+  // Send house details to the house price model
+  async function predictHousePrice(e) {
+    e.preventDefault();
+
+    setHouseResult(null);
+    setHouseError("");
+
+    if (Object.values(houseInput).some((value) => value === "")) {
+      setHouseError("Please complete all fields.");
+      return;
+    }
+
+    const payload = {
+      city: houseInput.city,
+      location: houseInput.location,
+      size: Number(houseInput.size),
+      bedrooms: Number(houseInput.bedrooms),
+      years_since_built: Number(houseInput.years_since_built),
+    };
+
+    setHouseLoading(true);
+
+    try {
+      const response = await axios.post(`${serverurl}/predict-house`, payload);
+
+      setHouseResult(response.data);
+    } catch (error) {
+      console.error("House prediction error:", error);
+
+      setHouseError(
+        error.response?.data?.detail ||
+        error.response?.data?.error ||
+        "Unable to get a prediction. Please try again."
+      );
+    } finally {
+      setHouseLoading(false);
+    }
+  }
+
+  // Send order details to the delivery time model
+  async function predictDeliveryTime(e) {
+    e.preventDefault();
+
+    setDeliveryResult(null);
+    setDeliveryError("");
+
+    if (Object.values(deliveryInput).some((value) => value === "")) {
+      setDeliveryError("Please complete all fields.");
+      return;
+    }
+
+    const payload = {
+      distance: Number(deliveryInput.distance),
+      traffic: deliveryInput.traffic,
+      weather: deliveryInput.weather,
+      vehicle: deliveryInput.vehicle,
+      courier_age: Number(deliveryInput.courier_age),
+      courier_rating: Number(deliveryInput.courier_rating),
+      courier_experience: Number(deliveryInput.courier_experience),
+    };
+
+    setDeliveryLoading(true);
+
+    try {
+      const response = await axios.post(`${serverurl}/predict-delivery`, payload);
+
+      setDeliveryResult(response.data);
+    } catch (error) {
+      console.error("Delivery prediction error:", error);
+
+      setDeliveryError(
+        error.response?.data?.detail ||
+        error.response?.data?.error ||
+        "Unable to get a prediction. Please try again."
+      );
+    } finally {
+      setDeliveryLoading(false);
     }
   }
 
@@ -1340,6 +1536,423 @@ export default function App() {
             </div>
           )}
         </section>
+
+              {/* Used Car Price Prediction AI Section */}
+      <section className="prediction-section">
+        <h3>Used Car Price Prediction</h3>
+        <p className="prediction-description">
+          Pick the make and model, then enter its age, mileage and condition.
+        </p>
+
+        <form className="prediction-form" onSubmit={predictCarPrice}>
+          <div className="prediction-grid">
+            <label className="prediction-field">
+              Make
+              <select
+                required
+                value={carInput.make}
+                onChange={(e) =>
+                  setCarInput({ ...carInput, make: e.target.value, model: "" })
+                }
+              >
+                <option value="">Select make</option>
+                {Object.keys(CAR_MODELS_BY_MAKE).map((make) => (
+                  <option key={make} value={make}>
+                    {make}
+                  </option>
+                ))}
+              </select>
+            </label>
+
+            <label className="prediction-field">
+              Model
+              <select
+                required
+                disabled={!carInput.make}
+                value={carInput.model}
+                onChange={(e) =>
+                  setCarInput({ ...carInput, model: e.target.value })
+                }
+              >
+                <option value="">
+                  {carInput.make ? "Select model" : "Select a make first"}
+                </option>
+                {(CAR_MODELS_BY_MAKE[carInput.make] || []).map((model) => (
+                  <option key={model} value={model}>
+                    {model}
+                  </option>
+                ))}
+              </select>
+            </label>
+
+            <label className="prediction-field">
+              Years Since Manufacture
+              <input
+                type="number"
+                min="1"
+                max="25"
+                step="1"
+                required
+                value={carInput.years_since_manufacture}
+                onChange={(e) =>
+                  setCarInput({ ...carInput, years_since_manufacture: e.target.value })
+                }
+                placeholder="e.g. made in 2016 = 10"
+              />
+            </label>
+
+            <label className="prediction-field">
+              Mileage (km)
+              <input
+                type="number"
+                min="1000"
+                max="600000"
+                step="any"
+                required
+                value={carInput.mileage}
+                onChange={(e) =>
+                  setCarInput({ ...carInput, mileage: e.target.value })
+                }
+                placeholder="1000 - 600000"
+              />
+            </label>
+
+            <label className="prediction-field">
+              Condition
+              <select
+                required
+                value={carInput.condition}
+                onChange={(e) =>
+                  setCarInput({ ...carInput, condition: e.target.value })
+                }
+              >
+                <option value="">Select condition</option>
+                {CAR_CONDITIONS.map((condition) => (
+                  <option key={condition} value={condition}>
+                    {condition}
+                  </option>
+                ))}
+              </select>
+            </label>
+          </div>
+
+          <button
+            className="prediction-submit"
+            type="submit"
+            disabled={carLoading}
+          >
+            {carLoading ? "Calculating..." : "Predict Car Price"}
+          </button>
+        </form>
+
+        {carError && (
+          <div className="prediction-error" role="alert">
+            {carError}
+          </div>
+        )}
+
+        {carResult && (
+          <div className="prediction-result" aria-live="polite">
+            <h4>Estimated Price</h4>
+
+            <p className="prediction-cost">
+              TZS {Number(carResult.predicted_price).toLocaleString()}
+            </p>
+
+            <p>
+              Estimate for a {carResult.input.make} {carResult.input.model} in{" "}
+              {carResult.input.condition.toLowerCase()} condition.
+            </p>
+          </div>
+        )}
+      </section>
+
+      {/* House Price Prediction AI Section */}
+      <section className="prediction-section">
+        <h3>House Price Prediction</h3>
+        <p className="prediction-description">
+          Pick the city and area, then enter the size, bedrooms and age of the house.
+        </p>
+
+        <form className="prediction-form" onSubmit={predictHousePrice}>
+          <div className="prediction-grid">
+            <label className="prediction-field">
+              City
+              <select
+                required
+                value={houseInput.city}
+                onChange={(e) =>
+                  setHouseInput({ ...houseInput, city: e.target.value, location: "" })
+                }
+              >
+                <option value="">Select city</option>
+                {Object.keys(HOUSE_LOCATIONS_BY_CITY).map((city) => (
+                  <option key={city} value={city}>
+                    {city}
+                  </option>
+                ))}
+              </select>
+            </label>
+
+            <label className="prediction-field">
+              Location
+              <select
+                required
+                disabled={!houseInput.city}
+                value={houseInput.location}
+                onChange={(e) =>
+                  setHouseInput({ ...houseInput, location: e.target.value })
+                }
+              >
+                <option value="">
+                  {houseInput.city ? "Select location" : "Select a city first"}
+                </option>
+                {(HOUSE_LOCATIONS_BY_CITY[houseInput.city] || []).map((location) => (
+                  <option key={location} value={location}>
+                    {location}
+                  </option>
+                ))}
+              </select>
+            </label>
+
+            <label className="prediction-field">
+              Size (sqm)
+              <input
+                type="number"
+                min="30"
+                max="800"
+                step="any"
+                required
+                value={houseInput.size}
+                onChange={(e) =>
+                  setHouseInput({ ...houseInput, size: e.target.value })
+                }
+                placeholder="30 - 800"
+              />
+            </label>
+
+            <label className="prediction-field">
+              Bedrooms
+              <input
+                type="number"
+                min="1"
+                max="8"
+                step="1"
+                required
+                value={houseInput.bedrooms}
+                onChange={(e) =>
+                  setHouseInput({ ...houseInput, bedrooms: e.target.value })
+                }
+                placeholder="1 - 8"
+              />
+            </label>
+
+            <label className="prediction-field">
+              Years Since Built
+              <input
+                type="number"
+                min="0"
+                max="70"
+                step="1"
+                required
+                value={houseInput.years_since_built}
+                onChange={(e) =>
+                  setHouseInput({ ...houseInput, years_since_built: e.target.value })
+                }
+                placeholder="e.g. built in 2016 = 10"
+              />
+            </label>
+          </div>
+
+          <button
+            className="prediction-submit"
+            type="submit"
+            disabled={houseLoading}
+          >
+            {houseLoading ? "Calculating..." : "Predict House Price"}
+          </button>
+        </form>
+
+        {houseError && (
+          <div className="prediction-error" role="alert">
+            {houseError}
+          </div>
+        )}
+
+        {houseResult && (
+          <div className="prediction-result" aria-live="polite">
+            <h4>Estimated Price</h4>
+
+            <p className="prediction-cost">
+              TZS {Number(houseResult.predicted_price).toLocaleString()}
+            </p>
+
+            <p>
+              Estimate for a {houseResult.input.bedrooms}-bedroom house in{" "}
+              {houseResult.input.location}, {houseResult.input.city}.
+            </p>
+          </div>
+        )}
+      </section>
+
+      {/* Delivery Time Prediction AI Section */}
+      <section className="prediction-section">
+        <h3>Delivery Time Prediction</h3>
+        <p className="prediction-description">
+          Enter the distance, conditions and courier details to estimate the delivery time.
+        </p>
+
+        <form className="prediction-form" onSubmit={predictDeliveryTime}>
+          <div className="prediction-grid">
+            <label className="prediction-field">
+              Distance (km)
+              <input
+                type="number"
+                min="0.4"
+                max="20"
+                step="any"
+                required
+                value={deliveryInput.distance}
+                onChange={(e) =>
+                  setDeliveryInput({ ...deliveryInput, distance: e.target.value })
+                }
+                placeholder="Restaurant to customer, 0.4 - 20"
+              />
+            </label>
+
+            <label className="prediction-field">
+              Traffic
+              <select
+                required
+                value={deliveryInput.traffic}
+                onChange={(e) =>
+                  setDeliveryInput({ ...deliveryInput, traffic: e.target.value })
+                }
+              >
+                <option value="">Select traffic</option>
+                {DELIVERY_TRAFFIC.map((traffic) => (
+                  <option key={traffic} value={traffic}>
+                    {traffic}
+                  </option>
+                ))}
+              </select>
+            </label>
+
+            <label className="prediction-field">
+              Weather
+              <select
+                required
+                value={deliveryInput.weather}
+                onChange={(e) =>
+                  setDeliveryInput({ ...deliveryInput, weather: e.target.value })
+                }
+              >
+                <option value="">Select weather</option>
+                {DELIVERY_WEATHER.map((weather) => (
+                  <option key={weather} value={weather}>
+                    {weather}
+                  </option>
+                ))}
+              </select>
+            </label>
+
+            <label className="prediction-field">
+              Courier Vehicle
+              <select
+                required
+                value={deliveryInput.vehicle}
+                onChange={(e) =>
+                  setDeliveryInput({ ...deliveryInput, vehicle: e.target.value })
+                }
+              >
+                <option value="">Select vehicle</option>
+                {DELIVERY_VEHICLES.map((vehicle) => (
+                  <option key={vehicle} value={vehicle}>
+                    {vehicle}
+                  </option>
+                ))}
+              </select>
+            </label>
+
+            <label className="prediction-field">
+              Courier Age
+              <input
+                type="number"
+                min="18"
+                max="55"
+                step="1"
+                required
+                value={deliveryInput.courier_age}
+                onChange={(e) =>
+                  setDeliveryInput({ ...deliveryInput, courier_age: e.target.value })
+                }
+                placeholder="18 - 55"
+              />
+            </label>
+
+            <label className="prediction-field">
+              Courier Rating
+              <input
+                type="number"
+                min="3"
+                max="5"
+                step="0.1"
+                required
+                value={deliveryInput.courier_rating}
+                onChange={(e) =>
+                  setDeliveryInput({ ...deliveryInput, courier_rating: e.target.value })
+                }
+                placeholder="3.0 - 5.0"
+              />
+            </label>
+
+            <label className="prediction-field">
+              Courier Experience (months)
+              <input
+                type="number"
+                min="1"
+                max="120"
+                step="1"
+                required
+                value={deliveryInput.courier_experience}
+                onChange={(e) =>
+                  setDeliveryInput({ ...deliveryInput, courier_experience: e.target.value })
+                }
+                placeholder="1 - 120"
+              />
+            </label>
+          </div>
+
+          <button
+            className="prediction-submit"
+            type="submit"
+            disabled={deliveryLoading}
+          >
+            {deliveryLoading ? "Calculating..." : "Predict Delivery Time"}
+          </button>
+        </form>
+
+        {deliveryError && (
+          <div className="prediction-error" role="alert">
+            {deliveryError}
+          </div>
+        )}
+
+        {deliveryResult && (
+          <div className="prediction-result" aria-live="polite">
+            <h4>Estimated Delivery Time</h4>
+
+            <p className="prediction-cost">
+              {deliveryResult.predicted_minutes} minutes
+            </p>
+
+            <p>
+              {deliveryResult.input.distance} km by {deliveryResult.input.vehicle.toLowerCase()} in{" "}
+              {deliveryResult.input.traffic.toLowerCase()} traffic and {deliveryResult.input.weather.toLowerCase()} weather.
+            </p>
+          </div>
+        )}
+      </section>
 
         {/* Chat & History Section */}
         <div className="layout-columns" style={{ marginTop: "30px" }}>
