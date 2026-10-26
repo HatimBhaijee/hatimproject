@@ -697,6 +697,61 @@ body,
   font-weight: 600;
 }
  
+/* Photo preview for the image models */
+.prediction-preview {
+  display: block;
+  width: 100%;
+  max-height: 320px;
+  margin-top: 16px;
+  object-fit: contain;
+  border-radius: 12px;
+  background-color: #f5f5f7;
+}
+
+/* File input and its "Choose file" button for the image models */
+.prediction-field input[type="file"] {
+  height: auto;
+  padding: 6px;
+  color: #6e6e73;
+  font-size: 13px;
+  cursor: pointer;
+}
+
+.prediction-field input[type="file"]::file-selector-button {
+  margin-right: 12px;
+  padding: 6px 14px;
+  border: none;
+  border-radius: 8px;
+  background-color: #e8e8ed;
+  color: #1d1d1f;
+  font-family: inherit;
+  font-size: 13px;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.prediction-field input[type="file"]::file-selector-button:hover {
+  background-color: #dcdce1;
+}
+
+/* Remove photo button under the preview */
+.prediction-clear {
+  margin-top: 10px;
+  padding: 7px 16px;
+  border: none;
+  border-radius: 8px;
+  background-color: #e8e8ed;
+  color: #1d1d1f;
+  font-family: inherit;
+  font-size: 13px;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.prediction-clear:hover {
+  background-color: #dcdce1;
+}
+
 /* ==========================================================
    Phones
    ========================================================== */

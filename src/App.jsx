@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import "./App.css";
 import axios from "axios";
 
@@ -178,6 +178,22 @@ export default function App() {
   const [deliveryLoading, setDeliveryLoading] = useState(false);
   const [deliveryError, setDeliveryError] = useState("");
 
+    //Cat vs Dog and People vs Car image models
+  const [catDogFile, setCatDogFile] = useState(null);
+  const [catDogPreview, setCatDogPreview] = useState("");
+  const [catDogResult, setCatDogResult] = useState(null);
+  const [catDogLoading, setCatDogLoading] = useState(false);
+  const [catDogError, setCatDogError] = useState("");
+
+  const [pplCarFile, setPplCarFile] = useState(null);
+  const [pplCarPreview, setPplCarPreview] = useState("");
+  const [pplCarResult, setPplCarResult] = useState(null);
+  const [pplCarLoading, setPplCarLoading] = useState(false);
+  const [pplCarError, setPplCarError] = useState("");
+
+  const catDogInputRef = useRef(null);
+  const pplCarInputRef = useRef(null);
+
   //history table
   const [chatPrompt, setChatPrompt] = useState("");
   const [chatHistory, setChatHistory] = useState([]);
@@ -189,8 +205,8 @@ export default function App() {
   const [productsError, setProductsError] = useState("");
   const [selectedProduct, setSelectedProduct] = useState(null);
 
-  // const serverurl = "http://localhost:3000/api";
-  const serverurl = "http://173.249.17.168:81/api";
+  const serverurl = "http://localhost:3000/api";
+  // const serverurl = "http://173.249.17.168:81/api";
 
   useEffect(() => {
     getData();
@@ -771,6 +787,89 @@ export default function App() {
     } finally {
       setDeliveryLoading(false);
     }
+  }
+
+    // Send a photo to the cat vs dog image model
+  async function predictCatDog(e) {
+    e.preventDefault();
+
+    setCatDogResult(null);
+    setCatDogError("");
+
+    if (!catDogFile) {
+      setCatDogError("Please choose a photo.");
+      return;
+    }
+
+    setCatDogLoading(true);
+
+    try {
+      const response = await axios.post(`${serverurl}/predict-catdog`, catDogFile, {
+        headers: { "Content-Type": catDogFile.type || "application/octet-stream" },
+      });
+
+      setCatDogResult(response.data);
+    } catch (error) {
+      console.error("Cat vs dog prediction error:", error);
+
+      setCatDogError(
+        error.response?.data?.detail ||
+        error.response?.data?.error ||
+        "Unable to get a prediction. Please try again."
+      );
+    } finally {
+      setCatDogLoading(false);
+    }
+  }
+
+  // Send a photo to the people vs car image model
+  async function predictPplCar(e) {
+    e.preventDefault();
+
+    setPplCarResult(null);
+    setPplCarError("");
+
+    if (!pplCarFile) {
+      setPplCarError("Please choose a photo.");
+      return;
+    }
+
+    setPplCarLoading(true);
+
+    try {
+      const response = await axios.post(`${serverurl}/predict-pplcar`, pplCarFile, {
+        headers: { "Content-Type": pplCarFile.type || "application/octet-stream" },
+      });
+
+      setPplCarResult(response.data);
+    } catch (error) {
+      console.error("People vs car prediction error:", error);
+
+      setPplCarError(
+        error.response?.data?.detail ||
+        error.response?.data?.error ||
+        "Unable to get a prediction. Please try again."
+      );
+    } finally {
+      setPplCarLoading(false);
+    }
+  }
+
+  // Remove the chosen photo and its result
+  function clearCatDog() {
+    setCatDogFile(null);
+    setCatDogPreview("");
+    setCatDogResult(null);
+    setCatDogError("");
+    if (catDogInputRef.current) catDogInputRef.current.value = "";
+  }
+
+  function clearPplCar() {
+    setPplCarFile(null);
+    setPplCarPreview("");
+    setPplCarResult(null);
+    setPplCarError("");
+    if (pplCarInputRef.current) pplCarInputRef.current.value = "";
   }
 
   return (
@@ -1949,6 +2048,150 @@ export default function App() {
             <p>
               {deliveryResult.input.distance} km by {deliveryResult.input.vehicle.toLowerCase()} in{" "}
               {deliveryResult.input.traffic.toLowerCase()} traffic and {deliveryResult.input.weather.toLowerCase()} weather.
+            </p>
+          </div>
+        )}
+      </section>
+
+              {/* Cat vs Dog Image AI Section */}
+      <section className="prediction-section">
+        <h3>Cat vs Dog Classifier</h3>
+        <p className="prediction-description">
+          Upload a photo of a cat or a dog to see which one the model thinks it is.
+        </p>
+
+        <form className="prediction-form" onSubmit={predictCatDog}>
+          <label className="prediction-field">
+            Photo
+            <input
+              type="file"
+              ref={catDogInputRef}
+              accept="image/*"
+              required
+              onChange={(e) => {
+                const file = e.target.files[0] || null;
+                setCatDogFile(file);
+                setCatDogPreview(file ? URL.createObjectURL(file) : "");
+                setCatDogResult(null);
+                setCatDogError("");
+              }}
+            />
+          </label>
+
+                    {catDogPreview && (
+            <>
+              <img className="prediction-preview" src={catDogPreview} alt="Selected photo" />
+              <button className="prediction-clear" type="button" onClick={clearCatDog}>
+                Remove photo
+              </button>
+            </>
+          )}
+
+          <button
+            className="prediction-submit"
+            type="submit"
+            disabled={catDogLoading}
+          >
+            {catDogLoading ? "Classifying..." : "Classify Photo"}
+          </button>
+        </form>
+
+        {catDogError && (
+          <div className="prediction-error" role="alert">
+            {catDogError}
+          </div>
+        )}
+
+        {catDogResult && (
+          <div className="prediction-result" aria-live="polite">
+            <h4>Prediction</h4>
+
+            <p className="prediction-cost">{catDogResult.label}</p>
+
+            <ul className="prediction-options">
+              {catDogResult.probabilities.map((item) => (
+                <li key={item.label}>
+                  <span>{item.label}</span>
+                  <span>{item.probability}%</span>
+                </li>
+              ))}
+            </ul>
+
+            <p>
+              The model is {catDogResult.confidence}% sure this is a{" "}
+              {catDogResult.label.toLowerCase()}.
+            </p>
+          </div>
+        )}
+      </section>
+
+      {/* People vs Car Image AI Section */}
+      <section className="prediction-section">
+        <h3>People vs Car Classifier</h3>
+        <p className="prediction-description">
+          Upload a photo of a person or a car to see which one the model thinks it is.
+        </p>
+
+        <form className="prediction-form" onSubmit={predictPplCar}>
+          <label className="prediction-field">
+            Photo
+            <input
+              type="file"
+              ref={pplCarInputRef}
+              accept="image/*"
+              required
+              onChange={(e) => {
+                const file = e.target.files[0] || null;
+                setPplCarFile(file);
+                setPplCarPreview(file ? URL.createObjectURL(file) : "");
+                setPplCarResult(null);
+                setPplCarError("");
+              }}
+            />
+          </label>
+
+                    {pplCarPreview && (
+            <>
+              <img className="prediction-preview" src={pplCarPreview} alt="Selected photo" />
+              <button className="prediction-clear" type="button" onClick={clearPplCar}>
+                Remove photo
+              </button>
+            </>
+          )}
+
+          <button
+            className="prediction-submit"
+            type="submit"
+            disabled={pplCarLoading}
+          >
+            {pplCarLoading ? "Classifying..." : "Classify Photo"}
+          </button>
+        </form>
+
+        {pplCarError && (
+          <div className="prediction-error" role="alert">
+            {pplCarError}
+          </div>
+        )}
+
+        {pplCarResult && (
+          <div className="prediction-result" aria-live="polite">
+            <h4>Prediction</h4>
+
+            <p className="prediction-cost">{pplCarResult.label}</p>
+
+            <ul className="prediction-options">
+              {pplCarResult.probabilities.map((item) => (
+                <li key={item.label}>
+                  <span>{item.label}</span>
+                  <span>{item.probability}%</span>
+                </li>
+              ))}
+            </ul>
+
+            <p>
+              The model is {pplCarResult.confidence}% sure this is a{" "}
+              {pplCarResult.label.toLowerCase()}.
             </p>
           </div>
         )}
