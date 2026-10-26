@@ -94,6 +94,8 @@ const DELIVERY_TRAFFIC = ["Low", "Medium", "High", "Jam"];
 const DELIVERY_WEATHER = ["Clear", "Cloudy", "Fog", "Rain", "Heavy Rain"];
 const DELIVERY_VEHICLES = ["Motorcycle", "Scooter", "Car", "Bicycle"];
 
+
+
 // Projects shown on the landing page (path = the page address)
 const MANAGEMENT_PROJECTS = [
   {
@@ -165,6 +167,35 @@ const AI_PROJECTS = [
     description: "Classifies a photo as a person, a car or unknown.",
   },
 ];
+
+// Shrinks a photo before upload (phone photos are several MB, the models only need 224px)
+function shrinkImage(file, maxSize = 1024) {
+  return new Promise((resolve, reject) => {
+    const img = new Image();
+
+    img.onload = () => {
+      const scale = Math.min(1, maxSize / Math.max(img.width, img.height));
+      const canvas = document.createElement("canvas");
+      canvas.width = Math.round(img.width * scale);
+      canvas.height = Math.round(img.height * scale);
+
+      const ctx = canvas.getContext("2d");
+      ctx.fillStyle = "#ffffff"; // transparent parts become white, same as training
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+      ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+      URL.revokeObjectURL(img.src);
+
+      canvas.toBlob(
+        (blob) => (blob ? resolve(blob) : reject(new Error("Could not read this photo."))),
+        "image/jpeg",
+        0.9,
+      );
+    };
+
+    img.onerror = () => reject(new Error("Could not read this photo."));
+    img.src = URL.createObjectURL(file);
+  });
+}
 
 export default function App() {
   const [name, setName] = useState("HATIM");
@@ -904,15 +935,10 @@ export default function App() {
     setCatDogLoading(true);
 
     try {
-      const response = await axios.post(
-        `${serverurl}/predict-catdog`,
-        catDogFile,
-        {
-          headers: {
-            "Content-Type": catDogFile.type || "application/octet-stream",
-          },
-        },
-      );
+            const photo = await shrinkImage(catDogFile);
+      const response = await axios.post(`${serverurl}/predict-catdog`, photo, {
+        headers: { "Content-Type": "image/jpeg" },
+      });
 
       setCatDogResult(response.data);
     } catch (error) {
@@ -943,15 +969,10 @@ export default function App() {
     setPplCarLoading(true);
 
     try {
-      const response = await axios.post(
-        `${serverurl}/predict-pplcar`,
-        pplCarFile,
-        {
-          headers: {
-            "Content-Type": pplCarFile.type || "application/octet-stream",
-          },
-        },
-      );
+            const photo = await shrinkImage(pplCarFile);
+      const response = await axios.post(`${serverurl}/predict-pplcar`, photo, {
+        headers: { "Content-Type": "image/jpeg" },
+      });
 
       setPplCarResult(response.data);
     } catch (error) {
