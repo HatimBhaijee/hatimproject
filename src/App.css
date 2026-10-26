@@ -1,17 +1,16 @@
-
-
 body,
 #name,
 #name button,
 #name input,
 #name select,
 #name textarea {
-  font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "SF Pro Display",
+  font-family:
+    -apple-system, BlinkMacSystemFont, "SF Pro Text", "SF Pro Display",
     "Helvetica Neue", Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
- 
+
 /* Container */
 #name {
   background: #f8fafc;
@@ -24,14 +23,14 @@ body,
   color: #1d1d1f;
   font-size: 14px;
 }
- 
+
 #name h3 {
   color: #1d1d1f;
   font-size: 18px;
   font-weight: 600;
   letter-spacing: -0.01em;
 }
- 
+
 /* Two-column layout */
 .layout-columns {
   display: flex;
@@ -42,7 +41,7 @@ body,
   max-width: 1300px;
   gap: 30px;
 }
- 
+
 .column {
   flex: 1;
   display: flex;
@@ -50,7 +49,7 @@ body,
   align-items: center;
   width: 100%;
 }
- 
+
 /* Button Group Containers */
 .mybtn,
 .mybtn2 {
@@ -59,7 +58,7 @@ body,
   justify-content: center;
   gap: 12px;
 }
- 
+
 /* ==========================================================
    Buttons: Apple-style pills
    ========================================================== */
@@ -88,7 +87,7 @@ body,
     transform 0.1s ease;
   margin-top: 20px;
 }
- 
+
 .submit:active,
 .cancel:active,
 .modify:active,
@@ -98,7 +97,7 @@ body,
 .showpayment:active {
   transform: scale(0.98);
 }
- 
+
 /* Button Variants */
 .submit {
   background-color: #0071e3;
@@ -107,7 +106,7 @@ body,
 .submit:hover {
   background-color: #0077ed;
 }
- 
+
 .cancel {
   background-color: #e8e8ed;
   color: #1d1d1f;
@@ -115,7 +114,7 @@ body,
 .cancel:hover {
   background-color: #dcdce1;
 }
- 
+
 .list {
   background-color: #e8e8ed;
   color: #1d1d1f;
@@ -123,7 +122,7 @@ body,
 .list:hover {
   background-color: #dcdce1;
 }
- 
+
 .payment {
   background-color: #1d1d1f;
   color: #ffffff;
@@ -131,7 +130,7 @@ body,
 .payment:hover {
   background-color: #333336;
 }
- 
+
 .showpayment {
   background-color: transparent;
   color: #0066cc;
@@ -140,7 +139,7 @@ body,
 .showpayment:hover {
   background-color: rgba(0, 113, 227, 0.08);
 }
- 
+
 /* ==========================================================
    Inputs
    ========================================================== */
@@ -148,7 +147,7 @@ body,
   display: flex;
   gap: 10px;
 }
- 
+
 .user-input {
   padding: 8px 12px;
   font-size: 14px;
@@ -164,17 +163,17 @@ body,
     border-color 0.2s ease,
     box-shadow 0.2s ease;
 }
- 
+
 .user-input::placeholder,
 .prediction-field input::placeholder {
   color: #86868b;
 }
- 
+
 .user-input:focus {
   border-color: #0071e3;
   box-shadow: 0 0 0 4px rgba(0, 113, 227, 0.15);
 }
- 
+
 /* Clean dropdown arrow (Apple-style chevron) */
 .select-input,
 .prediction-field select {
@@ -186,23 +185,23 @@ body,
   padding-right: 34px;
   cursor: pointer;
 }
- 
+
 .select-input {
   color: #1d1d1f;
 }
- 
+
 /* Remove spin arrows from number inputs */
 .no-spinner::-webkit-outer-spin-button,
 .no-spinner::-webkit-inner-spin-button {
   -webkit-appearance: none;
   margin: 0;
 }
- 
+
 .no-spinner[type="number"] {
   appearance: textfield;
   -moz-appearance: textfield;
 }
- 
+
 /* ==========================================================
    Status message
    ========================================================== */
@@ -213,7 +212,7 @@ body,
   justify-content: center;
   width: 100%;
 }
- 
+
 .created {
   background-color: #fff8eb;
   color: #8a4b00;
@@ -225,23 +224,23 @@ body,
   text-align: center;
   animation: statusFlicker 0.5s ease-in-out;
 }
- 
+
 @keyframes statusFlicker {
   0% {
     opacity: 0;
     transform: translateY(-5px);
   }
- 
+
   50% {
     opacity: 0.5;
   }
- 
+
   100% {
     opacity: 1;
     transform: translateY(0);
   }
 }
- 
+
 /* ==========================================================
    Tables
    ========================================================== */
@@ -259,23 +258,23 @@ body,
   border-radius: 10px;
   overflow: hidden;
 }
- 
+
 .custom-table th,
 .custom-table td {
   padding: 8px 12px;
   border-right: 1px solid #d2d2d7;
   border-bottom: 1px solid #d2d2d7;
 }
- 
+
 .custom-table th:last-child,
 .custom-table td:last-child {
   border-right: none;
 }
- 
+
 .custom-table tbody tr:last-child td {
   border-bottom: none;
 }
- 
+
 .custom-table th {
   background-color: #f5f5f7;
   color: #424245;
@@ -285,11 +284,11 @@ body,
   letter-spacing: 0.03em;
   border-bottom: 1px solid #c7c7cc;
 }
- 
+
 .custom-table tr:nth-child(even) {
   background-color: #fafafc;
 }
- 
+
 /* Action Buttons (small tinted pills inside tables) */
 .action-btn {
   padding: 4px 10px;
@@ -302,11 +301,11 @@ body,
   transition: background-color 0.2s ease;
   white-space: nowrap;
 }
- 
+
 .custom-table td:last-child {
   white-space: nowrap;
 }
- 
+
 .action-modify {
   background-color: rgba(255, 149, 0, 0.14);
   color: #c93400;
@@ -314,7 +313,7 @@ body,
 .action-modify:hover {
   background-color: rgba(255, 149, 0, 0.24);
 }
- 
+
 .action-delete {
   background-color: rgba(255, 59, 48, 0.12);
   color: #d70015;
@@ -322,7 +321,7 @@ body,
 .action-delete:hover {
   background-color: rgba(255, 59, 48, 0.22);
 }
- 
+
 .action-view {
   background-color: rgba(0, 113, 227, 0.1);
   color: #0066cc;
@@ -330,7 +329,7 @@ body,
 .action-view:hover {
   background-color: rgba(0, 113, 227, 0.18);
 }
- 
+
 /* ==========================================================
    Chat & History Module
    ========================================================== */
@@ -338,7 +337,7 @@ body,
   max-width: 650px;
   width: 100%;
 }
- 
+
 .chat-header {
   display: flex;
   justify-content: space-between;
@@ -346,35 +345,35 @@ body,
   width: 100%;
   margin-bottom: 12px;
 }
- 
+
 .chat-header h3 {
   margin: 0;
 }
- 
+
 .btn-history {
   margin-top: 0;
   height: 36px;
   min-width: 110px;
   font-size: 13px;
 }
- 
+
 .chat-input-bar {
   display: flex;
   width: 100%;
   gap: 8px;
 }
- 
+
 .chat-input-bar .user-input {
   margin-top: 0;
   flex: 1;
 }
- 
+
 .chat-input-bar .submit {
   margin-top: 0;
   height: 38px;
   min-width: 80px;
 }
- 
+
 .chat-bot-bubble {
   width: 100%;
   box-sizing: border-box;
@@ -386,7 +385,7 @@ body,
   font-size: 14px;
   line-height: 1.4;
 }
- 
+
 .chat-table-scroll {
   width: 100%;
   max-height: 300px;
@@ -395,33 +394,33 @@ body,
   border: 1px solid #c7c7cc;
   border-radius: 10px;
 }
- 
+
 .chat-table-scroll .custom-table {
   margin: 0;
   width: 100%;
   border: none;
   border-radius: 0;
 }
- 
+
 .col-id {
   width: 50px;
 }
- 
+
 .col-time {
   width: 90px;
   text-align: right;
   font-size: 12px;
   color: #86868b;
 }
- 
+
 .chat-user-msg {
   font-weight: 500;
 }
- 
+
 .chat-bot-msg {
   color: #424245;
 }
- 
+
 /* ==========================================================
    Product Details
    ========================================================== */
@@ -437,13 +436,13 @@ body,
   border: 1px solid #f8fafc;
   border-radius: 18px;
 }
- 
+
 .product-details h3 {
   margin-top: 0;
   margin-bottom: 16px;
   text-align: left;
 }
- 
+
 .product-details p {
   width: 100%;
   margin: 6px 0;
@@ -452,12 +451,12 @@ body,
   line-height: 1.5;
   text-align: left;
 }
- 
+
 .product-details strong {
   color: #1d1d1f;
   font-weight: 600;
 }
- 
+
 /* Product Details Close Button */
 .product-details .action-btn {
   margin-top: 16px;
@@ -467,11 +466,11 @@ body,
   font-size: 13px;
   font-weight: 400;
 }
- 
+
 .product-details .action-btn:hover {
   background-color: #dcdce1;
 }
- 
+
 /* ==========================================================
    AI Prediction Sections
    ========================================================== */
@@ -487,27 +486,27 @@ body,
   box-shadow: 0 2px 12px rgba(0, 0, 0, 0.04);
   text-align: left;
 }
- 
+
 .prediction-section h3 {
   margin-top: 0;
   margin-bottom: 6px;
   font-size: 19px;
   text-align: center;
 }
- 
+
 .prediction-description {
   margin: 0 0 20px;
   color: #6e6e73;
   font-size: 13px;
   text-align: center;
 }
- 
+
 .prediction-grid {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 16px;
 }
- 
+
 .prediction-field {
   display: flex;
   flex-direction: column;
@@ -516,7 +515,7 @@ body,
   font-size: 13px;
   font-weight: 500;
 }
- 
+
 .prediction-field input,
 .prediction-field select {
   width: 100%;
@@ -534,24 +533,24 @@ body,
     border-color 0.2s ease,
     box-shadow 0.2s ease;
 }
- 
+
 .prediction-field select {
   padding-right: 34px;
 }
- 
+
 .prediction-field input:focus,
 .prediction-field select:focus {
   outline: none;
   border-color: #0071e3;
   box-shadow: 0 0 0 4px rgba(0, 113, 227, 0.15);
 }
- 
+
 .prediction-field select:disabled {
   background-color: #f5f5f7;
   color: #86868b;
   cursor: not-allowed;
 }
- 
+
 /* Prediction buttons: full-width pills */
 .prediction-submit {
   width: 100%;
@@ -570,11 +569,11 @@ body,
     background-color 0.2s ease,
     transform 0.1s ease;
 }
- 
+
 .prediction-submit:hover {
   background-color: #0077ed;
 }
- 
+
 /* Insurance button - Apple blue */
 .prediction-section:nth-of-type(1) .prediction-submit {
   background-color: #0071e3;
@@ -582,7 +581,7 @@ body,
 .prediction-section:nth-of-type(1) .prediction-submit:hover {
   background-color: #0077ed;
 }
- 
+
 /* Crop button - green */
 .prediction-section:nth-of-type(2) .prediction-submit {
   background-color: #248a3d;
@@ -590,7 +589,7 @@ body,
 .prediction-section:nth-of-type(2) .prediction-submit:hover {
   background-color: #2a9a46;
 }
- 
+
 /* Country button - graphite */
 .prediction-section:nth-of-type(3) .prediction-submit {
   background-color: #1d1d1f;
@@ -598,7 +597,7 @@ body,
 .prediction-section:nth-of-type(3) .prediction-submit:hover {
   background-color: #333336;
 }
- 
+
 /* Used Car button - orange */
 .prediction-section:nth-of-type(4) .prediction-submit {
   background-color: #c93400;
@@ -606,7 +605,7 @@ body,
 .prediction-section:nth-of-type(4) .prediction-submit:hover {
   background-color: #dd3a00;
 }
- 
+
 /* House button - teal */
 .prediction-section:nth-of-type(5) .prediction-submit {
   background-color: #0e7c86;
@@ -614,7 +613,7 @@ body,
 .prediction-section:nth-of-type(5) .prediction-submit:hover {
   background-color: #108c97;
 }
- 
+
 /* Delivery button - indigo */
 .prediction-section:nth-of-type(6) .prediction-submit {
   background-color: #5856d6;
@@ -622,17 +621,17 @@ body,
 .prediction-section:nth-of-type(6) .prediction-submit:hover {
   background-color: #6462e0;
 }
- 
+
 .prediction-submit:active {
   transform: scale(0.98);
 }
- 
+
 .prediction-submit:disabled {
   opacity: 0.5;
   cursor: not-allowed;
   transform: none;
 }
- 
+
 /* Error and result boxes */
 .prediction-error {
   margin-top: 16px;
@@ -643,7 +642,7 @@ body,
   color: #d70015;
   font-size: 13px;
 }
- 
+
 .prediction-result {
   margin-top: 20px;
   padding: 18px;
@@ -652,7 +651,7 @@ body,
   background-color: #f3fbf5;
   color: #1d6b34;
 }
- 
+
 .prediction-result h4 {
   margin: 0 0 6px;
   font-size: 11px;
@@ -661,7 +660,7 @@ body,
   letter-spacing: 0.04em;
   color: #248a3d;
 }
- 
+
 .prediction-cost {
   margin: 4px 0 8px;
   font-size: 26px;
@@ -670,13 +669,13 @@ body,
   color: #1d1d1f;
   overflow-wrap: anywhere;
 }
- 
+
 .prediction-result p:last-child {
   margin-bottom: 0;
   font-size: 13px;
   color: #424245;
 }
- 
+
 /* Top-3 / Top-5 lists */
 .prediction-options {
   list-style: none;
@@ -685,18 +684,18 @@ body,
   font-size: 14px;
   color: #1d1d1f;
 }
- 
+
 .prediction-options li {
   display: flex;
   justify-content: space-between;
   padding: 8px 0;
   border-bottom: 1px solid #d1f0da;
 }
- 
+
 .prediction-options li:first-child {
   font-weight: 600;
 }
- 
+
 /* Photo preview for the image models */
 .prediction-preview {
   display: block;
@@ -753,6 +752,83 @@ body,
 }
 
 /* ==========================================================
+   Landing page and page navigation
+   ========================================================== */
+.landing {
+  width: 100%;
+  max-width: 900px;
+}
+
+.landing-title {
+  margin: 8px 0 4px;
+  color: #1d1d1f;
+  font-size: 28px;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+}
+
+.landing-group {
+  margin: 24px 0 10px;
+  color: #6e6e73;
+  font-size: 12px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.landing-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  gap: 12px;
+}
+
+.project-card {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: 16px 18px;
+  border: 1px solid #1d1d1f;
+  border-top: 4px solid #1d1d1f;
+  border-radius: 12px;
+  background-color: #ffffff;
+  color: #1d1d1f;
+  text-decoration: none;
+  cursor: pointer;
+  transition:
+    background-color 0.15s ease,
+    box-shadow 0.15s ease,
+    transform 0.15s ease;
+}
+
+.project-card:hover {
+  background-color: #e8e8ed;
+  box-shadow: 0 6px 16px rgba(6, 33, 101, 0.526);
+  transform: translateY(-2px);
+}
+.project-name {
+  font-size: 15px;
+  font-weight: 600;
+}
+
+.project-description {
+  color: #6e6e73;
+  font-size: 13px;
+}
+
+/* "Back to all projects" link at the top of each page */
+.back-link {
+  width: 100%;
+  max-width: 850px;
+  color: #0066cc;
+  font-size: 14px;
+  text-decoration: none;
+}
+
+.back-link:hover {
+  text-decoration: underline;
+}
+
+/* ==========================================================
    Phones
    ========================================================== */
 @media (max-width: 600px) {
@@ -760,16 +836,16 @@ body,
     flex-direction: column;
     gap: 16px;
   }
- 
+
   .input-container {
     flex-direction: column;
     width: 100%;
   }
- 
+
   .prediction-section {
     padding: 20px;
   }
- 
+
   .prediction-grid {
     grid-template-columns: 1fr;
   }
