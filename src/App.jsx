@@ -47,8 +47,20 @@ const CAR_MODELS_BY_MAKE = {
   Subaru: ["Forester"],
   Suzuki: ["Escudo", "Swift"],
   Toyota: [
-    "Allion", "Alphard", "Corolla", "Crown", "Harrier", "Hilux", "IST",
-    "Land Cruiser Prado", "Land Cruiser V8", "Noah", "Passo", "Premio", "RAV4", "Vitz",
+    "Allion",
+    "Alphard",
+    "Corolla",
+    "Crown",
+    "Harrier",
+    "Hilux",
+    "IST",
+    "Land Cruiser Prado",
+    "Land Cruiser V8",
+    "Noah",
+    "Passo",
+    "Premio",
+    "RAV4",
+    "Vitz",
   ],
 };
 
@@ -57,8 +69,20 @@ const CAR_CONDITIONS = ["Poor", "Fair", "Good", "Excellent"];
 const HOUSE_LOCATIONS_BY_CITY = {
   Arusha: ["Njiro", "Sakina"],
   "Dar es Salaam": [
-    "Ilala", "Kariakoo", "Kigamboni", "Kimara", "Kinondoni", "Masaki", "Mbagala",
-    "Mbezi Beach", "Mikocheni", "Oysterbay", "Sinza", "Tegeta", "Temeke", "Ubungo",
+    "Ilala",
+    "Kariakoo",
+    "Kigamboni",
+    "Kimara",
+    "Kinondoni",
+    "Masaki",
+    "Mbagala",
+    "Mbezi Beach",
+    "Mikocheni",
+    "Oysterbay",
+    "Sinza",
+    "Tegeta",
+    "Temeke",
+    "Ubungo",
   ],
   Dodoma: ["Area D", "Njedengwa"],
   Mbeya: ["Iyunga"],
@@ -72,24 +96,75 @@ const DELIVERY_VEHICLES = ["Motorcycle", "Scooter", "Car", "Bicycle"];
 
 // Projects shown on the landing page (path = the page address)
 const MANAGEMENT_PROJECTS = [
-  { path: "/users", name: "User Management", description: "Add, list, edit and delete users." },
-  { path: "/payments", name: "Payment Management", description: "Record and manage payments." },
-  { path: "/billing", name: "Billing Management", description: "Bills sent to the payment gateway." },
-  { path: "/products", name: "Products API", description: "Products loaded from an external API." },
-  { path: "/chat", name: "Chat Assistant", description: "Simple chatbot with saved history." },
+  {
+    path: "/users",
+    name: "User Management",
+    description: "Add, list, edit and delete users.",
+  },
+  {
+    path: "/payments",
+    name: "Payment Management",
+    description: "Record and manage payments.",
+  },
+  {
+    path: "/billing",
+    name: "Billing Management",
+    description: "Bills sent to the payment gateway.",
+  },
+  {
+    path: "/products",
+    name: "Products API",
+    description: "Products loaded from an external API.",
+  },
+  {
+    path: "/chat",
+    name: "Chat Assistant",
+    description: "Simple chatbot with saved history.",
+  },
 ];
 
 const AI_PROJECTS = [
-  { path: "/insurance", name: "Insurance Cost", description: "Predicts yearly insurance cost." },
-  { path: "/crop", name: "Crop Recommendation", description: "Best crops for given field conditions." },
-  { path: "/country", name: "Country Prediction", description: "Likely countries for a crop and climate." },
-  { path: "/cars", name: "Used Car Price", description: "Estimated price of a used car in TZS." },
-  { path: "/houses", name: "House Price", description: "Estimated price of a house in TZS." },
-  { path: "/delivery", name: "Delivery Time", description: "Estimated food delivery time." },
-  { path: "/catsdog", name: "Cat vs Dog", description: "Classifies a photo as a cat or a dog." },
-  { path: "/pplcar", name: "People vs Car", description: "Classifies a photo as a person or a car." },
+  {
+    path: "/insurance",
+    name: "Insurance Cost",
+    description: "Predicts yearly insurance cost.",
+  },
+  {
+    path: "/crop",
+    name: "Crop Recommendation",
+    description: "Best crops for given field conditions.",
+  },
+  {
+    path: "/country",
+    name: "Country Prediction",
+    description: "Likely countries for a crop and climate.",
+  },
+  {
+    path: "/cars",
+    name: "Used Car Price",
+    description: "Estimated price of a used car in TZS.",
+  },
+  {
+    path: "/houses",
+    name: "House Price",
+    description: "Estimated price of a house in TZS.",
+  },
+  {
+    path: "/delivery",
+    name: "Delivery Time",
+    description: "Estimated food delivery time.",
+  },
+  {
+    path: "/catsdog",
+    name: "Cat vs Dog",
+    description: "Classifies a photo as a cat or a dog.",
+  },
+  {
+    path: "/pplcar",
+    name: "People vs Car",
+    description: "Classifies a photo as a person, a car or unknown.",
+  },
 ];
-
 
 export default function App() {
   const [name, setName] = useState("HATIM");
@@ -159,7 +234,7 @@ export default function App() {
   const [cropError, setCropError] = useState("");
 
   //Car, house and delivery models
-    //Used car price model
+  //Used car price model
   const [carInput, setCarInput] = useState({
     make: "",
     model: "",
@@ -200,7 +275,7 @@ export default function App() {
   const [deliveryLoading, setDeliveryLoading] = useState(false);
   const [deliveryError, setDeliveryError] = useState("");
 
-    //Cat vs Dog and People vs Car image models
+  //Cat vs Dog and People vs Car image models
   const [catDogFile, setCatDogFile] = useState(null);
   const [catDogPreview, setCatDogPreview] = useState("");
   const [catDogResult, setCatDogResult] = useState(null);
@@ -692,7 +767,7 @@ export default function App() {
     }
   }
 
-    // Send car details to the used car price model
+  // Send car details to the used car price model
   async function predictCarPrice(e) {
     e.preventDefault();
 
@@ -723,8 +798,8 @@ export default function App() {
 
       setCarError(
         error.response?.data?.detail ||
-        error.response?.data?.error ||
-        "Unable to get a prediction. Please try again."
+          error.response?.data?.error ||
+          "Unable to get a prediction. Please try again.",
       );
     } finally {
       setCarLoading(false);
@@ -762,8 +837,8 @@ export default function App() {
 
       setHouseError(
         error.response?.data?.detail ||
-        error.response?.data?.error ||
-        "Unable to get a prediction. Please try again."
+          error.response?.data?.error ||
+          "Unable to get a prediction. Please try again.",
       );
     } finally {
       setHouseLoading(false);
@@ -795,7 +870,10 @@ export default function App() {
     setDeliveryLoading(true);
 
     try {
-      const response = await axios.post(`${serverurl}/predict-delivery`, payload);
+      const response = await axios.post(
+        `${serverurl}/predict-delivery`,
+        payload,
+      );
 
       setDeliveryResult(response.data);
     } catch (error) {
@@ -803,15 +881,15 @@ export default function App() {
 
       setDeliveryError(
         error.response?.data?.detail ||
-        error.response?.data?.error ||
-        "Unable to get a prediction. Please try again."
+          error.response?.data?.error ||
+          "Unable to get a prediction. Please try again.",
       );
     } finally {
       setDeliveryLoading(false);
     }
   }
 
-    // Send a photo to the cat vs dog image model
+  // Send a photo to the cat vs dog image model
   async function predictCatDog(e) {
     e.preventDefault();
 
@@ -826,9 +904,15 @@ export default function App() {
     setCatDogLoading(true);
 
     try {
-      const response = await axios.post(`${serverurl}/predict-catdog`, catDogFile, {
-        headers: { "Content-Type": catDogFile.type || "application/octet-stream" },
-      });
+      const response = await axios.post(
+        `${serverurl}/predict-catdog`,
+        catDogFile,
+        {
+          headers: {
+            "Content-Type": catDogFile.type || "application/octet-stream",
+          },
+        },
+      );
 
       setCatDogResult(response.data);
     } catch (error) {
@@ -836,8 +920,8 @@ export default function App() {
 
       setCatDogError(
         error.response?.data?.detail ||
-        error.response?.data?.error ||
-        "Unable to get a prediction. Please try again."
+          error.response?.data?.error ||
+          "Unable to get a prediction. Please try again.",
       );
     } finally {
       setCatDogLoading(false);
@@ -859,9 +943,15 @@ export default function App() {
     setPplCarLoading(true);
 
     try {
-      const response = await axios.post(`${serverurl}/predict-pplcar`, pplCarFile, {
-        headers: { "Content-Type": pplCarFile.type || "application/octet-stream" },
-      });
+      const response = await axios.post(
+        `${serverurl}/predict-pplcar`,
+        pplCarFile,
+        {
+          headers: {
+            "Content-Type": pplCarFile.type || "application/octet-stream",
+          },
+        },
+      );
 
       setPplCarResult(response.data);
     } catch (error) {
@@ -869,8 +959,8 @@ export default function App() {
 
       setPplCarError(
         error.response?.data?.detail ||
-        error.response?.data?.error ||
-        "Unable to get a prediction. Please try again."
+          error.response?.data?.error ||
+          "Unable to get a prediction. Please try again.",
       );
     } finally {
       setPplCarLoading(false);
@@ -908,9 +998,15 @@ export default function App() {
                 <h4 className="landing-group">Management</h4>
                 <div className="landing-grid">
                   {MANAGEMENT_PROJECTS.map((project) => (
-                    <Link key={project.path} to={project.path} className="project-card">
+                    <Link
+                      key={project.path}
+                      to={project.path}
+                      className="project-card"
+                    >
                       <span className="project-name">{project.name}</span>
-                      <span className="project-description">{project.description}</span>
+                      <span className="project-description">
+                        {project.description}
+                      </span>
                     </Link>
                   ))}
                 </div>
@@ -918,9 +1014,15 @@ export default function App() {
                 <h4 className="landing-group">AI Models</h4>
                 <div className="landing-grid">
                   {AI_PROJECTS.map((project) => (
-                    <Link key={project.path} to={project.path} className="project-card">
+                    <Link
+                      key={project.path}
+                      to={project.path}
+                      className="project-card"
+                    >
                       <span className="project-name">{project.name}</span>
-                      <span className="project-description">{project.description}</span>
+                      <span className="project-description">
+                        {project.description}
+                      </span>
                     </Link>
                   ))}
                 </div>
@@ -933,86 +1035,183 @@ export default function App() {
             path="/users"
             element={
               <>
-              <Link to="/" className="back-link">
-                Back to all projects
-              </Link>
+                <Link to="/" className="back-link">
+                  Back to all projects
+                </Link>
 
-              <div className="column">
-                <h3>User Management</h3>
-                <div className="input-container">
-                  <input
-                    type="text"
-                    className="user-input"
-                    placeholder="Name"
-                    value={inputName}
-                    onChange={(e) => setInputName(e.target.value)}
-                  />
-                  <input
-                    type="text"
-                    className="user-input"
-                    placeholder="Email"
-                    value={inputEmail}
-                    onChange={(e) => setInputEmail(e.target.value)}
-                  />
-                  <input
-                    type="text"
-                    className="user-input"
-                    placeholder="Phone"
-                    value={inputPhone}
-                    onChange={(e) => setInputPhone(e.target.value)}
-                  />
-                </div>
-
-                <div className="mybtn">
-                  <button className="submit" onClick={postData}>
-                    Submit
-                  </button>
-                  <button className="list" onClick={getUserList}>
-                    List Users
-                  </button>
-                </div>
-              </div>
-
-              <div className="status-container">
-                {status && (
-                  <div key={statusKey} className="created">
-                    {status}
-                  </div>
-                )}
-              </div>
-
-              <div className="layout-columns">
-                {/* Users Table */}
                 <div className="column">
-                  {userList.length > 0 && (
+                  <h3>User Management</h3>
+                  <div className="input-container">
+                    <input
+                      type="text"
+                      className="user-input"
+                      placeholder="Name"
+                      value={inputName}
+                      onChange={(e) => setInputName(e.target.value)}
+                    />
+                    <input
+                      type="text"
+                      className="user-input"
+                      placeholder="Email"
+                      value={inputEmail}
+                      onChange={(e) => setInputEmail(e.target.value)}
+                    />
+                    <input
+                      type="text"
+                      className="user-input"
+                      placeholder="Phone"
+                      value={inputPhone}
+                      onChange={(e) => setInputPhone(e.target.value)}
+                    />
+                  </div>
+
+                  <div className="mybtn">
+                    <button className="submit" onClick={postData}>
+                      Submit
+                    </button>
+                    <button className="list" onClick={getUserList}>
+                      List Users
+                    </button>
+                  </div>
+                </div>
+
+                <div className="status-container">
+                  {status && (
+                    <div key={statusKey} className="created">
+                      {status}
+                    </div>
+                  )}
+                </div>
+
+                <div className="layout-columns">
+                  {/* Users Table */}
+                  <div className="column">
+                    {userList.length > 0 && (
+                      <div style={{ width: "100%" }}>
+                        <table className="custom-table">
+                          <thead>
+                            <tr>
+                              <th>User ID</th>
+                              <th>Name</th>
+                              <th>Email</th>
+                              <th>Phone Number</th>
+                              <th>Actions</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            {userList.map((user) => (
+                              <tr key={user.id}>
+                                <td>{user.id}</td>
+                                <td>{user.name}</td>
+                                <td>{user.email}</td>
+                                <td>{user.phoneNumber}</td>
+                                <td>
+                                  <button
+                                    className="action-btn action-modify"
+                                    onClick={() => modifyData(user.id)}
+                                  >
+                                    Modify
+                                  </button>
+                                  <button
+                                    className="action-btn action-delete"
+                                    onClick={() => deleteData(user.id)}
+                                  >
+                                    Delete
+                                  </button>
+                                </td>
+                              </tr>
+                            ))}
+                          </tbody>
+                        </table>
+                      </div>
+                    )}
+                  </div>
+                </div>
+              </>
+            }
+          />
+
+          {/* Payment Management page */}
+          <Route
+            path="/payments"
+            element={
+              <>
+                <Link to="/" className="back-link">
+                  Back to all projects
+                </Link>
+
+                <div className="column">
+                  <h3>Payment Management</h3>
+                  <div className="input-container">
+                    <select
+                      className="user-input select-input"
+                      value={paymentMethod}
+                      onChange={(e) => setPaymentMethod(e.target.value)}
+                    >
+                      <option value="" disabled>
+                        Select Payment Method
+                      </option>
+                      <option value="Cash">Cash</option>
+                      <option value="Credit Card">Credit Card</option>
+                      <option value="Debit Card">Debit Card</option>
+                      <option value="M-pesa">M-pesa</option>
+                    </select>
+
+                    <input
+                      type="number"
+                      className="user-input no-spinner"
+                      placeholder="Amount"
+                      value={paymentAmount}
+                      onChange={(e) => setPaymentAmount(e.target.value)}
+                    />
+                  </div>
+
+                  <div className="mybtn">
+                    <button className="payment" onClick={postPayment}>
+                      Payment
+                    </button>
+                    <button className="showpayment" onClick={getPaymentList}>
+                      Payment data
+                    </button>
+                  </div>
+                </div>
+
+                <div className="status-container">
+                  {status && (
+                    <div key={statusKey} className="created">
+                      {status}
+                    </div>
+                  )}
+                </div>
+
+                <div className="column">
+                  {paymentList.length > 0 && (
                     <div style={{ width: "100%" }}>
                       <table className="custom-table">
                         <thead>
                           <tr>
-                            <th>User ID</th>
-                            <th>Name</th>
-                            <th>Email</th>
-                            <th>Phone Number</th>
+                            <th>ID</th>
+                            <th>Payment Method</th>
+                            <th>Amount</th>
                             <th>Actions</th>
                           </tr>
                         </thead>
                         <tbody>
-                          {userList.map((user) => (
-                            <tr key={user.id}>
-                              <td>{user.id}</td>
-                              <td>{user.name}</td>
-                              <td>{user.email}</td>
-                              <td>{user.phoneNumber}</td>
+                          {paymentList.map((payment) => (
+                            <tr key={payment.id}>
+                              <td>{payment.id}</td>
+                              <td>{payment.paymentMethod}</td>
+                              <td>{payment.amount}</td>
                               <td>
                                 <button
                                   className="action-btn action-modify"
-                                  onClick={() => modifyData(user.id)}
+                                  onClick={() => modifyPayment(payment.id)}
                                 >
                                   Modify
                                 </button>
                                 <button
                                   className="action-btn action-delete"
-                                  onClick={() => deleteData(user.id)}
+                                  onClick={() => deletePayment(payment.id)}
                                 >
                                   Delete
                                 </button>
@@ -1024,103 +1223,6 @@ export default function App() {
                     </div>
                   )}
                 </div>
-              </div>
-              </>
-            }
-          />
-
-          {/* Payment Management page */}
-          <Route
-            path="/payments"
-            element={
-              <>
-              <Link to="/" className="back-link">
-                Back to all projects
-              </Link>
-
-              <div className="column">
-                <h3>Payment Management</h3>
-                <div className="input-container">
-                  <select
-                    className="user-input select-input"
-                    value={paymentMethod}
-                    onChange={(e) => setPaymentMethod(e.target.value)}
-                  >
-                    <option value="" disabled>
-                      Select Payment Method
-                    </option>
-                    <option value="Cash">Cash</option>
-                    <option value="Credit Card">Credit Card</option>
-                    <option value="Debit Card">Debit Card</option>
-                    <option value="M-pesa">M-pesa</option>
-                  </select>
-
-                  <input
-                    type="number"
-                    className="user-input no-spinner"
-                    placeholder="Amount"
-                    value={paymentAmount}
-                    onChange={(e) => setPaymentAmount(e.target.value)}
-                  />
-                </div>
-
-                <div className="mybtn">
-                  <button className="payment" onClick={postPayment}>
-                    Payment
-                  </button>
-                  <button className="showpayment" onClick={getPaymentList}>
-                    Payment data
-                  </button>
-                </div>
-              </div>
-
-              <div className="status-container">
-                {status && (
-                  <div key={statusKey} className="created">
-                    {status}
-                  </div>
-                )}
-              </div>
-
-              <div className="column">
-                {paymentList.length > 0 && (
-                  <div style={{ width: "100%" }}>
-                    <table className="custom-table">
-                      <thead>
-                        <tr>
-                          <th>ID</th>
-                          <th>Payment Method</th>
-                          <th>Amount</th>
-                          <th>Actions</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        {paymentList.map((payment) => (
-                          <tr key={payment.id}>
-                            <td>{payment.id}</td>
-                            <td>{payment.paymentMethod}</td>
-                            <td>{payment.amount}</td>
-                            <td>
-                              <button
-                                className="action-btn action-modify"
-                                onClick={() => modifyPayment(payment.id)}
-                              >
-                                Modify
-                              </button>
-                              <button
-                                className="action-btn action-delete"
-                                onClick={() => deletePayment(payment.id)}
-                              >
-                                Delete
-                              </button>
-                            </td>
-                          </tr>
-                        ))}
-                      </tbody>
-                    </table>
-                  </div>
-                )}
-              </div>
               </>
             }
           />
@@ -1130,160 +1232,165 @@ export default function App() {
             path="/billing"
             element={
               <>
-              <Link to="/" className="back-link">
-                Back to all projects
-              </Link>
+                <Link to="/" className="back-link">
+                  Back to all projects
+                </Link>
 
-              <div className="layout-columns">
-                <div className="column">
-                  <h3>Billing Management</h3>
+                <div className="layout-columns">
+                  <div className="column">
+                    <h3>Billing Management</h3>
 
-                  <div className="input-container">
-                    <input
-                      type="text"
-                      className="user-input"
-                      placeholder="Full Name"
-                      value={billingName}
-                      onChange={(e) => setBillingName(e.target.value)}
-                    />
+                    <div className="input-container">
+                      <input
+                        type="text"
+                        className="user-input"
+                        placeholder="Full Name"
+                        value={billingName}
+                        onChange={(e) => setBillingName(e.target.value)}
+                      />
 
-                    <input
-                      type="text"
-                      className="user-input"
-                      placeholder="Phone Number"
-                      value={billingPhone}
-                      onChange={(e) => setBillingPhone(e.target.value)}
-                    />
-                  </div>
+                      <input
+                        type="text"
+                        className="user-input"
+                        placeholder="Phone Number"
+                        value={billingPhone}
+                        onChange={(e) => setBillingPhone(e.target.value)}
+                      />
+                    </div>
 
-                  <div className="input-container">
-                    <input
-                      type="email"
-                      className="user-input"
-                      placeholder="Email"
-                      value={billingEmail}
-                      onChange={(e) => setBillingEmail(e.target.value)}
-                    />
+                    <div className="input-container">
+                      <input
+                        type="email"
+                        className="user-input"
+                        placeholder="Email"
+                        value={billingEmail}
+                        onChange={(e) => setBillingEmail(e.target.value)}
+                      />
 
-                    <input
-                      type="text"
-                      className="user-input"
-                      placeholder="Account Number"
-                      value={billingAccountNumber}
-                      onChange={(e) => setBillingAccountNumber(e.target.value)}
-                    />
-                  </div>
+                      <input
+                        type="text"
+                        className="user-input"
+                        placeholder="Account Number"
+                        value={billingAccountNumber}
+                        onChange={(e) =>
+                          setBillingAccountNumber(e.target.value)
+                        }
+                      />
+                    </div>
 
-                  <div className="input-container">
-                    <input
-                      type="number"
-                      className="user-input no-spinner"
-                      placeholder="Amount"
-                      value={billingAmount}
-                      onChange={(e) => setBillingAmount(e.target.value)}
-                    />
+                    <div className="input-container">
+                      <input
+                        type="number"
+                        className="user-input no-spinner"
+                        placeholder="Amount"
+                        value={billingAmount}
+                        onChange={(e) => setBillingAmount(e.target.value)}
+                      />
 
-                    <select
-                      className="user-input select-input"
-                      value={billingChannel}
-                      onChange={(e) => setBillingChannel(e.target.value)}
-                    >
-                      <option value="" disabled>
-                        Select Channel
-                      </option>
-                      <option value="AIRTEL">AIRTEL</option>
-                      <option value="MPESA">MPESA</option>
-                      <option value="TIGO">TIGO</option>
-                    </select>
-                  </div>
+                      <select
+                        className="user-input select-input"
+                        value={billingChannel}
+                        onChange={(e) => setBillingChannel(e.target.value)}
+                      >
+                        <option value="" disabled>
+                          Select Channel
+                        </option>
+                        <option value="AIRTEL">AIRTEL</option>
+                        <option value="MPESA">MPESA</option>
+                        <option value="TIGO">TIGO</option>
+                      </select>
+                    </div>
 
-                  <div className="mybtn">
-                    <button className="submit" onClick={postBilling}>
-                      Submit Billing
-                    </button>
+                    <div className="mybtn">
+                      <button className="submit" onClick={postBilling}>
+                        Submit Billing
+                      </button>
 
-                    <button className="showpayment" onClick={getBillingList}>
-                      Show Billing Data
-                    </button>
+                      <button className="showpayment" onClick={getBillingList}>
+                        Show Billing Data
+                      </button>
+                    </div>
                   </div>
                 </div>
-              </div>
 
-              <div className="status-container">
-                {status && (
-                  <div key={statusKey} className="created">
-                    {status}
-                  </div>
-                )}
-              </div>
+                <div className="status-container">
+                  {status && (
+                    <div key={statusKey} className="created">
+                      {status}
+                    </div>
+                  )}
+                </div>
 
-              <div className="column">
-                {billingList.length > 0 && (
-                  <div style={{ width: "100%" }}>
-                    <table className="custom-table">
-                      <thead>
-                        <tr>
-                          <th>ID</th>
-                          <th>Name</th>
-                          <th>Phone</th>
-                          <th>Email</th>
-                          <th>Account Number</th>
-                          <th>Amount</th>
-                          <th>Status</th>
-                          <th>Channel</th>
-                          <th>Actions</th>
-                        </tr>
-                      </thead>
+                <div className="column">
+                  {billingList.length > 0 && (
+                    <div style={{ width: "100%" }}>
+                      <table className="custom-table">
+                        <thead>
+                          <tr>
+                            <th>ID</th>
+                            <th>Name</th>
+                            <th>Phone</th>
+                            <th>Email</th>
+                            <th>Account Number</th>
+                            <th>Amount</th>
+                            <th>Status</th>
+                            <th>Channel</th>
+                            <th>Actions</th>
+                          </tr>
+                        </thead>
 
-                      <tbody>
-                        {billingList.map((billing) => (
-                          <tr key={billing.id}>
-                            <td>{billing.id}</td>
-                            <td>{billing.name}</td>
-                            <td>{billing.phone}</td>
-                            <td>{billing.email}</td>
-                            <td>{billing.account_number}</td>
-                            <td>{billing.amount}</td>
-                            <td>{billing.payment_status}</td>
-                            <td>{billing.channel}</td>
-                            <td>
-                              <button
-                                className="action-btn action-modify"
-                                onClick={() =>
-                                  editBilling(
-                                    billing.id,
-                                    billing.account_number,
-                                    billing.amount,
-                                    billing.payment_status,
-                                  )
-                                }
-                              >
-                                Modify
-                              </button>
-
-                              <button
-                                className="action-btn action-delete"
-                                onClick={() => deleteBilling(billing.id)}
-                              >
-                                Delete
-                              </button>
-
-                              {billing.payment_status?.toLowerCase() === "pending" && (
+                        <tbody>
+                          {billingList.map((billing) => (
+                            <tr key={billing.id}>
+                              <td>{billing.id}</td>
+                              <td>{billing.name}</td>
+                              <td>{billing.phone}</td>
+                              <td>{billing.email}</td>
+                              <td>{billing.account_number}</td>
+                              <td>{billing.amount}</td>
+                              <td>{billing.payment_status}</td>
+                              <td>{billing.channel}</td>
+                              <td>
                                 <button
                                   className="action-btn action-modify"
-                                  onClick={() => retryBillingPayment(billing.id)}
+                                  onClick={() =>
+                                    editBilling(
+                                      billing.id,
+                                      billing.account_number,
+                                      billing.amount,
+                                      billing.payment_status,
+                                    )
+                                  }
                                 >
-                                  Retry Payment
+                                  Modify
                                 </button>
-                              )}
-                            </td>
-                          </tr>
-                        ))}
-                      </tbody>
-                    </table>
-                  </div>
-                )}
-              </div>
+
+                                <button
+                                  className="action-btn action-delete"
+                                  onClick={() => deleteBilling(billing.id)}
+                                >
+                                  Delete
+                                </button>
+
+                                {billing.payment_status?.toLowerCase() ===
+                                  "pending" && (
+                                  <button
+                                    className="action-btn action-modify"
+                                    onClick={() =>
+                                      retryBillingPayment(billing.id)
+                                    }
+                                  >
+                                    Retry Payment
+                                  </button>
+                                )}
+                              </td>
+                            </tr>
+                          ))}
+                        </tbody>
+                      </table>
+                    </div>
+                  )}
+                </div>
               </>
             }
           />
@@ -1293,118 +1400,123 @@ export default function App() {
             path="/products"
             element={
               <>
-              <Link to="/" className="back-link">
-                Back to all projects
-              </Link>
+                <Link to="/" className="back-link">
+                  Back to all projects
+                </Link>
 
-              <div className="column">
-                <h3>Products API</h3>
+                <div className="column">
+                  <h3>Products API</h3>
 
-                <button className="list" onClick={getProducts}>
-                  Load Products
-                </button>
+                  <button className="list" onClick={getProducts}>
+                    Load Products
+                  </button>
 
-                {productsLoading && <p>Loading products...</p>}
+                  {productsLoading && <p>Loading products...</p>}
 
-                {productsError && <p>{productsError}</p>}
+                  {productsError && <p>{productsError}</p>}
 
-                {products.length > 0 && (
-                  <table className="custom-table">
-                    <thead>
-                      <tr>
-                        <th>ID</th>
-                        <th>Title</th>
-                        <th>Category</th>
-                        <th>Price</th>
-                        <th>Stock</th>
-                        <th>Rating</th>
-                        <th>Action</th>
-                      </tr>
-                    </thead>
-
-                    <tbody>
-                      {products.slice(0, 5).map((product) => (
-                        <tr key={product.id}>
-                          <td>{product.id}</td>
-                          <td>{product.title}</td>
-                          <td>{product.category}</td>
-                          <td>${product.price}</td>
-                          <td>{product.stock}</td>
-                          <td>{product.rating}</td>
-                          <td>
-                            <button
-                              className="action-btn action-view"
-                              onClick={() => setSelectedProduct(product)}
-                            >
-                              View{" "}
-                            </button>
-                          </td>
+                  {products.length > 0 && (
+                    <table className="custom-table">
+                      <thead>
+                        <tr>
+                          <th>ID</th>
+                          <th>Title</th>
+                          <th>Category</th>
+                          <th>Price</th>
+                          <th>Stock</th>
+                          <th>Rating</th>
+                          <th>Action</th>
                         </tr>
-                      ))}
-                    </tbody>
-                  </table>
-                )}
-                {selectedProduct && (
-                  <div className="column product-details">
-                    <h3>Product Details</h3>
-                    <img
-                      src={selectedProduct.thumbnail}
-                      alt={selectedProduct.title}
-                      className="product-image"
-                    />
-                    <p>
-                      <strong>ID:</strong> {selectedProduct.id}
-                    </p>
-                    <p>
-                      <strong>Title:</strong> {selectedProduct.title}
-                    </p>
-                    <p>
-                      <strong>Description:</strong> {selectedProduct.description}
-                    </p>
-                    <p>
-                      <strong>Category:</strong> {selectedProduct.category}
-                    </p>
-                    <p>
-                      <strong>Price:</strong> ${selectedProduct.price}
-                    </p>
-                    <p>
-                      <strong>Discount:</strong> {selectedProduct.discountPercentage}%
-                    </p>
-                    <p>
-                      <strong>Rating:</strong> {selectedProduct.rating}
-                    </p>
-                    <p>
-                      <strong>Stock:</strong> {selectedProduct.stock}
-                    </p>
-                    <p>
-                      <strong>Brand:</strong> {selectedProduct.brand}
-                    </p>
-                    <p>
-                      <strong>Weight:</strong> {selectedProduct.weight}
-                    </p>
-                    <p>
-                      <strong>Warranty:</strong> {selectedProduct.warrantyInformation}
-                    </p>
-                    <p>
-                      <strong>Shipping:</strong> {selectedProduct.shippingInformation}
-                    </p>
-                    <p>
-                      <strong>Availability:</strong>{" "}
-                      {selectedProduct.availabilityStatus}
-                    </p>
-                    <p>
-                      <strong>Return Policy:</strong> {selectedProduct.returnPolicy}
-                    </p>
+                      </thead>
 
-                    <button
-                      className="action-btn"
-                      onClick={() => setSelectedProduct(null)}
-                    >
-                      Close
-                    </button>
-                  </div>
-                )}
-              </div>
+                      <tbody>
+                        {products.slice(0, 5).map((product) => (
+                          <tr key={product.id}>
+                            <td>{product.id}</td>
+                            <td>{product.title}</td>
+                            <td>{product.category}</td>
+                            <td>${product.price}</td>
+                            <td>{product.stock}</td>
+                            <td>{product.rating}</td>
+                            <td>
+                              <button
+                                className="action-btn action-view"
+                                onClick={() => setSelectedProduct(product)}
+                              >
+                                View{" "}
+                              </button>
+                            </td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
+                  )}
+                  {selectedProduct && (
+                    <div className="column product-details">
+                      <h3>Product Details</h3>
+                      <img
+                        src={selectedProduct.thumbnail}
+                        alt={selectedProduct.title}
+                        className="product-image"
+                      />
+                      <p>
+                        <strong>ID:</strong> {selectedProduct.id}
+                      </p>
+                      <p>
+                        <strong>Title:</strong> {selectedProduct.title}
+                      </p>
+                      <p>
+                        <strong>Description:</strong>{" "}
+                        {selectedProduct.description}
+                      </p>
+                      <p>
+                        <strong>Category:</strong> {selectedProduct.category}
+                      </p>
+                      <p>
+                        <strong>Price:</strong> ${selectedProduct.price}
+                      </p>
+                      <p>
+                        <strong>Discount:</strong>{" "}
+                        {selectedProduct.discountPercentage}%
+                      </p>
+                      <p>
+                        <strong>Rating:</strong> {selectedProduct.rating}
+                      </p>
+                      <p>
+                        <strong>Stock:</strong> {selectedProduct.stock}
+                      </p>
+                      <p>
+                        <strong>Brand:</strong> {selectedProduct.brand}
+                      </p>
+                      <p>
+                        <strong>Weight:</strong> {selectedProduct.weight}
+                      </p>
+                      <p>
+                        <strong>Warranty:</strong>{" "}
+                        {selectedProduct.warrantyInformation}
+                      </p>
+                      <p>
+                        <strong>Shipping:</strong>{" "}
+                        {selectedProduct.shippingInformation}
+                      </p>
+                      <p>
+                        <strong>Availability:</strong>{" "}
+                        {selectedProduct.availabilityStatus}
+                      </p>
+                      <p>
+                        <strong>Return Policy:</strong>{" "}
+                        {selectedProduct.returnPolicy}
+                      </p>
+
+                      <button
+                        className="action-btn"
+                        onClick={() => setSelectedProduct(null)}
+                      >
+                        Close
+                      </button>
+                    </div>
+                  )}
+                </div>
               </>
             }
           />
@@ -1414,70 +1526,77 @@ export default function App() {
             path="/chat"
             element={
               <>
-              <Link to="/" className="back-link">
-                Back to all projects
-              </Link>
+                <Link to="/" className="back-link">
+                  Back to all projects
+                </Link>
 
-              <div className="layout-columns" style={{ marginTop: "30px" }}>
-                <div className="column">
-                  <h3>Chat Assistant</h3>
-                  <div className="input-container">
-                    <input
-                      type="text"
-                      className="user-input"
-                      placeholder="Type 'hello', 'payment', 'help'..."
-                      value={chatPrompt}
-                      onChange={(e) => setChatPrompt(e.target.value)}
-                      onKeyDown={(e) => e.key === "Enter" && sendChatMessage()}
-                    />
-                  </div>
-
-                  <div className="mybtn">
-                    <button className="submit" onClick={sendChatMessage}>
-                      Send
-                    </button>
-                    <button className="list" onClick={getChatHistory}>
-                      Load History
-                    </button>
-                  </div>
-
-                  {latestBotReply && (
-                    <div
-                      style={{
-                        marginTop: "12px",
-                        fontStyle: "italic",
-                        color: "#1e293b",
-                      }}
-                    >
-                      <strong>Bot:</strong> {latestBotReply}
+                <div className="layout-columns" style={{ marginTop: "30px" }}>
+                  <div className="column">
+                    <h3>Chat Assistant</h3>
+                    <div className="input-container">
+                      <input
+                        type="text"
+                        className="user-input"
+                        placeholder="Type 'hello', 'payment', 'help'..."
+                        value={chatPrompt}
+                        onChange={(e) => setChatPrompt(e.target.value)}
+                        onKeyDown={(e) =>
+                          e.key === "Enter" && sendChatMessage()
+                        }
+                      />
                     </div>
-                  )}
 
-                  {/* Chat History Table */}
-                  {chatHistory.length > 0 && (
-                    <table className="custom-table" style={{ marginTop: "20px" }}>
-                      <thead>
-                        <tr>
-                          <th>ID</th>
-                          <th>User Input</th>
-                          <th>Bot Response</th>
-                          <th>Time</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        {chatHistory.map((item) => (
-                          <tr key={item.id}>
-                            <td>{item.id}</td>
-                            <td>{item.userPrompt}</td>
-                            <td>{item.botReply}</td>
-                            <td>{new Date(item.createdAt).toLocaleTimeString()}</td>
+                    <div className="mybtn">
+                      <button className="submit" onClick={sendChatMessage}>
+                        Send
+                      </button>
+                      <button className="list" onClick={getChatHistory}>
+                        Load History
+                      </button>
+                    </div>
+
+                    {latestBotReply && (
+                      <div
+                        style={{
+                          marginTop: "12px",
+                          fontStyle: "italic",
+                          color: "#1e293b",
+                        }}
+                      >
+                        <strong>Bot:</strong> {latestBotReply}
+                      </div>
+                    )}
+
+                    {/* Chat History Table */}
+                    {chatHistory.length > 0 && (
+                      <table
+                        className="custom-table"
+                        style={{ marginTop: "20px" }}
+                      >
+                        <thead>
+                          <tr>
+                            <th>ID</th>
+                            <th>User Input</th>
+                            <th>Bot Response</th>
+                            <th>Time</th>
                           </tr>
-                        ))}
-                      </tbody>
-                    </table>
-                  )}
+                        </thead>
+                        <tbody>
+                          {chatHistory.map((item) => (
+                            <tr key={item.id}>
+                              <td>{item.id}</td>
+                              <td>{item.userPrompt}</td>
+                              <td>{item.botReply}</td>
+                              <td>
+                                {new Date(item.createdAt).toLocaleTimeString()}
+                              </td>
+                            </tr>
+                          ))}
+                        </tbody>
+                      </table>
+                    )}
+                  </div>
                 </div>
-              </div>
               </>
             }
           />
@@ -1487,160 +1606,168 @@ export default function App() {
             path="/insurance"
             element={
               <>
-              <Link to="/" className="back-link">
-                Back to all projects
-              </Link>
+                <Link to="/" className="back-link">
+                  Back to all projects
+                </Link>
 
-              <section className="prediction-section">
-                <h3>Insurance Cost Prediction</h3>
+                <section className="prediction-section">
+                  <h3>Insurance Cost Prediction</h3>
 
-                <form className="prediction-form" onSubmit={predictInsuranceCost}>
-                  <div className="prediction-grid">
-                    <label className="prediction-field">
-                      Age
-                      <input
-                        type="number"
-                        min="18"
-                        max="70"
-                        step="1"
-                        required
-                        value={predictionInput.age}
-                        onChange={(e) =>
-                          setPredictionInput({
-                            ...predictionInput,
-                            age: e.target.value,
-                          })
-                        }
-                        placeholder="Enter your age"
-                      />
-                    </label>
-
-                    <label className="prediction-field">
-                      Sex
-                      <select
-                        required
-                        value={predictionInput.sex}
-                        onChange={(e) =>
-                          setPredictionInput({
-                            ...predictionInput,
-                            sex: e.target.value,
-                          })
-                        }
-                      >
-                        <option value="">Select sex</option>
-                        <option value="male">Male</option>
-                        <option value="female">Female</option>
-                      </select>
-                    </label>
-
-                    <label className="prediction-field">
-                      BMI
-                      <input
-                        type="number"
-                        min="10"
-                        max="60"
-                        step="any"
-                        required
-                        value={predictionInput.bmi}
-                        onChange={(e) =>
-                          setPredictionInput({
-                            ...predictionInput,
-                            bmi: e.target.value,
-                          })
-                        }
-                        placeholder="Enter your BMI"
-                      />
-                    </label>
-
-                    <label className="prediction-field">
-                      Number of Children
-                      <input
-                        type="number"
-                        min="0"
-                        max="10"
-                        step="1"
-                        required
-                        value={predictionInput.children}
-                        onChange={(e) =>
-                          setPredictionInput({
-                            ...predictionInput,
-                            children: e.target.value,
-                          })
-                        }
-                      />
-                    </label>
-
-                    <label className="prediction-field">
-                      Smoker
-                      <select
-                        required
-                        value={predictionInput.smoker}
-                        onChange={(e) =>
-                          setPredictionInput({
-                            ...predictionInput,
-                            smoker: e.target.value,
-                          })
-                        }
-                      >
-                        <option value="">Select option</option>
-                        <option value="no">No</option>
-                        <option value="yes">Yes</option>
-                      </select>
-                    </label>
-
-                    <label className="prediction-field">
-                      Region
-                      <select
-                        required
-                        value={predictionInput.region}
-                        onChange={(e) =>
-                          setPredictionInput({
-                            ...predictionInput,
-                            region: e.target.value,
-                          })
-                        }
-                      >
-                        <option value="">Select region</option>
-                        <option value="northwest">Northwest</option>
-                        <option value="southeast">Southeast</option>
-                        <option value="southwest">Southwest</option>
-                      </select>
-                    </label>
-                  </div>
-
-                  <button
-                    className="prediction-submit"
-                    type="submit"
-                    disabled={predictionLoading}
+                  <form
+                    className="prediction-form"
+                    onSubmit={predictInsuranceCost}
                   >
-                    {predictionLoading ? "Calculating..." : "Predict Insurance Cost"}
-                  </button>
-                </form>
+                    <div className="prediction-grid">
+                      <label className="prediction-field">
+                        Age
+                        <input
+                          type="number"
+                          min="18"
+                          max="70"
+                          step="1"
+                          required
+                          value={predictionInput.age}
+                          onChange={(e) =>
+                            setPredictionInput({
+                              ...predictionInput,
+                              age: e.target.value,
+                            })
+                          }
+                          placeholder="Enter your age"
+                        />
+                      </label>
 
-                {predictionError && (
-                  <div className="prediction-error" role="alert">
-                    {predictionError}
-                  </div>
-                )}
+                      <label className="prediction-field">
+                        Sex
+                        <select
+                          required
+                          value={predictionInput.sex}
+                          onChange={(e) =>
+                            setPredictionInput({
+                              ...predictionInput,
+                              sex: e.target.value,
+                            })
+                          }
+                        >
+                          <option value="">Select sex</option>
+                          <option value="male">Male</option>
+                          <option value="female">Female</option>
+                        </select>
+                      </label>
 
-                {predictionResult && (
-                  <div className="prediction-result" aria-live="polite">
-                    <h4>Prediction Result</h4>
+                      <label className="prediction-field">
+                        BMI
+                        <input
+                          type="number"
+                          min="10"
+                          max="60"
+                          step="any"
+                          required
+                          value={predictionInput.bmi}
+                          onChange={(e) =>
+                            setPredictionInput({
+                              ...predictionInput,
+                              bmi: e.target.value,
+                            })
+                          }
+                          placeholder="Enter your BMI"
+                        />
+                      </label>
 
-                    <p className="prediction-cost">
-                      {Number(predictionResult.predicted_cost).toLocaleString(
-                        undefined,
-                        {
-                          minimumFractionDigits: 2,
-                          maximumFractionDigits: 2,
-                        },
-                      )}
-                    </p>
+                      <label className="prediction-field">
+                        Number of Children
+                        <input
+                          type="number"
+                          min="0"
+                          max="10"
+                          step="1"
+                          required
+                          value={predictionInput.children}
+                          onChange={(e) =>
+                            setPredictionInput({
+                              ...predictionInput,
+                              children: e.target.value,
+                            })
+                          }
+                        />
+                      </label>
 
-                    <p>Estimated insurance cost based on your submitted details.</p>
-                  </div>
-                )}
-              </section>
+                      <label className="prediction-field">
+                        Smoker
+                        <select
+                          required
+                          value={predictionInput.smoker}
+                          onChange={(e) =>
+                            setPredictionInput({
+                              ...predictionInput,
+                              smoker: e.target.value,
+                            })
+                          }
+                        >
+                          <option value="">Select option</option>
+                          <option value="no">No</option>
+                          <option value="yes">Yes</option>
+                        </select>
+                      </label>
+
+                      <label className="prediction-field">
+                        Region
+                        <select
+                          required
+                          value={predictionInput.region}
+                          onChange={(e) =>
+                            setPredictionInput({
+                              ...predictionInput,
+                              region: e.target.value,
+                            })
+                          }
+                        >
+                          <option value="">Select region</option>
+                          <option value="northwest">Northwest</option>
+                          <option value="southeast">Southeast</option>
+                          <option value="southwest">Southwest</option>
+                        </select>
+                      </label>
+                    </div>
+
+                    <button
+                      className="prediction-submit"
+                      type="submit"
+                      disabled={predictionLoading}
+                    >
+                      {predictionLoading
+                        ? "Calculating..."
+                        : "Predict Insurance Cost"}
+                    </button>
+                  </form>
+
+                  {predictionError && (
+                    <div className="prediction-error" role="alert">
+                      {predictionError}
+                    </div>
+                  )}
+
+                  {predictionResult && (
+                    <div className="prediction-result" aria-live="polite">
+                      <h4>Prediction Result</h4>
+
+                      <p className="prediction-cost">
+                        {Number(predictionResult.predicted_cost).toLocaleString(
+                          undefined,
+                          {
+                            minimumFractionDigits: 2,
+                            maximumFractionDigits: 2,
+                          },
+                        )}
+                      </p>
+
+                      <p>
+                        Estimated insurance cost based on your submitted
+                        details.
+                      </p>
+                    </div>
+                  )}
+                </section>
               </>
             }
           />
@@ -1650,136 +1777,154 @@ export default function App() {
             path="/crop"
             element={
               <>
-              <Link to="/" className="back-link">
-                Back to all projects
-              </Link>
+                <Link to="/" className="back-link">
+                  Back to all projects
+                </Link>
 
-              <section className="prediction-section">
-                <h3>Crop Recommendation</h3>
-                <p className="prediction-description">
-                  Enter your field conditions to see the three crops that suit them
-                  best.
-                </p>
+                <section className="prediction-section">
+                  <h3>Crop Recommendation</h3>
+                  <p className="prediction-description">
+                    Enter your field conditions to see the three crops that suit
+                    them best.
+                  </p>
 
-                <form className="prediction-form" onSubmit={predictCrop}>
-                  <div className="prediction-grid">
-                    <label className="prediction-field">
-                      Rainfall (mm)
-                      <input
-                        type="number"
-                        min="20"
-                        max="3500"
-                        step="any"
-                        required
-                        value={cropInput.rainfall}
-                        onChange={(e) =>
-                          setCropInput({ ...cropInput, rainfall: e.target.value })
-                        }
-                        placeholder="20 - 3500"
-                      />
-                    </label>
+                  <form className="prediction-form" onSubmit={predictCrop}>
+                    <div className="prediction-grid">
+                      <label className="prediction-field">
+                        Rainfall (mm)
+                        <input
+                          type="number"
+                          min="20"
+                          max="3500"
+                          step="any"
+                          required
+                          value={cropInput.rainfall}
+                          onChange={(e) =>
+                            setCropInput({
+                              ...cropInput,
+                              rainfall: e.target.value,
+                            })
+                          }
+                          placeholder="20 - 3500"
+                        />
+                      </label>
 
-                    <label className="prediction-field">
-                      Temperature (°C)
-                      <input
-                        type="number"
-                        min="10"
-                        max="38"
-                        step="any"
-                        required
-                        value={cropInput.temperature}
-                        onChange={(e) =>
-                          setCropInput({ ...cropInput, temperature: e.target.value })
-                        }
-                        placeholder="10 - 38"
-                      />
-                    </label>
+                      <label className="prediction-field">
+                        Temperature (°C)
+                        <input
+                          type="number"
+                          min="10"
+                          max="38"
+                          step="any"
+                          required
+                          value={cropInput.temperature}
+                          onChange={(e) =>
+                            setCropInput({
+                              ...cropInput,
+                              temperature: e.target.value,
+                            })
+                          }
+                          placeholder="10 - 38"
+                        />
+                      </label>
 
-                    <label className="prediction-field">
-                      Soil pH
-                      <input
-                        type="number"
-                        min="4"
-                        max="9"
-                        step="any"
-                        required
-                        value={cropInput.soil_ph}
-                        onChange={(e) =>
-                          setCropInput({ ...cropInput, soil_ph: e.target.value })
-                        }
-                        placeholder="4 - 9"
-                      />
-                    </label>
+                      <label className="prediction-field">
+                        Soil pH
+                        <input
+                          type="number"
+                          min="4"
+                          max="9"
+                          step="any"
+                          required
+                          value={cropInput.soil_ph}
+                          onChange={(e) =>
+                            setCropInput({
+                              ...cropInput,
+                              soil_ph: e.target.value,
+                            })
+                          }
+                          placeholder="4 - 9"
+                        />
+                      </label>
 
-                    <label className="prediction-field">
-                      Weather
-                      <select
-                        required
-                        value={cropInput.weather}
-                        onChange={(e) =>
-                          setCropInput({ ...cropInput, weather: e.target.value })
-                        }
-                      >
-                        <option value="">Select weather</option>
-                        {WEATHER_OPTIONS.map((weather) => (
-                          <option key={weather} value={weather}>
-                            {weather.charAt(0).toUpperCase() + weather.slice(1)}
-                          </option>
+                      <label className="prediction-field">
+                        Weather
+                        <select
+                          required
+                          value={cropInput.weather}
+                          onChange={(e) =>
+                            setCropInput({
+                              ...cropInput,
+                              weather: e.target.value,
+                            })
+                          }
+                        >
+                          <option value="">Select weather</option>
+                          {WEATHER_OPTIONS.map((weather) => (
+                            <option key={weather} value={weather}>
+                              {weather.charAt(0).toUpperCase() +
+                                weather.slice(1)}
+                            </option>
+                          ))}
+                        </select>
+                      </label>
+
+                      <label className="prediction-field">
+                        Suitability Score
+                        <input
+                          type="number"
+                          min="0"
+                          max="100"
+                          step="any"
+                          required
+                          value={cropInput.suitability}
+                          onChange={(e) =>
+                            setCropInput({
+                              ...cropInput,
+                              suitability: e.target.value,
+                            })
+                          }
+                          placeholder="0 - 100"
+                        />
+                      </label>
+                    </div>
+
+                    <button
+                      className="prediction-submit"
+                      type="submit"
+                      disabled={cropLoading}
+                    >
+                      {cropLoading ? "Calculating..." : "Recommend Crop"}
+                    </button>
+                  </form>
+
+                  {cropError && (
+                    <div className="prediction-error" role="alert">
+                      {cropError}
+                    </div>
+                  )}
+
+                  {cropResult && (
+                    <div className="prediction-result" aria-live="polite">
+                      <h4>Recommended Crop</h4>
+
+                      <p className="prediction-cost">
+                        {cropResult.recommended_crop}
+                      </p>
+
+                      <ul className="prediction-options">
+                        {cropResult.top_3.map((item) => (
+                          <li key={item.crop}>
+                            <span>{item.crop}</span>
+                            <span>{item.probability}%</span>
+                          </li>
                         ))}
-                      </select>
-                    </label>
+                      </ul>
 
-                    <label className="prediction-field">
-                      Suitability Score
-                      <input
-                        type="number"
-                        min="0"
-                        max="100"
-                        step="any"
-                        required
-                        value={cropInput.suitability}
-                        onChange={(e) =>
-                          setCropInput({ ...cropInput, suitability: e.target.value })
-                        }
-                        placeholder="0 - 100"
-                      />
-                    </label>
-                  </div>
-
-                  <button
-                    className="prediction-submit"
-                    type="submit"
-                    disabled={cropLoading}
-                  >
-                    {cropLoading ? "Calculating..." : "Recommend Crop"}
-                  </button>
-                </form>
-
-                {cropError && (
-                  <div className="prediction-error" role="alert">
-                    {cropError}
-                  </div>
-                )}
-
-                {cropResult && (
-                  <div className="prediction-result" aria-live="polite">
-                    <h4>Recommended Crop</h4>
-
-                    <p className="prediction-cost">{cropResult.recommended_crop}</p>
-
-                    <ul className="prediction-options">
-                      {cropResult.top_3.map((item) => (
-                        <li key={item.crop}>
-                          <span>{item.crop}</span>
-                          <span>{item.probability}%</span>
-                        </li>
-                      ))}
-                    </ul>
-
-                    <p>Top 3 crops for the conditions you entered.</p>
-                  </div>
-                )}
-              </section>
+                      <p>Top 3 crops for the conditions you entered.</p>
+                    </div>
+                  )}
+                </section>
               </>
             }
           />
@@ -1789,152 +1934,158 @@ export default function App() {
             path="/country"
             element={
               <>
-              <Link to="/" className="back-link">
-                Back to all projects
-              </Link>
+                <Link to="/" className="back-link">
+                  Back to all projects
+                </Link>
 
-              <section className="prediction-section">
-                <h3>Country Prediction</h3>
-                <p className="prediction-description">
-                  Enter a crop and its growing conditions to see the five countries
-                  most likely to match.
-                </p>
+                <section className="prediction-section">
+                  <h3>Country Prediction</h3>
+                  <p className="prediction-description">
+                    Enter a crop and its growing conditions to see the five
+                    countries most likely to match.
+                  </p>
 
-                <form className="prediction-form" onSubmit={predictCountry}>
-                  <div className="prediction-grid">
-                    <label className="prediction-field">
-                      Crop
-                      <select
-                        required
-                        value={countryInput.crop}
-                        onChange={(e) =>
-                          setCountryInput({ ...countryInput, crop: e.target.value })
-                        }
-                      >
-                        <option value="">Select crop</option>
-                        {CROP_OPTIONS.map((crop) => (
-                          <option key={crop} value={crop}>
-                            {crop.charAt(0).toUpperCase() + crop.slice(1)}
-                          </option>
+                  <form className="prediction-form" onSubmit={predictCountry}>
+                    <div className="prediction-grid">
+                      <label className="prediction-field">
+                        Crop
+                        <select
+                          required
+                          value={countryInput.crop}
+                          onChange={(e) =>
+                            setCountryInput({
+                              ...countryInput,
+                              crop: e.target.value,
+                            })
+                          }
+                        >
+                          <option value="">Select crop</option>
+                          {CROP_OPTIONS.map((crop) => (
+                            <option key={crop} value={crop}>
+                              {crop.charAt(0).toUpperCase() + crop.slice(1)}
+                            </option>
+                          ))}
+                        </select>
+                      </label>
+
+                      <label className="prediction-field">
+                        Weather
+                        <select
+                          required
+                          value={countryInput.weather}
+                          onChange={(e) =>
+                            setCountryInput({
+                              ...countryInput,
+                              weather: e.target.value,
+                            })
+                          }
+                        >
+                          <option value="">Select weather</option>
+                          {WEATHER_OPTIONS.map((weather) => (
+                            <option key={weather} value={weather}>
+                              {weather.charAt(0).toUpperCase() +
+                                weather.slice(1)}
+                            </option>
+                          ))}
+                        </select>
+                      </label>
+
+                      <label className="prediction-field">
+                        Rainfall (mm)
+                        <input
+                          type="number"
+                          min="20"
+                          max="3500"
+                          step="any"
+                          required
+                          value={countryInput.rainfall}
+                          onChange={(e) =>
+                            setCountryInput({
+                              ...countryInput,
+                              rainfall: e.target.value,
+                            })
+                          }
+                          placeholder="20 - 3500"
+                        />
+                      </label>
+
+                      <label className="prediction-field">
+                        Temperature (°C)
+                        <input
+                          type="number"
+                          min="10"
+                          max="38"
+                          step="any"
+                          required
+                          value={countryInput.temperature}
+                          onChange={(e) =>
+                            setCountryInput({
+                              ...countryInput,
+                              temperature: e.target.value,
+                            })
+                          }
+                          placeholder="10 - 38"
+                        />
+                      </label>
+
+                      <label className="prediction-field">
+                        Soil pH
+                        <input
+                          type="number"
+                          min="4"
+                          max="9"
+                          step="any"
+                          required
+                          value={countryInput.soil_ph}
+                          onChange={(e) =>
+                            setCountryInput({
+                              ...countryInput,
+                              soil_ph: e.target.value,
+                            })
+                          }
+                          placeholder="4 - 9"
+                        />
+                      </label>
+                    </div>
+
+                    <button
+                      className="prediction-submit"
+                      type="submit"
+                      disabled={countryLoading}
+                    >
+                      {countryLoading ? "Calculating..." : "Predict Country"}
+                    </button>
+                  </form>
+
+                  {countryError && (
+                    <div className="prediction-error" role="alert">
+                      {countryError}
+                    </div>
+                  )}
+
+                  {countryResult && (
+                    <div className="prediction-result" aria-live="polite">
+                      <h4>Most Likely Country</h4>
+
+                      <p className="prediction-cost">
+                        {countryResult.most_likely_country}
+                      </p>
+
+                      <ul className="prediction-options">
+                        {countryResult.top_5.map((item) => (
+                          <li key={item.country}>
+                            <span>{item.country}</span>
+                            <span>{item.probability}%</span>
+                          </li>
                         ))}
-                      </select>
-                    </label>
+                      </ul>
 
-                    <label className="prediction-field">
-                      Weather
-                      <select
-                        required
-                        value={countryInput.weather}
-                        onChange={(e) =>
-                          setCountryInput({
-                            ...countryInput,
-                            weather: e.target.value,
-                          })
-                        }
-                      >
-                        <option value="">Select weather</option>
-                        {WEATHER_OPTIONS.map((weather) => (
-                          <option key={weather} value={weather}>
-                            {weather.charAt(0).toUpperCase() + weather.slice(1)}
-                          </option>
-                        ))}
-                      </select>
-                    </label>
-
-                    <label className="prediction-field">
-                      Rainfall (mm)
-                      <input
-                        type="number"
-                        min="20"
-                        max="3500"
-                        step="any"
-                        required
-                        value={countryInput.rainfall}
-                        onChange={(e) =>
-                          setCountryInput({
-                            ...countryInput,
-                            rainfall: e.target.value,
-                          })
-                        }
-                        placeholder="20 - 3500"
-                      />
-                    </label>
-
-                    <label className="prediction-field">
-                      Temperature (°C)
-                      <input
-                        type="number"
-                        min="10"
-                        max="38"
-                        step="any"
-                        required
-                        value={countryInput.temperature}
-                        onChange={(e) =>
-                          setCountryInput({
-                            ...countryInput,
-                            temperature: e.target.value,
-                          })
-                        }
-                        placeholder="10 - 38"
-                      />
-                    </label>
-
-                    <label className="prediction-field">
-                      Soil pH
-                      <input
-                        type="number"
-                        min="4"
-                        max="9"
-                        step="any"
-                        required
-                        value={countryInput.soil_ph}
-                        onChange={(e) =>
-                          setCountryInput({
-                            ...countryInput,
-                            soil_ph: e.target.value,
-                          })
-                        }
-                        placeholder="4 - 9"
-                      />
-                    </label>
-                  </div>
-
-                  <button
-                    className="prediction-submit"
-                    type="submit"
-                    disabled={countryLoading}
-                  >
-                    {countryLoading ? "Calculating..." : "Predict Country"}
-                  </button>
-                </form>
-
-                {countryError && (
-                  <div className="prediction-error" role="alert">
-                    {countryError}
-                  </div>
-                )}
-
-                {countryResult && (
-                  <div className="prediction-result" aria-live="polite">
-                    <h4>Most Likely Country</h4>
-
-                    <p className="prediction-cost">
-                      {countryResult.most_likely_country}
-                    </p>
-
-                    <ul className="prediction-options">
-                      {countryResult.top_5.map((item) => (
-                        <li key={item.country}>
-                          <span>{item.country}</span>
-                          <span>{item.probability}%</span>
-                        </li>
-                      ))}
-                    </ul>
-
-                    <p>Top 5 countries for the crop and conditions you entered.</p>
-                  </div>
-                )}
-              </section>
+                      <p>
+                        Top 5 countries for the crop and conditions you entered.
+                      </p>
+                    </div>
+                  )}
+                </section>
               </>
             }
           />
@@ -1944,138 +2095,157 @@ export default function App() {
             path="/cars"
             element={
               <>
-              <Link to="/" className="back-link">
-                Back to all projects
-              </Link>
+                <Link to="/" className="back-link">
+                  Back to all projects
+                </Link>
 
-              <section className="prediction-section">
-                <h3>Used Car Price Prediction</h3>
-                <p className="prediction-description">
-                  Pick the make and model, then enter its age, mileage and condition.
-                </p>
+                <section className="prediction-section">
+                  <h3>Used Car Price Prediction</h3>
+                  <p className="prediction-description">
+                    Pick the make and model, then enter its age, mileage and
+                    condition.
+                  </p>
 
-                <form className="prediction-form" onSubmit={predictCarPrice}>
-                  <div className="prediction-grid">
-                    <label className="prediction-field">
-                      Make
-                      <select
-                        required
-                        value={carInput.make}
-                        onChange={(e) =>
-                          setCarInput({ ...carInput, make: e.target.value, model: "" })
-                        }
-                      >
-                        <option value="">Select make</option>
-                        {Object.keys(CAR_MODELS_BY_MAKE).map((make) => (
-                          <option key={make} value={make}>
-                            {make}
+                  <form className="prediction-form" onSubmit={predictCarPrice}>
+                    <div className="prediction-grid">
+                      <label className="prediction-field">
+                        Make
+                        <select
+                          required
+                          value={carInput.make}
+                          onChange={(e) =>
+                            setCarInput({
+                              ...carInput,
+                              make: e.target.value,
+                              model: "",
+                            })
+                          }
+                        >
+                          <option value="">Select make</option>
+                          {Object.keys(CAR_MODELS_BY_MAKE).map((make) => (
+                            <option key={make} value={make}>
+                              {make}
+                            </option>
+                          ))}
+                        </select>
+                      </label>
+
+                      <label className="prediction-field">
+                        Model
+                        <select
+                          required
+                          disabled={!carInput.make}
+                          value={carInput.model}
+                          onChange={(e) =>
+                            setCarInput({ ...carInput, model: e.target.value })
+                          }
+                        >
+                          <option value="">
+                            {carInput.make
+                              ? "Select model"
+                              : "Select a make first"}
                           </option>
-                        ))}
-                      </select>
-                    </label>
+                          {(CAR_MODELS_BY_MAKE[carInput.make] || []).map(
+                            (model) => (
+                              <option key={model} value={model}>
+                                {model}
+                              </option>
+                            ),
+                          )}
+                        </select>
+                      </label>
 
-                    <label className="prediction-field">
-                      Model
-                      <select
-                        required
-                        disabled={!carInput.make}
-                        value={carInput.model}
-                        onChange={(e) =>
-                          setCarInput({ ...carInput, model: e.target.value })
-                        }
-                      >
-                        <option value="">
-                          {carInput.make ? "Select model" : "Select a make first"}
-                        </option>
-                        {(CAR_MODELS_BY_MAKE[carInput.make] || []).map((model) => (
-                          <option key={model} value={model}>
-                            {model}
-                          </option>
-                        ))}
-                      </select>
-                    </label>
+                      <label className="prediction-field">
+                        Years Since Manufacture
+                        <input
+                          type="number"
+                          min="1"
+                          max="25"
+                          step="1"
+                          required
+                          value={carInput.years_since_manufacture}
+                          onChange={(e) =>
+                            setCarInput({
+                              ...carInput,
+                              years_since_manufacture: e.target.value,
+                            })
+                          }
+                          placeholder="e.g. made in 2016 = 10"
+                        />
+                      </label>
 
-                    <label className="prediction-field">
-                      Years Since Manufacture
-                      <input
-                        type="number"
-                        min="1"
-                        max="25"
-                        step="1"
-                        required
-                        value={carInput.years_since_manufacture}
-                        onChange={(e) =>
-                          setCarInput({ ...carInput, years_since_manufacture: e.target.value })
-                        }
-                        placeholder="e.g. made in 2016 = 10"
-                      />
-                    </label>
+                      <label className="prediction-field">
+                        Mileage (km)
+                        <input
+                          type="number"
+                          min="1000"
+                          max="600000"
+                          step="any"
+                          required
+                          value={carInput.mileage}
+                          onChange={(e) =>
+                            setCarInput({
+                              ...carInput,
+                              mileage: e.target.value,
+                            })
+                          }
+                          placeholder="1000 - 600000"
+                        />
+                      </label>
 
-                    <label className="prediction-field">
-                      Mileage (km)
-                      <input
-                        type="number"
-                        min="1000"
-                        max="600000"
-                        step="any"
-                        required
-                        value={carInput.mileage}
-                        onChange={(e) =>
-                          setCarInput({ ...carInput, mileage: e.target.value })
-                        }
-                        placeholder="1000 - 600000"
-                      />
-                    </label>
+                      <label className="prediction-field">
+                        Condition
+                        <select
+                          required
+                          value={carInput.condition}
+                          onChange={(e) =>
+                            setCarInput({
+                              ...carInput,
+                              condition: e.target.value,
+                            })
+                          }
+                        >
+                          <option value="">Select condition</option>
+                          {CAR_CONDITIONS.map((condition) => (
+                            <option key={condition} value={condition}>
+                              {condition}
+                            </option>
+                          ))}
+                        </select>
+                      </label>
+                    </div>
 
-                    <label className="prediction-field">
-                      Condition
-                      <select
-                        required
-                        value={carInput.condition}
-                        onChange={(e) =>
-                          setCarInput({ ...carInput, condition: e.target.value })
-                        }
-                      >
-                        <option value="">Select condition</option>
-                        {CAR_CONDITIONS.map((condition) => (
-                          <option key={condition} value={condition}>
-                            {condition}
-                          </option>
-                        ))}
-                      </select>
-                    </label>
-                  </div>
+                    <button
+                      className="prediction-submit"
+                      type="submit"
+                      disabled={carLoading}
+                    >
+                      {carLoading ? "Calculating..." : "Predict Car Price"}
+                    </button>
+                  </form>
 
-                  <button
-                    className="prediction-submit"
-                    type="submit"
-                    disabled={carLoading}
-                  >
-                    {carLoading ? "Calculating..." : "Predict Car Price"}
-                  </button>
-                </form>
+                  {carError && (
+                    <div className="prediction-error" role="alert">
+                      {carError}
+                    </div>
+                  )}
 
-                {carError && (
-                  <div className="prediction-error" role="alert">
-                    {carError}
-                  </div>
-                )}
+                  {carResult && (
+                    <div className="prediction-result" aria-live="polite">
+                      <h4>Estimated Price</h4>
 
-                {carResult && (
-                  <div className="prediction-result" aria-live="polite">
-                    <h4>Estimated Price</h4>
+                      <p className="prediction-cost">
+                        TZS {Number(carResult.predicted_price).toLocaleString()}
+                      </p>
 
-                    <p className="prediction-cost">
-                      TZS {Number(carResult.predicted_price).toLocaleString()}
-                    </p>
-
-                    <p>
-                      Estimate for a {carResult.input.make} {carResult.input.model} in{" "}
-                      {carResult.input.condition.toLowerCase()} condition.
-                    </p>
-                  </div>
-                )}
-              </section>
+                      <p>
+                        Estimate for a {carResult.input.make}{" "}
+                        {carResult.input.model} in{" "}
+                        {carResult.input.condition.toLowerCase()} condition.
+                      </p>
+                    </div>
+                  )}
+                </section>
               </>
             }
           />
@@ -2085,136 +2255,162 @@ export default function App() {
             path="/houses"
             element={
               <>
-              <Link to="/" className="back-link">
-                Back to all projects
-              </Link>
+                <Link to="/" className="back-link">
+                  Back to all projects
+                </Link>
 
-              <section className="prediction-section">
-                <h3>House Price Prediction</h3>
-                <p className="prediction-description">
-                  Pick the city and area, then enter the size, bedrooms and age of the house.
-                </p>
+                <section className="prediction-section">
+                  <h3>House Price Prediction</h3>
+                  <p className="prediction-description">
+                    Pick the city and area, then enter the size, bedrooms and
+                    age of the house.
+                  </p>
 
-                <form className="prediction-form" onSubmit={predictHousePrice}>
-                  <div className="prediction-grid">
-                    <label className="prediction-field">
-                      City
-                      <select
-                        required
-                        value={houseInput.city}
-                        onChange={(e) =>
-                          setHouseInput({ ...houseInput, city: e.target.value, location: "" })
-                        }
-                      >
-                        <option value="">Select city</option>
-                        {Object.keys(HOUSE_LOCATIONS_BY_CITY).map((city) => (
-                          <option key={city} value={city}>
-                            {city}
-                          </option>
-                        ))}
-                      </select>
-                    </label>
-
-                    <label className="prediction-field">
-                      Location
-                      <select
-                        required
-                        disabled={!houseInput.city}
-                        value={houseInput.location}
-                        onChange={(e) =>
-                          setHouseInput({ ...houseInput, location: e.target.value })
-                        }
-                      >
-                        <option value="">
-                          {houseInput.city ? "Select location" : "Select a city first"}
-                        </option>
-                        {(HOUSE_LOCATIONS_BY_CITY[houseInput.city] || []).map((location) => (
-                          <option key={location} value={location}>
-                            {location}
-                          </option>
-                        ))}
-                      </select>
-                    </label>
-
-                    <label className="prediction-field">
-                      Size (sqm)
-                      <input
-                        type="number"
-                        min="30"
-                        max="800"
-                        step="any"
-                        required
-                        value={houseInput.size}
-                        onChange={(e) =>
-                          setHouseInput({ ...houseInput, size: e.target.value })
-                        }
-                        placeholder="30 - 800"
-                      />
-                    </label>
-
-                    <label className="prediction-field">
-                      Bedrooms
-                      <input
-                        type="number"
-                        min="1"
-                        max="8"
-                        step="1"
-                        required
-                        value={houseInput.bedrooms}
-                        onChange={(e) =>
-                          setHouseInput({ ...houseInput, bedrooms: e.target.value })
-                        }
-                        placeholder="1 - 8"
-                      />
-                    </label>
-
-                    <label className="prediction-field">
-                      Years Since Built
-                      <input
-                        type="number"
-                        min="0"
-                        max="70"
-                        step="1"
-                        required
-                        value={houseInput.years_since_built}
-                        onChange={(e) =>
-                          setHouseInput({ ...houseInput, years_since_built: e.target.value })
-                        }
-                        placeholder="e.g. built in 2016 = 10"
-                      />
-                    </label>
-                  </div>
-
-                  <button
-                    className="prediction-submit"
-                    type="submit"
-                    disabled={houseLoading}
+                  <form
+                    className="prediction-form"
+                    onSubmit={predictHousePrice}
                   >
-                    {houseLoading ? "Calculating..." : "Predict House Price"}
-                  </button>
-                </form>
+                    <div className="prediction-grid">
+                      <label className="prediction-field">
+                        City
+                        <select
+                          required
+                          value={houseInput.city}
+                          onChange={(e) =>
+                            setHouseInput({
+                              ...houseInput,
+                              city: e.target.value,
+                              location: "",
+                            })
+                          }
+                        >
+                          <option value="">Select city</option>
+                          {Object.keys(HOUSE_LOCATIONS_BY_CITY).map((city) => (
+                            <option key={city} value={city}>
+                              {city}
+                            </option>
+                          ))}
+                        </select>
+                      </label>
 
-                {houseError && (
-                  <div className="prediction-error" role="alert">
-                    {houseError}
-                  </div>
-                )}
+                      <label className="prediction-field">
+                        Location
+                        <select
+                          required
+                          disabled={!houseInput.city}
+                          value={houseInput.location}
+                          onChange={(e) =>
+                            setHouseInput({
+                              ...houseInput,
+                              location: e.target.value,
+                            })
+                          }
+                        >
+                          <option value="">
+                            {houseInput.city
+                              ? "Select location"
+                              : "Select a city first"}
+                          </option>
+                          {(HOUSE_LOCATIONS_BY_CITY[houseInput.city] || []).map(
+                            (location) => (
+                              <option key={location} value={location}>
+                                {location}
+                              </option>
+                            ),
+                          )}
+                        </select>
+                      </label>
 
-                {houseResult && (
-                  <div className="prediction-result" aria-live="polite">
-                    <h4>Estimated Price</h4>
+                      <label className="prediction-field">
+                        Size (sqm)
+                        <input
+                          type="number"
+                          min="30"
+                          max="800"
+                          step="any"
+                          required
+                          value={houseInput.size}
+                          onChange={(e) =>
+                            setHouseInput({
+                              ...houseInput,
+                              size: e.target.value,
+                            })
+                          }
+                          placeholder="30 - 800"
+                        />
+                      </label>
 
-                    <p className="prediction-cost">
-                      TZS {Number(houseResult.predicted_price).toLocaleString()}
-                    </p>
+                      <label className="prediction-field">
+                        Bedrooms
+                        <input
+                          type="number"
+                          min="1"
+                          max="8"
+                          step="1"
+                          required
+                          value={houseInput.bedrooms}
+                          onChange={(e) =>
+                            setHouseInput({
+                              ...houseInput,
+                              bedrooms: e.target.value,
+                            })
+                          }
+                          placeholder="1 - 8"
+                        />
+                      </label>
 
-                    <p>
-                      Estimate for a {houseResult.input.bedrooms}-bedroom house in{" "}
-                      {houseResult.input.location}, {houseResult.input.city}.
-                    </p>
-                  </div>
-                )}
-              </section>
+                      <label className="prediction-field">
+                        Years Since Built
+                        <input
+                          type="number"
+                          min="0"
+                          max="70"
+                          step="1"
+                          required
+                          value={houseInput.years_since_built}
+                          onChange={(e) =>
+                            setHouseInput({
+                              ...houseInput,
+                              years_since_built: e.target.value,
+                            })
+                          }
+                          placeholder="e.g. built in 2016 = 10"
+                        />
+                      </label>
+                    </div>
+
+                    <button
+                      className="prediction-submit"
+                      type="submit"
+                      disabled={houseLoading}
+                    >
+                      {houseLoading ? "Calculating..." : "Predict House Price"}
+                    </button>
+                  </form>
+
+                  {houseError && (
+                    <div className="prediction-error" role="alert">
+                      {houseError}
+                    </div>
+                  )}
+
+                  {houseResult && (
+                    <div className="prediction-result" aria-live="polite">
+                      <h4>Estimated Price</h4>
+
+                      <p className="prediction-cost">
+                        TZS{" "}
+                        {Number(houseResult.predicted_price).toLocaleString()}
+                      </p>
+
+                      <p>
+                        Estimate for a {houseResult.input.bedrooms}-bedroom
+                        house in {houseResult.input.location},{" "}
+                        {houseResult.input.city}.
+                      </p>
+                    </div>
+                  )}
+                </section>
               </>
             }
           />
@@ -2224,167 +2420,196 @@ export default function App() {
             path="/delivery"
             element={
               <>
-              <Link to="/" className="back-link">
-                Back to all projects
-              </Link>
+                <Link to="/" className="back-link">
+                  Back to all projects
+                </Link>
 
-              <section className="prediction-section">
-                <h3>Delivery Time Prediction</h3>
-                <p className="prediction-description">
-                  Enter the distance, conditions and courier details to estimate the delivery time.
-                </p>
+                <section className="prediction-section">
+                  <h3>Delivery Time Prediction</h3>
+                  <p className="prediction-description">
+                    Enter the distance, conditions and courier details to
+                    estimate the delivery time.
+                  </p>
 
-                <form className="prediction-form" onSubmit={predictDeliveryTime}>
-                  <div className="prediction-grid">
-                    <label className="prediction-field">
-                      Distance (km)
-                      <input
-                        type="number"
-                        min="0.4"
-                        max="20"
-                        step="any"
-                        required
-                        value={deliveryInput.distance}
-                        onChange={(e) =>
-                          setDeliveryInput({ ...deliveryInput, distance: e.target.value })
-                        }
-                        placeholder="Restaurant to customer, 0.4 - 20"
-                      />
-                    </label>
-
-                    <label className="prediction-field">
-                      Traffic
-                      <select
-                        required
-                        value={deliveryInput.traffic}
-                        onChange={(e) =>
-                          setDeliveryInput({ ...deliveryInput, traffic: e.target.value })
-                        }
-                      >
-                        <option value="">Select traffic</option>
-                        {DELIVERY_TRAFFIC.map((traffic) => (
-                          <option key={traffic} value={traffic}>
-                            {traffic}
-                          </option>
-                        ))}
-                      </select>
-                    </label>
-
-                    <label className="prediction-field">
-                      Weather
-                      <select
-                        required
-                        value={deliveryInput.weather}
-                        onChange={(e) =>
-                          setDeliveryInput({ ...deliveryInput, weather: e.target.value })
-                        }
-                      >
-                        <option value="">Select weather</option>
-                        {DELIVERY_WEATHER.map((weather) => (
-                          <option key={weather} value={weather}>
-                            {weather}
-                          </option>
-                        ))}
-                      </select>
-                    </label>
-
-                    <label className="prediction-field">
-                      Courier Vehicle
-                      <select
-                        required
-                        value={deliveryInput.vehicle}
-                        onChange={(e) =>
-                          setDeliveryInput({ ...deliveryInput, vehicle: e.target.value })
-                        }
-                      >
-                        <option value="">Select vehicle</option>
-                        {DELIVERY_VEHICLES.map((vehicle) => (
-                          <option key={vehicle} value={vehicle}>
-                            {vehicle}
-                          </option>
-                        ))}
-                      </select>
-                    </label>
-
-                    <label className="prediction-field">
-                      Courier Age
-                      <input
-                        type="number"
-                        min="18"
-                        max="55"
-                        step="1"
-                        required
-                        value={deliveryInput.courier_age}
-                        onChange={(e) =>
-                          setDeliveryInput({ ...deliveryInput, courier_age: e.target.value })
-                        }
-                        placeholder="18 - 55"
-                      />
-                    </label>
-
-                    <label className="prediction-field">
-                      Courier Rating
-                      <input
-                        type="number"
-                        min="3"
-                        max="5"
-                        step="0.1"
-                        required
-                        value={deliveryInput.courier_rating}
-                        onChange={(e) =>
-                          setDeliveryInput({ ...deliveryInput, courier_rating: e.target.value })
-                        }
-                        placeholder="3.0 - 5.0"
-                      />
-                    </label>
-
-                    <label className="prediction-field">
-                      Courier Experience (months)
-                      <input
-                        type="number"
-                        min="1"
-                        max="120"
-                        step="1"
-                        required
-                        value={deliveryInput.courier_experience}
-                        onChange={(e) =>
-                          setDeliveryInput({ ...deliveryInput, courier_experience: e.target.value })
-                        }
-                        placeholder="1 - 120"
-                      />
-                    </label>
-                  </div>
-
-                  <button
-                    className="prediction-submit"
-                    type="submit"
-                    disabled={deliveryLoading}
+                  <form
+                    className="prediction-form"
+                    onSubmit={predictDeliveryTime}
                   >
-                    {deliveryLoading ? "Calculating..." : "Predict Delivery Time"}
-                  </button>
-                </form>
+                    <div className="prediction-grid">
+                      <label className="prediction-field">
+                        Distance (km)
+                        <input
+                          type="number"
+                          min="0.4"
+                          max="20"
+                          step="any"
+                          required
+                          value={deliveryInput.distance}
+                          onChange={(e) =>
+                            setDeliveryInput({
+                              ...deliveryInput,
+                              distance: e.target.value,
+                            })
+                          }
+                          placeholder="Restaurant to customer, 0.4 - 20"
+                        />
+                      </label>
 
-                {deliveryError && (
-                  <div className="prediction-error" role="alert">
-                    {deliveryError}
-                  </div>
-                )}
+                      <label className="prediction-field">
+                        Traffic
+                        <select
+                          required
+                          value={deliveryInput.traffic}
+                          onChange={(e) =>
+                            setDeliveryInput({
+                              ...deliveryInput,
+                              traffic: e.target.value,
+                            })
+                          }
+                        >
+                          <option value="">Select traffic</option>
+                          {DELIVERY_TRAFFIC.map((traffic) => (
+                            <option key={traffic} value={traffic}>
+                              {traffic}
+                            </option>
+                          ))}
+                        </select>
+                      </label>
 
-                {deliveryResult && (
-                  <div className="prediction-result" aria-live="polite">
-                    <h4>Estimated Delivery Time</h4>
+                      <label className="prediction-field">
+                        Weather
+                        <select
+                          required
+                          value={deliveryInput.weather}
+                          onChange={(e) =>
+                            setDeliveryInput({
+                              ...deliveryInput,
+                              weather: e.target.value,
+                            })
+                          }
+                        >
+                          <option value="">Select weather</option>
+                          {DELIVERY_WEATHER.map((weather) => (
+                            <option key={weather} value={weather}>
+                              {weather}
+                            </option>
+                          ))}
+                        </select>
+                      </label>
 
-                    <p className="prediction-cost">
-                      {deliveryResult.predicted_minutes} minutes
-                    </p>
+                      <label className="prediction-field">
+                        Courier Vehicle
+                        <select
+                          required
+                          value={deliveryInput.vehicle}
+                          onChange={(e) =>
+                            setDeliveryInput({
+                              ...deliveryInput,
+                              vehicle: e.target.value,
+                            })
+                          }
+                        >
+                          <option value="">Select vehicle</option>
+                          {DELIVERY_VEHICLES.map((vehicle) => (
+                            <option key={vehicle} value={vehicle}>
+                              {vehicle}
+                            </option>
+                          ))}
+                        </select>
+                      </label>
 
-                    <p>
-                      {deliveryResult.input.distance} km by {deliveryResult.input.vehicle.toLowerCase()} in{" "}
-                      {deliveryResult.input.traffic.toLowerCase()} traffic and {deliveryResult.input.weather.toLowerCase()} weather.
-                    </p>
-                  </div>
-                )}
-              </section>
+                      <label className="prediction-field">
+                        Courier Age
+                        <input
+                          type="number"
+                          min="18"
+                          max="55"
+                          step="1"
+                          required
+                          value={deliveryInput.courier_age}
+                          onChange={(e) =>
+                            setDeliveryInput({
+                              ...deliveryInput,
+                              courier_age: e.target.value,
+                            })
+                          }
+                          placeholder="18 - 55"
+                        />
+                      </label>
+
+                      <label className="prediction-field">
+                        Courier Rating
+                        <input
+                          type="number"
+                          min="3"
+                          max="5"
+                          step="0.1"
+                          required
+                          value={deliveryInput.courier_rating}
+                          onChange={(e) =>
+                            setDeliveryInput({
+                              ...deliveryInput,
+                              courier_rating: e.target.value,
+                            })
+                          }
+                          placeholder="3.0 - 5.0"
+                        />
+                      </label>
+
+                      <label className="prediction-field">
+                        Courier Experience (months)
+                        <input
+                          type="number"
+                          min="1"
+                          max="120"
+                          step="1"
+                          required
+                          value={deliveryInput.courier_experience}
+                          onChange={(e) =>
+                            setDeliveryInput({
+                              ...deliveryInput,
+                              courier_experience: e.target.value,
+                            })
+                          }
+                          placeholder="1 - 120"
+                        />
+                      </label>
+                    </div>
+
+                    <button
+                      className="prediction-submit"
+                      type="submit"
+                      disabled={deliveryLoading}
+                    >
+                      {deliveryLoading
+                        ? "Calculating..."
+                        : "Predict Delivery Time"}
+                    </button>
+                  </form>
+
+                  {deliveryError && (
+                    <div className="prediction-error" role="alert">
+                      {deliveryError}
+                    </div>
+                  )}
+
+                  {deliveryResult && (
+                    <div className="prediction-result" aria-live="polite">
+                      <h4>Estimated Delivery Time</h4>
+
+                      <p className="prediction-cost">
+                        {deliveryResult.predicted_minutes} minutes
+                      </p>
+
+                      <p>
+                        {deliveryResult.input.distance} km by{" "}
+                        {deliveryResult.input.vehicle.toLowerCase()} in{" "}
+                        {deliveryResult.input.traffic.toLowerCase()} traffic and{" "}
+                        {deliveryResult.input.weather.toLowerCase()} weather.
+                      </p>
+                    </div>
+                  )}
+                </section>
               </>
             }
           />
@@ -2394,80 +2619,91 @@ export default function App() {
             path="/catsdog"
             element={
               <>
-              <Link to="/" className="back-link">
-                Back to all projects
-              </Link>
+                <Link to="/" className="back-link">
+                  Back to all projects
+                </Link>
 
-              <section className="prediction-section">
-                <h3>Cat vs Dog Classifier</h3>
-                <p className="prediction-description">
-                  Upload a photo of a cat or a dog to see which one the model thinks it is.
-                </p>
+                <section className="prediction-section">
+                  <h3>Cat vs Dog Classifier</h3>
+                  <p className="prediction-description">
+                    Upload a photo of a cat or a dog to see which one the model
+                    thinks it is.
+                  </p>
 
-                <form className="prediction-form" onSubmit={predictCatDog}>
-                  <label className="prediction-field">
-                    Photo
-                    <input
-                      type="file"
-                      ref={catDogInputRef}
-                      accept="image/*"
-                      required
-                      onChange={(e) => {
-                        const file = e.target.files[0] || null;
-                        setCatDogFile(file);
-                        setCatDogPreview(file ? URL.createObjectURL(file) : "");
-                        setCatDogResult(null);
-                        setCatDogError("");
-                      }}
-                    />
-                  </label>
+                  <form className="prediction-form" onSubmit={predictCatDog}>
+                    <label className="prediction-field">
+                      Photo
+                      <input
+                        type="file"
+                        ref={catDogInputRef}
+                        accept="image/*"
+                        required
+                        onChange={(e) => {
+                          const file = e.target.files[0] || null;
+                          setCatDogFile(file);
+                          setCatDogPreview(
+                            file ? URL.createObjectURL(file) : "",
+                          );
+                          setCatDogResult(null);
+                          setCatDogError("");
+                        }}
+                      />
+                    </label>
 
-                            {catDogPreview && (
-                    <>
-                      <img className="prediction-preview" src={catDogPreview} alt="Selected photo" />
-                      <button className="prediction-clear" type="button" onClick={clearCatDog}>
-                        Remove photo
-                      </button>
-                    </>
+                    {catDogPreview && (
+                      <>
+                        <img
+                          className="prediction-preview"
+                          src={catDogPreview}
+                          alt="Selected photo"
+                        />
+                        <button
+                          className="prediction-clear"
+                          type="button"
+                          onClick={clearCatDog}
+                        >
+                          Remove photo
+                        </button>
+                      </>
+                    )}
+
+                    <button
+                      className="prediction-submit"
+                      type="submit"
+                      disabled={catDogLoading}
+                    >
+                      {catDogLoading ? "Classifying..." : "Classify Photo"}
+                    </button>
+                  </form>
+
+                  {catDogError && (
+                    <div className="prediction-error" role="alert">
+                      {catDogError}
+                    </div>
                   )}
 
-                  <button
-                    className="prediction-submit"
-                    type="submit"
-                    disabled={catDogLoading}
-                  >
-                    {catDogLoading ? "Classifying..." : "Classify Photo"}
-                  </button>
-                </form>
+                  {catDogResult && (
+                    <div className="prediction-result" aria-live="polite">
+                      <h4>Prediction</h4>
 
-                {catDogError && (
-                  <div className="prediction-error" role="alert">
-                    {catDogError}
-                  </div>
-                )}
+                      <p className="prediction-cost">{catDogResult.label}</p>
 
-                {catDogResult && (
-                  <div className="prediction-result" aria-live="polite">
-                    <h4>Prediction</h4>
+                      <ul className="prediction-options">
+                        {catDogResult.probabilities.map((item) => (
+                          <li key={item.label}>
+                            <span>{item.label}</span>
+                            <span>{item.probability}%</span>
+                          </li>
+                        ))}
+                      </ul>
 
-                    <p className="prediction-cost">{catDogResult.label}</p>
-
-                    <ul className="prediction-options">
-                      {catDogResult.probabilities.map((item) => (
-                        <li key={item.label}>
-                          <span>{item.label}</span>
-                          <span>{item.probability}%</span>
-                        </li>
-                      ))}
-                    </ul>
-
-                    <p>
-                      The model is {catDogResult.confidence}% sure this is a{" "}
-                      {catDogResult.label.toLowerCase()}.
-                    </p>
-                  </div>
-                )}
-              </section>
+                      <p>
+                        The model is {catDogResult.confidence}% sure this is a{" "}
+                        {catDogResult.label.toLowerCase()}.
+                      </p>
+                    </div>
+                  )}
+                </section>
               </>
             }
           />
@@ -2477,80 +2713,92 @@ export default function App() {
             path="/pplcar"
             element={
               <>
-              <Link to="/" className="back-link">
-                Back to all projects
-              </Link>
+                <Link to="/" className="back-link">
+                  Back to all projects
+                </Link>
 
-              <section className="prediction-section">
-                <h3>People vs Car Classifier</h3>
-                <p className="prediction-description">
-                  Upload a photo of a person or a car to see which one the model thinks it is.
-                </p>
+                <section className="prediction-section">
+                  <h3>People vs Car Classifier</h3>
+                  <p className="prediction-description">
+                    Upload a photo of a person or a car to see which one the
+                    model thinks it is.
+                  </p>
 
-                <form className="prediction-form" onSubmit={predictPplCar}>
-                  <label className="prediction-field">
-                    Photo
-                    <input
-                      type="file"
-                      ref={pplCarInputRef}
-                      accept="image/*"
-                      required
-                      onChange={(e) => {
-                        const file = e.target.files[0] || null;
-                        setPplCarFile(file);
-                        setPplCarPreview(file ? URL.createObjectURL(file) : "");
-                        setPplCarResult(null);
-                        setPplCarError("");
-                      }}
-                    />
-                  </label>
+                  <form className="prediction-form" onSubmit={predictPplCar}>
+                    <label className="prediction-field">
+                      Photo
+                      <input
+                        type="file"
+                        ref={pplCarInputRef}
+                        accept="image/*"
+                        required
+                        onChange={(e) => {
+                          const file = e.target.files[0] || null;
+                          setPplCarFile(file);
+                          setPplCarPreview(
+                            file ? URL.createObjectURL(file) : "",
+                          );
+                          setPplCarResult(null);
+                          setPplCarError("");
+                        }}
+                      />
+                    </label>
 
-                            {pplCarPreview && (
-                    <>
-                      <img className="prediction-preview" src={pplCarPreview} alt="Selected photo" />
-                      <button className="prediction-clear" type="button" onClick={clearPplCar}>
-                        Remove photo
-                      </button>
-                    </>
+                    {pplCarPreview && (
+                      <>
+                        <img
+                          className="prediction-preview"
+                          src={pplCarPreview}
+                          alt="Selected photo"
+                        />
+                        <button
+                          className="prediction-clear"
+                          type="button"
+                          onClick={clearPplCar}
+                        >
+                          Remove photo
+                        </button>
+                      </>
+                    )}
+
+                    <button
+                      className="prediction-submit"
+                      type="submit"
+                      disabled={pplCarLoading}
+                    >
+                      {pplCarLoading ? "Classifying..." : "Classify Photo"}
+                    </button>
+                  </form>
+
+                  {pplCarError && (
+                    <div className="prediction-error" role="alert">
+                      {pplCarError}
+                    </div>
                   )}
 
-                  <button
-                    className="prediction-submit"
-                    type="submit"
-                    disabled={pplCarLoading}
-                  >
-                    {pplCarLoading ? "Classifying..." : "Classify Photo"}
-                  </button>
-                </form>
+                  {pplCarResult && (
+                    <div className="prediction-result" aria-live="polite">
+                      <h4>Prediction</h4>
 
-                {pplCarError && (
-                  <div className="prediction-error" role="alert">
-                    {pplCarError}
-                  </div>
-                )}
+                      <p className="prediction-cost">{pplCarResult.label}</p>
 
-                {pplCarResult && (
-                  <div className="prediction-result" aria-live="polite">
-                    <h4>Prediction</h4>
+                      <ul className="prediction-options">
+                        {pplCarResult.probabilities.map((item) => (
+                          <li key={item.label}>
+                            <span>{item.label}</span>
+                            <span>{item.probability}%</span>
+                          </li>
+                        ))}
+                      </ul>
 
-                    <p className="prediction-cost">{pplCarResult.label}</p>
-
-                    <ul className="prediction-options">
-                      {pplCarResult.probabilities.map((item) => (
-                        <li key={item.label}>
-                          <span>{item.label}</span>
-                          <span>{item.probability}%</span>
-                        </li>
-                      ))}
-                    </ul>
-
-                    <p>
-                      The model is {pplCarResult.confidence}% sure this is a{" "}
-                      {pplCarResult.label.toLowerCase()}.
-                    </p>
-                  </div>
-                )}
-              </section>
+                      <p>
+                        {pplCarResult.label === "Unknown"
+                          ? `The model is ${pplCarResult.confidence}% sure this is neither a person nor a car.`
+                          : `The model is ${pplCarResult.confidence}% sure this is a ${pplCarResult.label.toLowerCase()}.`}
+                      </p>
+                    </div>
+                  )}
+                </section>
               </>
             }
           />
