@@ -335,8 +335,8 @@ export default function App() {
   const [productsError, setProductsError] = useState("");
   const [selectedProduct, setSelectedProduct] = useState(null);
 
-  const serverurl = "http://localhost:3000/api";
-  // const serverurl = "/api";
+  // const serverurl = "http://localhost:3000/api";
+  const serverurl = "/api";
 
   useEffect(() => {
     getData();
