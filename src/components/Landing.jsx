@@ -18,36 +18,43 @@ const PROFILE = {
 
 const EXPERIENCE = [
   {
+    title: "IT Intern",
+    place: "SimplyIT",
+    dates: "May 2025 to June 2025",
+    text: "Supported the project management and technical teams with daily IT operations, troubleshooting and workflow documentation.",
+  },
+  {
     title: "Technical Intern",
     place: "Beem",
-    dates: "Jul 2025 to Oct 2025",
+    dates: "July 2025 to October 2025",
     text: "Worked with the engineering team on backend connectivity and system integration, and learned how fintech systems are optimised and rolled out.",
   },
   {
-    title: "IT Intern",
-    place: "SimplyIT",
-    dates: "May 2025 to Jun 2025",
-    text: "Supported the project management and technical teams with daily IT operations, troubleshooting and workflow documentation.",
+    title: "Junior Developer",
+    place: "Imperial Marketing and Communication",
+    dates: "September 2026 to December 2026",
+    text: "Built and deployed this website, then moved into AI: machine learning models, face recognition, CCTV person tracking and a mobile app with on-device object detection.",
   },
 ];
 
 const EDUCATION = [
   {
-    title: "BSc (Hons) Computer Science, Artificial Intelligence",
-    place: "Asia Pacific University of Innovation and Technology",
-    dates: "Nov 2025 to Nov 2027",
-  },
-  {
     title: "Diploma in Information and Communication Technology",
     place: "Asia Pacific University of Innovation and Technology",
     dates: "Sep 2023 to Jun 2025",
   },
+  {
+    title: "BSc (Hons) Computer Science, Artificial Intelligence",
+    place: "Asia Pacific University of Innovation and Technology",
+    dates: "Nov 2025 to Nov 2027",
+  },
+  
 ];
 
 const SKILLS = [
   {
     group: "Languages",
-    items: ["Python", "JavaScript", "Java", "C#", "C++", "SQL"],
+    items: ["Python", "JavaScript", "Java", "C#", "C++", "SQL", "R", "HTML", "CSS", "Dart"],
   },
   {
     group: "Frameworks and tools",
