@@ -1,0 +1,113 @@
+/* ==========================================================
+   Top bar and coloured title area on each project page
+   ========================================================== */
+
+/* Lets the top bar stay stuck to the top for the whole page */
+.pg-top {
+  display: contents;
+}
+
+.pg-hero {
+  position: relative;
+  overflow: hidden;
+  isolation: isolate;
+  background: var(--cs);
+  border-bottom: 2px solid #f0f0f0;
+}
+
+.pg-hero-inner {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  padding-top: 44px;
+  padding-bottom: 44px;
+  animation: hb-rise 0.5s cubic-bezier(0.2, 0.8, 0.2, 1) both;
+}
+
+.pg-tile {
+  display: grid;
+  place-items: center;
+  flex: none;
+  width: 84px;
+  height: 84px;
+  border-radius: 24px;
+  background: var(--c);
+  color: var(--ct);
+  box-shadow: 0 6px 0 var(--cd);
+}
+
+.pg-group {
+  display: inline-block;
+  padding: 3px 10px;
+  border-radius: 8px;
+  background: #ffffff;
+  font-size: 12px;
+  font-weight: 900;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--ink);
+}
+
+.hb .pg-title {
+  margin-top: 8px;
+  font-size: clamp(32px, 5vw, 48px);
+  font-weight: 900;
+  line-height: 1.05;
+  letter-spacing: -0.02em;
+  color: var(--ink);
+}
+
+.hb .pg-text {
+  margin-top: 6px;
+  font-size: 17px;
+  font-weight: 700;
+  color: #4b4b4b;
+}
+
+/* Corner shape, the same one as the project's homepage card */
+.pg-deco {
+  position: absolute;
+  z-index: -1;
+  top: -60px;
+  right: -40px;
+  width: 260px;
+  height: 260px;
+  background: var(--c);
+  opacity: 0.14;
+}
+.pg-deco--circle {
+  border-radius: 50%;
+}
+.pg-deco--square {
+  border-radius: 48px;
+  transform: rotate(18deg);
+}
+.pg-deco--ring {
+  border-radius: 50%;
+  background: transparent;
+  border: 44px solid var(--c);
+}
+.pg-deco--diamond {
+  border-radius: 44px;
+  transform: rotate(45deg);
+}
+
+@media (max-width: 600px) {
+  .pg-hero-inner {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 16px;
+    padding-top: 32px;
+    padding-bottom: 32px;
+  }
+  .pg-tile {
+    width: 68px;
+    height: 68px;
+    border-radius: 20px;
+  }
+}
+
+/* Lines the top bar and title up with the page content below */
+.pg-top .hb-wrap {
+  max-width: 1000px;
+}

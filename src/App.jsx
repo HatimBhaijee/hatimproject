@@ -3,6 +3,7 @@ import "./App.css";
 import axios from "axios";
 import { BrowserRouter, Routes, Route, Link, Navigate } from "react-router-dom";
 import Landing from "./components/Landing.jsx";
+import PageHeader from "./components/PageHeader.jsx";
 
 // Options for the crop and country models
 const WEATHER_OPTIONS = [
@@ -1008,7 +1009,8 @@ export default function App() {
 
   return (
     <BrowserRouter>
-      <div id="name">
+        <div id="name">
+        <PageHeader management={MANAGEMENT_PROJECTS} ai={AI_PROJECTS} />
         <Routes>
                     {/* Landing page: profile and one card per project */}
           <Route
