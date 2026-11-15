@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from "react";
 import "./App.css";
 import axios from "axios";
 import { BrowserRouter, Routes, Route, Link, Navigate } from "react-router-dom";
+import Landing from "./components/Landing.jsx";
 
 // Options for the crop and country models
 const WEATHER_OPTIONS = [
@@ -333,8 +334,8 @@ export default function App() {
   const [productsError, setProductsError] = useState("");
   const [selectedProduct, setSelectedProduct] = useState(null);
 
-  // const serverurl = "http://localhost:3000/api";
-  const serverurl = "/api";
+  const serverurl = "http://localhost:3000/api";
+  // const serverurl = "/api";
 
   useEffect(() => {
     getData();
@@ -1009,45 +1010,11 @@ export default function App() {
     <BrowserRouter>
       <div id="name">
         <Routes>
-          {/* Landing page: one card per project */}
+                    {/* Landing page: profile and one card per project */}
           <Route
             path="/"
             element={
-              <div className="landing">
-                <h2 className="landing-title">Projects</h2>
-
-                <h4 className="landing-group">Management</h4>
-                <div className="landing-grid">
-                  {MANAGEMENT_PROJECTS.map((project) => (
-                    <Link
-                      key={project.path}
-                      to={project.path}
-                      className="project-card"
-                    >
-                      <span className="project-name">{project.name}</span>
-                      <span className="project-description">
-                        {project.description}
-                      </span>
-                    </Link>
-                  ))}
-                </div>
-
-                <h4 className="landing-group">AI Models</h4>
-                <div className="landing-grid">
-                  {AI_PROJECTS.map((project) => (
-                    <Link
-                      key={project.path}
-                      to={project.path}
-                      className="project-card"
-                    >
-                      <span className="project-name">{project.name}</span>
-                      <span className="project-description">
-                        {project.description}
-                      </span>
-                    </Link>
-                  ))}
-                </div>
-              </div>
+              <Landing management={MANAGEMENT_PROJECTS} ai={AI_PROJECTS} />
             }
           />
 
