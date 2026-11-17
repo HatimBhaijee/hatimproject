@@ -417,3 +417,48 @@ html[data-theme="dark"] .hb-below {
 html[data-theme="dark"] .hb-below-fx::after {
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 0.09 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
 }
+
+/* ==========================================================
+   Top bar in light mode: flipped to light, so switching the
+   theme is visible straight away. Dark mode keeps the navy bar.
+   ========================================================== */
+html:not([data-theme="dark"]) .hb-nav {
+  background: var(--surface);
+  border-bottom-color: var(--line);
+  color: var(--ink);
+}
+
+html:not([data-theme="dark"]) .hb-nav .hb-logo-mark {
+  background: var(--navy);
+  color: #ffffff;
+}
+
+html:not([data-theme="dark"]) .hb .hb-nav .hb-nav-links a {
+  color: var(--muted);
+}
+
+html:not([data-theme="dark"]) .hb .hb-nav .hb-nav-links a:hover {
+  color: var(--ink);
+}
+
+/* Theme switch and "All projects": thin dark outline */
+html:not([data-theme="dark"]) .hb-nav .hb-btn--ghost,
+html:not([data-theme="dark"]) .hb-nav a.hb-btn--ghost {
+  border-color: var(--line-strong);
+  color: var(--ink);
+  --spot: rgba(0, 0, 0, 0.05);
+  --edge: rgba(0, 0, 0, 0.45);
+}
+
+html:not([data-theme="dark"]) .hb-nav .hb-btn--ghost:hover {
+  border-color: var(--ink);
+}
+
+/* "Email me": navy with white text */
+html:not([data-theme="dark"]) .hb-nav .hb-btn--light,
+html:not([data-theme="dark"]) .hb-nav a.hb-btn--light {
+  background: var(--navy);
+  color: #ffffff;
+  --spot: rgba(255, 255, 255, 0.12);
+  --edge: rgba(255, 255, 255, 0.7);
+}
