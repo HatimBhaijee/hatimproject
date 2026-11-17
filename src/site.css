@@ -1,0 +1,420 @@
+/* ==========================================================
+   Site-wide extras: smooth scrolling, the back-to-top button,
+   the theme switch and dark mode.
+
+   Dark mode is switched on by <html data-theme="dark">, which
+   ThemeToggle sets. Every dark rule starts with
+   html[data-theme="dark"] so light mode is never affected.
+   ========================================================== */
+
+/* Smooth scrolling on every page */
+html {
+  scroll-behavior: smooth;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+}
+
+/* Short colour fade while switching between light and dark */
+html.theme-fade,
+html.theme-fade *,
+html.theme-fade *::before,
+html.theme-fade *::after {
+  transition:
+    background-color 0.3s ease,
+    border-color 0.3s ease,
+    color 0.3s ease,
+    box-shadow 0.3s ease !important;
+}
+
+/* ==========================================================
+   Theme switch (square button in the top bar)
+   ========================================================== */
+.hb-btn.theme-toggle {
+  width: 40px;
+  padding: 0;
+}
+
+/* ==========================================================
+   Back-to-top button
+   ========================================================== */
+.scroll-top {
+  position: fixed;
+  right: 20px;
+  bottom: 24px;
+  z-index: 30;
+  display: grid;
+  place-items: center;
+  width: 52px;
+  height: 52px;
+  padding: 0;
+  border: none;
+  border-radius: 16px;
+  background: var(--c, #0b2a5b);
+  color: var(--ct, #ffffff);
+  box-shadow: 0 5px 0 var(--cd, #071c3d);
+  cursor: pointer;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(12px);
+  transition:
+    opacity 0.2s ease,
+    transform 0.2s ease,
+    visibility 0.2s ease,
+    filter 0.15s ease;
+}
+
+.scroll-top.is-shown {
+  opacity: 1;
+  visibility: visible;
+  transform: none;
+}
+
+.scroll-top:hover {
+  filter: brightness(1.1);
+}
+
+.scroll-top:active {
+  transform: translateY(5px);
+  box-shadow: 0 0 0 transparent;
+}
+
+.scroll-top:focus-visible {
+  outline: 3px solid #0a84c6;
+  outline-offset: 3px;
+}
+
+@media (max-width: 600px) {
+  .scroll-top {
+    right: 14px;
+    bottom: 16px;
+    width: 48px;
+    height: 48px;
+  }
+}
+
+/* ==========================================================
+   DARK MODE
+   ========================================================== */
+
+/* Dark colours used below */
+html[data-theme="dark"] {
+  --d-bg: #0e0f12;
+  --d-surface: #17181d;
+  --d-surface-2: #1e2026;
+  --d-line: #2b2d35;
+
+  color-scheme: dark;
+}
+
+/* The site's own colour names, switched to dark */
+html[data-theme="dark"] #name,
+html[data-theme="dark"] .hb {
+  --ink: #eceef1;
+  --muted: #a3a6ad;
+  --line: var(--d-line);
+  --bg-soft: var(--d-surface-2);
+  --soft: var(--d-surface-2);
+
+  color-scheme: dark;
+}
+
+/* Page background */
+html[data-theme="dark"] body,
+html[data-theme="dark"] #name,
+html[data-theme="dark"] #name:has(> .hb),
+html[data-theme="dark"] body:has(.hb) {
+  background: var(--d-bg);
+}
+
+/* ---------- Top bar ---------- */
+html[data-theme="dark"] .hb-nav {
+  background: rgba(14, 15, 18, 0.85);
+  border-bottom-color: #1f2128;
+}
+
+html[data-theme="dark"] .hb-logo-tile {
+  box-shadow:
+    0 4px 0 var(--navy-dark),
+    0 0 14px -2px rgba(77, 140, 255, 0.45);
+}
+
+/* ---------- Buttons ---------- */
+html[data-theme="dark"] .hb-btn--ghost {
+  --c: var(--d-surface-2);
+  --cd: var(--d-line);
+  --ct: #eceef1;
+  border-color: var(--d-line);
+}
+
+html[data-theme="dark"] .hb-btn--ghost:hover {
+  background: #262830;
+}
+
+/* Small glow on every coloured button */
+html[data-theme="dark"] .hb-btn:not(.hb-btn--ghost),
+html[data-theme="dark"] .submit,
+html[data-theme="dark"] .payment,
+html[data-theme="dark"] .prediction-submit,
+html[data-theme="dark"] .scroll-top {
+  box-shadow:
+    0 5px 0 var(--cd, #2f7a00),
+    0 0 18px -4px color-mix(in srgb, var(--c, #3e9c00) 70%, transparent);
+}
+
+html[data-theme="dark"] .hb-btn--small:not(.hb-btn--ghost) {
+  box-shadow:
+    0 4px 0 var(--cd, #2f7a00),
+    0 0 14px -4px color-mix(in srgb, var(--c, #3e9c00) 70%, transparent);
+}
+
+html[data-theme="dark"] .scroll-top {
+  box-shadow:
+    0 5px 0 var(--cd, #071c3d),
+    0 0 18px -4px color-mix(in srgb, var(--c, #4d8cff) 70%, transparent);
+}
+
+/* Pressed buttons lose their glow, like they lose their edge */
+html[data-theme="dark"] .hb-btn:active,
+html[data-theme="dark"] .submit:active,
+html[data-theme="dark"] .payment:active,
+html[data-theme="dark"] .prediction-submit:active,
+html[data-theme="dark"] .scroll-top:active {
+  box-shadow: 0 0 0 transparent;
+}
+
+html[data-theme="dark"] .hb-card:active .hb-btn {
+  box-shadow: 0 0 0 transparent;
+}
+
+/* Grey second buttons */
+html[data-theme="dark"] .list,
+html[data-theme="dark"] .showpayment,
+html[data-theme="dark"] .cancel,
+html[data-theme="dark"] .prediction-clear,
+html[data-theme="dark"] .action-btn {
+  background: var(--d-surface-2);
+}
+
+html[data-theme="dark"] .list:hover,
+html[data-theme="dark"] .showpayment:hover,
+html[data-theme="dark"] .cancel:hover,
+html[data-theme="dark"] .prediction-clear:hover {
+  background: #262830;
+}
+
+html[data-theme="dark"] .action-modify,
+html[data-theme="dark"] .action-view {
+  background: var(--c, #3e9c00);
+  box-shadow:
+    0 3px 0 var(--cd, #2f7a00),
+    0 0 12px -4px color-mix(in srgb, var(--c, #3e9c00) 70%, transparent);
+}
+
+html[data-theme="dark"] .action-delete {
+  background: #e02e2e;
+  box-shadow:
+    0 3px 0 #b32020,
+    0 0 12px -4px rgba(224, 46, 46, 0.7);
+}
+
+/* ---------- Homepage hero ---------- */
+html[data-theme="dark"] .hb-title-accent {
+  color: #7fb2ff;
+  text-shadow: 0 0 22px rgba(77, 140, 255, 0.35);
+}
+
+html[data-theme="dark"] .hb-chip-dot {
+  box-shadow: 0 0 8px rgba(62, 156, 0, 0.8);
+}
+
+html[data-theme="dark"] .hb-stat {
+  background: var(--d-surface);
+}
+
+html[data-theme="dark"] .hb-stat strong {
+  text-shadow: 0 0 14px color-mix(in srgb, var(--c) 55%, transparent);
+}
+
+html[data-theme="dark"] .hb-id {
+  box-shadow:
+    0 8px 0 var(--navy-dark),
+    0 0 30px -8px rgba(77, 140, 255, 0.45);
+}
+
+html[data-theme="dark"] .hb-id-tags span {
+  box-shadow:
+    0 3px 0 var(--cd),
+    0 0 12px -4px color-mix(in srgb, var(--c) 70%, transparent);
+}
+
+html[data-theme="dark"] .hb-float {
+  opacity: 0.85;
+  box-shadow: 0 0 24px -6px currentColor;
+}
+
+html[data-theme="dark"] .hb-float--a {
+  color: #1cb0f6;
+}
+
+html[data-theme="dark"] .hb-float--b {
+  color: #58cc02;
+}
+
+html[data-theme="dark"] .hb-float--c {
+  color: #ff9600;
+}
+
+/* ---------- Cards and panels ---------- */
+html[data-theme="dark"] .hb-card,
+html[data-theme="dark"] .hb-panel,
+html[data-theme="dark"] .column:has(> h3),
+html[data-theme="dark"] .prediction-section {
+  background: var(--d-surface);
+}
+
+html[data-theme="dark"] .hb-card:hover {
+  box-shadow: 0 0 22px -8px color-mix(in srgb, var(--c) 70%, transparent);
+}
+
+html[data-theme="dark"] .hb-tile,
+html[data-theme="dark"] .pg-tile {
+  box-shadow:
+    0 4px 0 var(--cd),
+    0 0 16px -4px color-mix(in srgb, var(--c) 70%, transparent);
+}
+
+html[data-theme="dark"] .pg-tile {
+  box-shadow:
+    0 6px 0 var(--cd),
+    0 0 22px -4px color-mix(in srgb, var(--c) 70%, transparent);
+}
+
+html[data-theme="dark"] .hb-panel::before {
+  box-shadow: 0 0 10px color-mix(in srgb, var(--c) 80%, transparent);
+}
+
+/* Soft colour tints become dark tints of the same colour */
+html[data-theme="dark"] .hb-deco {
+  background: color-mix(in srgb, var(--c) 22%, var(--d-surface));
+}
+
+html[data-theme="dark"] .hb-deco--ring {
+  background: transparent;
+  border-color: color-mix(in srgb, var(--c) 22%, var(--d-surface));
+}
+
+html[data-theme="dark"] .hb-tag,
+html[data-theme="dark"] .hb-date {
+  background: color-mix(in srgb, var(--c) 22%, var(--d-surface));
+}
+
+html[data-theme="dark"] .hb-at {
+  color: color-mix(in srgb, var(--c) 75%, #ffffff);
+}
+
+/* ---------- Contact box ---------- */
+html[data-theme="dark"] .hb-contact {
+  box-shadow:
+    0 8px 0 var(--navy-dark),
+    0 0 30px -10px rgba(77, 140, 255, 0.45);
+}
+
+/* ---------- Project page title area ---------- */
+html[data-theme="dark"] .pg-hero {
+  background: color-mix(in srgb, var(--c) 16%, var(--d-bg));
+  border-bottom-color: #1f2128;
+}
+
+html[data-theme="dark"] .pg-group {
+  background: var(--d-surface-2);
+}
+
+html[data-theme="dark"] .hb .pg-text {
+  color: var(--muted);
+}
+
+/* ---------- Inputs ---------- */
+html[data-theme="dark"] .user-input:hover,
+html[data-theme="dark"] .prediction-field input:hover,
+html[data-theme="dark"] .prediction-field select:hover {
+  border-color: #3a3d46;
+}
+
+html[data-theme="dark"] .user-input:focus,
+html[data-theme="dark"] .prediction-field input:focus,
+html[data-theme="dark"] .prediction-field select:focus {
+  background-color: var(--d-surface);
+  box-shadow: 0 0 14px -6px color-mix(in srgb, var(--c, #3e9c00) 70%, transparent);
+}
+
+html[data-theme="dark"] .user-input::placeholder,
+html[data-theme="dark"] .prediction-field input::placeholder {
+  color: #6f727a;
+}
+
+html[data-theme="dark"] .select-input,
+html[data-theme="dark"] .prediction-field select {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='9' viewBox='0 0 14 9'%3E%3Cpath d='M1.5 1.5l5.5 5.5 5.5-5.5' fill='none' stroke='%23a3a6ad' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+}
+
+html[data-theme="dark"] .prediction-field select:disabled {
+  background-color: #15161a;
+  color: #6f727a;
+}
+
+html[data-theme="dark"] .prediction-field input[type="file"]::file-selector-button {
+  background: var(--d-surface-2);
+  color: var(--ink);
+}
+
+/* ---------- Status message and results ---------- */
+html[data-theme="dark"] .created,
+html[data-theme="dark"] .prediction-result {
+  background: color-mix(in srgb, var(--c, #3e9c00) 14%, var(--d-surface));
+  box-shadow: 0 0 22px -10px color-mix(in srgb, var(--c, #3e9c00) 70%, transparent);
+}
+
+html[data-theme="dark"] #name .prediction-result h4,
+html[data-theme="dark"] .prediction-result p:last-child {
+  color: var(--muted);
+}
+
+html[data-theme="dark"] .prediction-options li {
+  background: var(--d-surface);
+}
+
+html[data-theme="dark"] .prediction-error {
+  background: rgba(224, 46, 46, 0.12);
+  color: #ff8a8a;
+}
+
+/* ---------- Tables ---------- */
+html[data-theme="dark"] .custom-table,
+html[data-theme="dark"] .column > div:has(> .custom-table) {
+  background: var(--d-surface);
+}
+
+html[data-theme="dark"] .custom-table th {
+  background: color-mix(in srgb, var(--c, #3e9c00) 16%, var(--d-surface));
+}
+
+html[data-theme="dark"] .custom-table td {
+  border-bottom-color: #23252c;
+}
+
+html[data-theme="dark"] .custom-table tbody tr:hover {
+  background: var(--d-surface-2);
+}
+
+/* ---------- Products page ---------- */
+html[data-theme="dark"] .product-image {
+  background: var(--d-surface-2);
+}
+
+html[data-theme="dark"] .product-details p {
+  color: var(--muted);
+}

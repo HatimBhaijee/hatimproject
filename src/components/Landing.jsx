@@ -2,6 +2,7 @@ import { useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
 import "./Landing.css";
 import { COLORS, SHAPES, colorVars, Icon } from "./theme.jsx";
+import ThemeToggle from "./ThemeToggle.jsx";
 
 /* ==========================================================
    Your details. Change anything here and the page updates.
@@ -165,6 +166,7 @@ export default function Landing({ management = [], ai = [] }) {
             <a href="#experience">Experience</a>
             <a href="#contact">Contact</a>
           </nav>
+          <ThemeToggle />
           <a
             href={`mailto:${PROFILE.email}`}
             className="hb-btn hb-btn--small"

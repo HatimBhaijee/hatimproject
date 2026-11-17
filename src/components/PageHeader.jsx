@@ -3,6 +3,7 @@ import { Link, useLocation } from "react-router-dom";
 import "./Landing.css";
 import "./PageHeader.css";
 import { Icon, colorVars, findProject } from "./theme.jsx";
+import ThemeToggle from "./ThemeToggle.jsx";
 
 /* ==========================================================
    Top bar and coloured title area shown on every project page.
@@ -28,7 +29,7 @@ export default function PageHeader({ management = [], ai = [] }) {
 
   // Opens each page at the top
   useEffect(() => {
-    window.scrollTo(0, 0);
+    window.scrollTo({ top: 0, behavior: "instant" });
   }, [pathname]);
 
   if (!project) return null;
@@ -41,6 +42,7 @@ export default function PageHeader({ management = [], ai = [] }) {
             <span className="hb-logo-tile">HB</span>
             <span className="hb-logo-name">Hatim Bhaijee</span>
           </Link>
+          <ThemeToggle />
           <Link to="/" className="hb-btn hb-btn--small hb-btn--ghost">
             <Icon name="back" size={16} />
             All projects

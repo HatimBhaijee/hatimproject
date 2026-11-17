@@ -4,6 +4,7 @@ import axios from "axios";
 import { BrowserRouter, Routes, Route, Link, Navigate } from "react-router-dom";
 import Landing from "./components/Landing.jsx";
 import PageHeader from "./components/PageHeader.jsx";
+import ScrollTopButton from "./components/ScrollTopButton.jsx";
 
 // Options for the crop and country models
 const WEATHER_OPTIONS = [
@@ -1550,7 +1551,7 @@ export default function App() {
                         style={{
                           marginTop: "12px",
                           fontStyle: "italic",
-                          color: "#1e293b",
+                          color: "var(--ink)",
                         }}
                       >
                         <strong>Bot:</strong> {latestBotReply}
@@ -2795,7 +2796,8 @@ export default function App() {
 
           {/* Any unknown address goes back to the landing page */}
           <Route path="*" element={<Navigate to="/" replace />} />
-        </Routes>
+                </Routes>
+        <ScrollTopButton />
       </div>
     </BrowserRouter>
   );
