@@ -5,10 +5,25 @@ import "./PageHeader.css";
 import { Icon, colorVars, findProject } from "./theme.jsx";
 import ThemeToggle from "./ThemeToggle.jsx";
 
+/* Everything that gets the soft light under the cursor on hover */
+const LIT = [
+  ".hb-btn",
+  ".hb-card",
+  ".submit",
+  ".payment",
+  ".prediction-submit",
+  ".list",
+  ".showpayment",
+  ".cancel",
+  ".prediction-clear",
+  ".action-btn",
+  ".scroll-top",
+].join(",");
+
 /* ==========================================================
-   Top bar and coloured title area shown on every project page.
-   It also gives the page its colour (the same colour as its
-   card on the homepage). Shows nothing on the homepage.
+   Top bar, coloured banner and "How it works" panel shown on
+   every project page. On the homepage it shows nothing, but it
+   still runs the cursor light for the buttons and cards.
    ========================================================== */
 export default function PageHeader({ management = [], ai = [] }) {
   const { pathname } = useLocation();
@@ -17,7 +32,7 @@ export default function PageHeader({ management = [], ai = [] }) {
   // Sets the page colour for the buttons, inputs and tables below
   useEffect(() => {
     const root = document.documentElement;
-    const names = ["--c", "--cd", "--cs", "--ct"];
+    const names = ["--c", "--cd", "--cs", "--ct", "--cl"];
 
     if (project) {
       const vars = colorVars(project.color);
@@ -32,6 +47,19 @@ export default function PageHeader({ management = [], ai = [] }) {
     window.scrollTo({ top: 0, behavior: "instant" });
   }, [pathname]);
 
+  // Tells each button and card where the cursor is, for the hover light
+  useEffect(() => {
+    function onMove(e) {
+      const el = e.target.closest && e.target.closest(LIT);
+      if (!el) return;
+      const box = el.getBoundingClientRect();
+      el.style.setProperty("--mx", `${e.clientX - box.left}px`);
+      el.style.setProperty("--my", `${e.clientY - box.top}px`);
+    }
+    document.addEventListener("pointermove", onMove, { passive: true });
+    return () => document.removeEventListener("pointermove", onMove);
+  }, []);
+
   if (!project) return null;
 
   return (
@@ -39,7 +67,7 @@ export default function PageHeader({ management = [], ai = [] }) {
       <header className="hb-nav">
         <div className="hb-wrap hb-nav-inner">
           <Link to="/" className="hb-logo">
-            <span className="hb-logo-tile">HB</span>
+            <span className="hb-logo-mark">HB</span>
             <span className="hb-logo-name">Hatim Bhaijee</span>
           </Link>
           <ThemeToggle />
@@ -51,13 +79,9 @@ export default function PageHeader({ management = [], ai = [] }) {
       </header>
 
       <section className="pg-hero" style={colorVars(project.color)}>
-        <span
-          className={`pg-deco pg-deco--${project.shape}`}
-          aria-hidden="true"
-        />
         <div className="hb-wrap pg-hero-inner">
-          <span className="pg-tile">
-            <Icon name={project.path} size={34} />
+          <span className="pg-icon">
+            <Icon name={project.path} size={40} stroke={1.4} />
           </span>
           <div>
             <span className="pg-group">{project.group}</span>
@@ -66,6 +90,23 @@ export default function PageHeader({ management = [], ai = [] }) {
           </div>
         </div>
       </section>
+
+      {project.info && (
+        <aside className="pg-how" aria-label="How it works">
+          <h2 className="pg-how-label">How it works</h2>
+          <ol className="pg-steps">
+            {project.info.steps.map((step) => (
+              <li key={step}>{step}</li>
+            ))}
+          </ol>
+          <h2 className="pg-how-label">Built with</h2>
+          <div className="pg-built">
+            {project.info.built.map((item) => (
+              <span key={item}>{item}</span>
+            ))}
+          </div>
+        </aside>
+      )}
     </div>
   );
 }

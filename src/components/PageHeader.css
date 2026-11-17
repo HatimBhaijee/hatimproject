@@ -1,95 +1,191 @@
 /* ==========================================================
-   Top bar and coloured title area on each project page
+   Project pages: top bar, deep-colour banner and the
+   two-column layout (page content left, "How it works" right)
    ========================================================== */
 
-/* Lets the top bar stay stuck to the top for the whole page */
+/* Lets the top bar, banner and panel sit in the page layout */
 .pg-top {
   display: contents;
 }
 
-.pg-hero {
-  position: relative;
-  overflow: hidden;
-  isolation: isolate;
-  background: var(--cs);
-  border-bottom: 2px solid #f0f0f0;
+/* Two columns on wide screens; the top bar and banner span both */
+#name:has(> .pg-top) {
+  display: grid;
+  grid-template-columns:
+    minmax(24px, 1fr)
+    minmax(0, 660px)
+    300px
+    minmax(24px, 1fr);
+  column-gap: 28px;
+  align-content: start;
+  padding: 0 0 80px;
+}
+#name:has(> .pg-top) > * {
+  grid-column: 2;
+}
+#name:has(> .pg-top) .pg-top > .hb-nav,
+#name:has(> .pg-top) .pg-top > .pg-hero {
+  grid-column: 1 / -1;
+}
+#name:has(> .pg-top) > .column,
+#name:has(> .pg-top) > .layout-columns,
+#name:has(> .pg-top) > .status-container,
+#name:has(> .pg-top) > .prediction-section {
+  width: auto;
+  margin: 28px 0 0;
 }
 
+/* ==========================================================
+   Banner in the project's deep colour
+   ========================================================== */
+.pg-hero {
+  background: var(--c);
+  color: #ffffff;
+}
 .pg-hero-inner {
   display: flex;
   align-items: center;
-  gap: 24px;
-  padding-top: 44px;
-  padding-bottom: 44px;
-  animation: hb-rise 0.5s cubic-bezier(0.2, 0.8, 0.2, 1) both;
+  gap: 28px;
+  max-width: 1036px;
+  padding-top: 52px;
+  padding-bottom: 52px;
+  animation: pg-fade 0.7s ease both;
 }
 
-.pg-tile {
+.pg-icon {
   display: grid;
   place-items: center;
   flex: none;
-  width: 84px;
-  height: 84px;
-  border-radius: 24px;
-  background: var(--c);
-  color: var(--ct);
-  box-shadow: 0 6px 0 var(--cd);
+  color: #ffffff;
+  opacity: 0.92;
 }
 
 .pg-group {
-  display: inline-block;
-  padding: 3px 10px;
-  border-radius: 8px;
-  background: #ffffff;
+  font-family: var(--mono);
   font-size: 12px;
-  font-weight: 900;
-  letter-spacing: 0.08em;
+  font-weight: 500;
+  letter-spacing: 0.06em;
   text-transform: uppercase;
-  color: var(--ink);
+  color: rgba(255, 255, 255, 0.6);
 }
 
 .hb .pg-title {
-  margin-top: 8px;
+  margin-top: 6px;
+  font-family: var(--display);
   font-size: clamp(32px, 5vw, 48px);
-  font-weight: 900;
+  font-weight: 600;
   line-height: 1.05;
-  letter-spacing: -0.02em;
-  color: var(--ink);
+  letter-spacing: -0.035em;
+  color: #ffffff;
 }
 
 .hb .pg-text {
-  margin-top: 6px;
-  font-size: 17px;
-  font-weight: 700;
-  color: #4b4b4b;
+  margin-top: 8px;
+  font-size: 16px;
+  color: rgba(255, 255, 255, 0.72);
 }
 
-/* Corner shape, the same one as the project's homepage card */
-.pg-deco {
-  position: absolute;
-  z-index: -1;
-  top: -60px;
-  right: -40px;
-  width: 260px;
-  height: 260px;
-  background: var(--c);
-  opacity: 0.14;
+/* ==========================================================
+   "How it works" panel
+   ========================================================== */
+.pg-how {
+  grid-column: 3;
+  grid-row: 3 / span 40;
+  align-self: start;
+  position: sticky;
+  top: 92px;
+  margin-top: 28px;
+  padding: 24px;
+  border: 1px solid var(--line);
+  border-radius: var(--r-lg);
+  background: var(--surface);
 }
-.pg-deco--circle {
-  border-radius: 50%;
+
+#name .pg-how .pg-how-label {
+  margin: 0 0 14px;
+  font-family: var(--mono);
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--muted);
 }
-.pg-deco--square {
-  border-radius: 48px;
-  transform: rotate(18deg);
+#name .pg-how .pg-how-label:not(:first-child) {
+  margin-top: 26px;
 }
-.pg-deco--ring {
-  border-radius: 50%;
-  background: transparent;
-  border: 44px solid var(--c);
+
+.pg-steps {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  counter-reset: step;
+  display: grid;
+  gap: 14px;
 }
-.pg-deco--diamond {
-  border-radius: 44px;
-  transform: rotate(45deg);
+.pg-steps li {
+  counter-increment: step;
+  display: grid;
+  grid-template-columns: 26px 1fr;
+  gap: 10px;
+  font-size: 14.5px;
+  line-height: 1.5;
+  color: var(--ink);
+}
+.pg-steps li::before {
+  content: counter(step, decimal-leading-zero);
+  font-family: var(--mono);
+  font-size: 12px;
+  line-height: 1.85;
+  color: var(--c);
+}
+
+.pg-built {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+.pg-built span {
+  padding: 4px 9px;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  background: var(--soft);
+  font-family: var(--mono);
+  font-size: 12px;
+  color: var(--ink);
+}
+
+@keyframes pg-fade {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+/* ==========================================================
+   Narrow screens: one column, panel moves under the content
+   ========================================================== */
+@media (max-width: 960px) {
+  #name:has(> .pg-top) {
+    display: flex;
+    flex-direction: column;
+  }
+  #name:has(> .pg-top) > .column,
+  #name:has(> .pg-top) > .layout-columns,
+  #name:has(> .pg-top) > .status-container,
+  #name:has(> .pg-top) > .prediction-section {
+    width: calc(100% - 40px);
+    max-width: 720px;
+    margin: 24px auto 0;
+  }
+  .pg-how {
+    order: 99;
+    position: static;
+    width: calc(100% - 40px);
+    max-width: 720px;
+    margin: 24px auto 0;
+  }
 }
 
 @media (max-width: 600px) {
@@ -97,17 +193,14 @@
     flex-direction: column;
     align-items: flex-start;
     gap: 16px;
-    padding-top: 32px;
-    padding-bottom: 32px;
+    padding-top: 36px;
+    padding-bottom: 36px;
   }
-  .pg-tile {
-    width: 68px;
-    height: 68px;
-    border-radius: 20px;
+  #name:has(> .pg-top) > .column,
+  #name:has(> .pg-top) > .layout-columns,
+  #name:has(> .pg-top) > .status-container,
+  #name:has(> .pg-top) > .prediction-section,
+  .pg-how {
+    width: calc(100% - 28px);
   }
-}
-
-/* Lines the top bar and title up with the page content below */
-.pg-top .hb-wrap {
-  max-width: 1000px;
 }

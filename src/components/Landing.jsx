@@ -1,8 +1,10 @@
 import { useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
 import "./Landing.css";
-import { COLORS, SHAPES, colorVars, Icon } from "./theme.jsx";
+import { COLORS, colorVars, Icon } from "./theme.jsx";
 import ThemeToggle from "./ThemeToggle.jsx";
+import ContourBackground from "./ContourBackground.jsx";
+import GrainLight from "./GrainLight.jsx";
 
 /* ==========================================================
    Your details. Change anything here and the page updates.
@@ -89,7 +91,6 @@ const SKILLS = [
    ========================================================== */
 function ProjectCard({ project, index }) {
   const color = COLORS[index % COLORS.length];
-  const shape = SHAPES[index % SHAPES.length];
 
   return (
     <Link
@@ -98,15 +99,14 @@ function ProjectCard({ project, index }) {
       style={{ ...colorVars(color), "--i": index }}
       data-reveal
     >
-      <span className={`hb-deco hb-deco--${shape}`} aria-hidden="true" />
-      <span className="hb-tile">
+      <span className="hb-card-icon">
         <Icon name={project.path} size={26} />
       </span>
       <span className="hb-card-name">{project.name}</span>
       <span className="hb-card-text">{project.description}</span>
-      <span className="hb-btn hb-btn--small">
+      <span className="hb-card-open">
         Open
-        <Icon name="arrow" size={16} />
+        <Icon name="arrow" size={15} />
       </span>
     </Link>
   );
@@ -155,7 +155,7 @@ export default function Landing({ management = [], ai = [] }) {
       <header className="hb-nav">
         <div className="hb-wrap hb-nav-inner">
           <a href="#top" className="hb-logo">
-            <span className="hb-logo-tile">HB</span>
+            <span className="hb-logo-mark">HB</span>
             <span className="hb-logo-name">
               {PROFILE.firstName} {PROFILE.lastName}
             </span>
@@ -167,65 +167,55 @@ export default function Landing({ management = [], ai = [] }) {
             <a href="#contact">Contact</a>
           </nav>
           <ThemeToggle />
-          <a
-            href={`mailto:${PROFILE.email}`}
-            className="hb-btn hb-btn--small"
-            style={colorVars(COLORS[0])}
-          >
+          <a href={`mailto:${PROFILE.email}`} className="hb-btn hb-btn--small hb-btn--light">
             Email me
           </a>
         </div>
       </header>
 
-      {/* Hero */}
-      <section className="hb-hero hb-wrap" id="top">
-        <div className="hb-hero-text">
-          <span className="hb-chip hb-in" style={{ "--d": 0 }}>
-            <span className="hb-chip-dot" />
-            {PROFILE.role}
-          </span>
-          <h1 className="hb-title hb-in" style={{ "--d": 1 }}>
-            {PROFILE.firstName}
-            <br />
-            <span className="hb-title-accent">{PROFILE.lastName}</span>
-          </h1>
-          <p className="hb-lead hb-in" style={{ "--d": 2 }}>
-            {PROFILE.intro}
-          </p>
-          <div className="hb-actions hb-in" style={{ "--d": 3 }}>
-            <a
-              href="#projects"
-              className="hb-btn"
-              style={colorVars(COLORS[0])}
-            >
-              See my projects
-              <Icon name="arrow" size={18} />
-            </a>
-            <a href="#contact" className="hb-btn hb-btn--ghost">
-              Get in touch
-            </a>
+      {/* Hero: dark band with name, intro and profile */}
+      <section className="hb-hero" id="top">
+        <ContourBackground />
+        <div className="hb-wrap hb-hero-inner">
+          <div className="hb-hero-text">
+            <span className="hb-label">{PROFILE.role}</span>
+            <h1 className="hb-title">
+              <span className="hb-line">
+                <span>{PROFILE.firstName}</span>
+              </span>
+              <span className="hb-line">
+                <span>{PROFILE.lastName}</span>
+              </span>
+            </h1>
+            <p className="hb-lead hb-in" style={{ "--d": 3 }}>
+              {PROFILE.intro}
+            </p>
+            <div className="hb-actions hb-in" style={{ "--d": 4 }}>
+              <a href="#projects" className="hb-btn hb-btn--light">
+                See my projects
+                <Icon name="arrow" size={17} />
+              </a>
+              <a href="#contact" className="hb-btn hb-btn--outline">
+                Get in touch
+              </a>
+            </div>
+            <div className="hb-stats hb-in" style={{ "--d": 5 }}>
+              <div className="hb-stat">
+                <strong>{totalProjects}</strong>
+                <span>live projects</span>
+              </div>
+              <div className="hb-stat">
+                <strong>{ai.length}</strong>
+                <span>AI models</span>
+              </div>
+              <div className="hb-stat">
+                <strong>{EXPERIENCE.length}</strong>
+                <span>internships</span>
+              </div>
+            </div>
           </div>
-          <div className="hb-stats hb-in" style={{ "--d": 4 }}>
-            <div className="hb-stat" style={colorVars(COLORS[1])}>
-              <strong>{totalProjects}</strong>
-              <span>live projects</span>
-            </div>
-            <div className="hb-stat" style={colorVars(COLORS[2])}>
-              <strong>{ai.length}</strong>
-              <span>AI models</span>
-            </div>
-            <div className="hb-stat" style={colorVars(COLORS[6])}>
-              <strong>{EXPERIENCE.length}</strong>
-              <span>internships</span>
-            </div>
-          </div>
-        </div>
 
-        <div className="hb-hero-art hb-in" style={{ "--d": 2 }} aria-hidden="true">
-          <span className="hb-float hb-float--a" />
-          <span className="hb-float hb-float--b" />
-          <span className="hb-float hb-float--c" />
-          <div className="hb-id">
+          <div className="hb-id hb-in" style={{ "--d": 3 }} aria-hidden="true">
             <div className="hb-id-top">
               <span className="hb-id-avatar">HB</span>
               <div>
@@ -250,14 +240,16 @@ export default function Landing({ management = [], ai = [] }) {
               </li>
             </ul>
             <div className="hb-id-tags">
-              <span style={colorVars(COLORS[0])}>React</span>
-              <span style={colorVars(COLORS[1])}>Python</span>
-              <span style={colorVars(COLORS[4])}>MySQL</span>
+              <span>React</span>
+              <span>Python</span>
+              <span>MySQL</span>
             </div>
           </div>
         </div>
       </section>
 
+      {/* Everything below the name sits on the grain light */}
+      <GrainLight>
       {/* Projects */}
       <section className="hb-section hb-wrap" id="projects">
         <div className="hb-head" data-reveal>
@@ -297,14 +289,9 @@ export default function Landing({ management = [], ai = [] }) {
           <p>What I work with day to day.</p>
         </div>
         <div className="hb-skills">
-          {SKILLS.map((block, i) => (
-            <div
-              key={block.group}
-              className="hb-panel"
-              style={colorVars(COLORS[[1, 0, 2][i]])}
-              data-reveal
-            >
-              <h3>{block.group}</h3>
+          {SKILLS.map((block) => (
+            <div key={block.group} className="hb-panel" data-reveal>
+              <h3 className="hb-panel-label">{block.group}</h3>
               <div className="hb-tags">
                 {block.items.map((item) => (
                   <span key={item} className="hb-tag">
@@ -326,13 +313,8 @@ export default function Landing({ management = [], ai = [] }) {
           <div>
             <h3 className="hb-sub" data-reveal>Experience</h3>
             <ol className="hb-timeline">
-              {EXPERIENCE.map((job, i) => (
-                <li
-                  key={job.title + job.place}
-                  className="hb-panel"
-                  style={colorVars(COLORS[[3, 5][i % 2]])}
-                  data-reveal
-                >
+              {EXPERIENCE.map((job) => (
+                <li key={job.title + job.place} className="hb-panel" data-reveal>
                   <span className="hb-date">{job.dates}</span>
                   <h4>
                     {job.title}
@@ -346,13 +328,8 @@ export default function Landing({ management = [], ai = [] }) {
           <div>
             <h3 className="hb-sub" data-reveal>Education</h3>
             <ol className="hb-timeline">
-              {EDUCATION.map((item, i) => (
-                <li
-                  key={item.title}
-                  className="hb-panel"
-                  style={colorVars(COLORS[[7, 6][i % 2]])}
-                  data-reveal
-                >
+              {EDUCATION.map((item) => (
+                <li key={item.title} className="hb-panel" data-reveal>
                   <span className="hb-date">{item.dates}</span>
                   <h4>{item.title}</h4>
                   <p>{item.place}</p>
@@ -374,21 +351,17 @@ export default function Landing({ management = [], ai = [] }) {
             </p>
           </div>
           <div className="hb-actions">
-            <a
-              href={`mailto:${PROFILE.email}`}
-              className="hb-btn"
-              style={colorVars(COLORS[4])}
-            >
-              <Icon name="mail" size={18} />
+            <a href={`mailto:${PROFILE.email}`} className="hb-btn hb-btn--light">
+              <Icon name="mail" size={17} />
               Email me
             </a>
             <a
               href={PROFILE.github}
-              className="hb-btn hb-btn--ghost"
+              className="hb-btn hb-btn--outline"
               target="_blank"
               rel="noreferrer"
             >
-              <Icon name="code" size={18} />
+              <Icon name="github" size={17} />
               GitHub
             </a>
           </div>
@@ -401,6 +374,7 @@ export default function Landing({ management = [], ai = [] }) {
         </span>
         <span>Built with React, Node.js and MySQL</span>
       </footer>
+      </GrainLight>
     </div>
   );
 }
